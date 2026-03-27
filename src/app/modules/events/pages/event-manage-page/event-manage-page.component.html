@@ -309,8 +309,14 @@
                   <div>
                     {{ registration.checkInTime | date: 'short' }}
                   </div>
-                }
-                @if (!registration.checkInTime) {
+                } @else if (isAwaitingAdmission(event, registration)) {
+                  <button
+                    mat-stroked-button
+                    (click)="admitUser(registration.id)"
+                  >
+                    <span>Admit user</span>
+                  </button>
+                } @else {
                   <button
                     mat-stroked-button
                     (click)="checkin(registration.id)"
@@ -387,26 +393,12 @@
                       <mat-icon svgIcon="icon-open-in-popup"></mat-icon>
                       View registration
                     </a>
-                    @if (
-                      event.registrationMode === 'STRIPE' &&
-                      event.deferredPayment &&
-                      !registration.transactions.length
-                    ) {
+                    @if (isAwaitingAdmission(event, registration)) {
                       <button
                         mat-stroked-button
                         (click)="admitUser(registration.id)"
                       >
                         <span>Admit user</span>
-                      </button>
-                    } @else if (
-                      event.registrationMode === 'STRIPE' &&
-                      !registration.transactions.length
-                    ) {
-                      <button
-                        mat-stroked-button
-                        (click)="restorePayment(registration.id)"
-                      >
-                        <span>Restore Payment</span>
                       </button>
                     }
                     <button

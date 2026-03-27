@@ -14,7 +14,6 @@ import {
   LoadEventForManagementGQL,
   LoadEventForManagementQuery,
   RegistrationStatus,
-  RestorePaymentGQL,
   TumiEvent,
 } from '@tumi/legacy-app/generated/generated';
 import { firstValueFrom, map, Observable, share, Subject, tap } from 'rxjs';
@@ -44,6 +43,9 @@ import { BackButtonComponent } from '../../../shared/components/back-button/back
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { EventParticipantsTableComponent } from '@tumi/legacy-app/modules/events/components/event-participants-table/event-participants-table.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+type ManagedEvent = LoadEventForManagementQuery['event'];
+type ManagedRegistration = ManagedEvent['participantRegistrations'][number];
 
 @Component({
   selector: 'app-event-manage-page',
@@ -100,7 +102,6 @@ export class EventManagePageComponent implements OnDestroy {
     private createEventRegistrationCodeGQL: CreateEventRegistrationCodeGQL,
     private route: ActivatedRoute,
     private deleteRegistrationCodeGQL: DeleteRegistrationCodeGQL,
-    private restorePaymentGQL: RestorePaymentGQL,
     private admitUserGQL: AdmitUserGQL,
     @Inject(DOCUMENT) protected document: Document,
   ) {
@@ -287,6 +288,17 @@ export class EventManagePageComponent implements OnDestroy {
     this.loadEventQueryRef.refetch();
   }
 
+  isAwaitingAdmission(
+    event: ManagedEvent,
+    registration: ManagedRegistration,
+  ): boolean {
+    return (
+      event.registrationMode === 'STRIPE' &&
+      event.deferredPayment &&
+      registration.transactions.length === 0
+    );
+  }
+
   getStatusOfRegistration(registration: any) {
     if (registration.status === RegistrationStatus.Successful)
       return 'successful';
@@ -312,10 +324,6 @@ export class EventManagePageComponent implements OnDestroy {
       `Hi ${registration.user.firstName},\nyou have registered for ${event.title}.\n\nPlease note that there was an issue with your payment and we had to restart it. You can pay at ${document.location.origin}/events/${event.id}. Your registration will be cancelled if the payment is not successful in the next 22 hrs.\nBest regards,\nTUMi`,
     )}`;
     return url;
-  }
-
-  async restorePayment(id: string) {
-    await firstValueFrom(this.restorePaymentGQL.mutate({ registrationId: id }));
   }
 
   async admitUser(id: string) {
