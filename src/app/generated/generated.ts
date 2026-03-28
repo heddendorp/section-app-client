@@ -2562,7 +2562,7 @@ export type TenantLoadEventsQuery = { __typename?: 'Query', events: Array<{ __ty
 export type LoadEventCategoriesForAdminQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoadEventCategoriesForAdminQuery = { __typename?: 'Query', eventTemplateCategories: Array<{ __typename?: 'EventTemplateCategory', id: string, name: string, icon: string }> };
+export type LoadEventCategoriesForAdminQuery = { __typename?: 'Query', eventTemplateCategories: Array<{ __typename?: 'EventTemplateCategory', id: string, name: string, icon: string, templateCount: number }> };
 
 export type CreateEventTemplateCategoryMutationVariables = Exact<{
   input: CreateEventTemplateCategoryInput;
@@ -6231,6 +6231,7 @@ export const LoadEventCategoriesForAdminDocument = gql`
     id
     name
     icon
+    templateCount
   }
 }
     `;

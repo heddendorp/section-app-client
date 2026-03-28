@@ -64,6 +64,10 @@
       >
         Event template categories
       </h2>
+      <p class="mt-2 max-w-3xl text-sm text-gray-500">
+        Categories can only be deleted after all templates have been removed
+        from them.
+      </p>
     </div>
     <div class="mt-4 flex flex-shrink-0 md:ml-4 md:mt-0">
       <button (click)="addCategory()" color="primary" mat-flat-button>
@@ -74,7 +78,7 @@
 </div>
 <main class="container mx-auto mt-8 h-full px-4 sm:px-6 lg:px-8">
   <ul class="divide-y divide-gray-200" role="list">
-    @for (category of eventTemplateCategories$ | async; track category) {
+    @for (category of eventTemplateCategories$ | async; track category.id) {
       <li class="flex justify-between gap-x-6 py-5">
         <div class="flex min-w-0 gap-x-4">
           <img
@@ -88,25 +92,29 @@
             <p class="text-sm font-semibold leading-6 text-gray-900">
               {{ category.name }}
             </p>
-            <!--<p class="mt-1 flex text-xs leading-5 text-gray-500">
-              <a
-                href="mailto:leslie.alexander@example.com"
-                class="truncate hover:underline"
-                >leslie.alexander&#64;example.com</a
-              >
-            </p>-->
+            <p class="mt-1 text-xs leading-5 text-gray-500">
+              {{ templateCountLabel(category.templateCount) }}
+            </p>
+            @if (category.templateCount > 0) {
+              <p class="mt-1 text-xs leading-5 text-gray-500">
+                Remove or reassign all templates in this category before
+                deleting it.
+              </p>
+            }
           </div>
         </div>
         <div class="flex shrink-0 items-center gap-x-6">
-          <!--<div class="hidden sm:flex sm:flex-col sm:items-end">
-            <p class="text-sm leading-6 text-gray-900">Co-Founder / CEO</p>
-            <p class="mt-1 text-xs leading-5 text-gray-500"
-              >Last seen <time datetime="2023-01-23T13:23Z">3h ago</time></p
-            >
-          </div>-->
           <div class="flex flex-none items-center gap-x-4">
             <button mat-flat-button (click)="editCategory(category)">
               Edit
+            </button>
+            <button
+              color="warn"
+              mat-stroked-button
+              [disabled]="category.templateCount > 0"
+              (click)="deleteCategory(category)"
+            >
+              Delete
             </button>
           </div>
         </div>

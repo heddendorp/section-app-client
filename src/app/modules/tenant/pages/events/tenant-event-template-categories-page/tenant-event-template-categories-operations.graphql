@@ -3,6 +3,7 @@ query LoadEventCategoriesForAdmin {
     id
     name
     icon
+    templateCount
   }
 }
 

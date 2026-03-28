@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   CreateEventTemplateCategoryGQL,
+  DeleteEventTemplateCategoryGQL,
   LoadEventCategoriesForAdminGQL,
   LoadEventCategoriesForAdminQuery,
   UpdateEventTemplateCategoryGQL,
@@ -12,6 +13,7 @@ import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe
 import { MatButtonModule } from '@angular/material/button';
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-tenant-event-template-categories-page',
@@ -19,11 +21,13 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./tenant-event-template-categories-page.component.scss'],
   imports: [
     MatButtonModule,
+    MatSnackBarModule,
     AsyncPipe,
     IconURLPipe,
     NgOptimizedImage,
     RouterLink,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TenantEventTemplateCategoriesPageComponent {
   public eventTemplateCategories$: Observable<
@@ -33,6 +37,10 @@ export class TenantEventTemplateCategoriesPageComponent {
   private updateEventTemplateCategoryGQL = inject(
     UpdateEventTemplateCategoryGQL,
   );
+  private deleteEventTemplateCategoryGQL = inject(
+    DeleteEventTemplateCategoryGQL,
+  );
+  private snackBar = inject(MatSnackBar);
 
   constructor(
     private dialog: MatDialog,
@@ -55,7 +63,7 @@ export class TenantEventTemplateCategoriesPageComponent {
       await firstValueFrom(
         this.createEventTemplateCategoryGQL.mutate({ input: data }),
       );
-      this.eventTemplateCategoriesQueryRef.refetch();
+      await this.eventTemplateCategoriesQueryRef.refetch();
     }
   }
 
@@ -72,6 +80,43 @@ export class TenantEventTemplateCategoriesPageComponent {
           id: category.id,
         }),
       );
+      await this.eventTemplateCategoriesQueryRef.refetch();
     }
+  }
+
+  async deleteCategory(
+    category: LoadEventCategoriesForAdminQuery['eventTemplateCategories'][number],
+  ) {
+    const approve = confirm(
+      `Are you sure you want to delete the template category "${category.name}"?`,
+    );
+
+    if (!approve) {
+      return;
+    }
+
+    try {
+      await firstValueFrom(
+        this.deleteEventTemplateCategoryGQL.mutate({
+          id: category.id,
+        }),
+      );
+      await this.eventTemplateCategoriesQueryRef.refetch();
+      this.snackBar.open('Template category deleted', 'Dismiss', {
+        duration: 3000,
+      });
+    } catch (error) {
+      this.snackBar.open(this.getErrorMessage(error), 'Dismiss', {
+        duration: 5000,
+      });
+    }
+  }
+
+  protected templateCountLabel(count: number) {
+    return `${count} template${count === 1 ? '' : 's'}`;
+  }
+
+  private getErrorMessage(error: unknown) {
+    return error instanceof Error ? error.message : 'Unknown error';
   }
 }
