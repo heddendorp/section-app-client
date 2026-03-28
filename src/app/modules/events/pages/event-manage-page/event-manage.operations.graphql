@@ -88,6 +88,10 @@ query loadEventForManagement($id: ID!) {
         amount
         type
         subject
+        stripePayment {
+          id
+          status
+        }
       }
       checkInTime
       didAttend
@@ -130,6 +134,10 @@ mutation admitUser($registrationId: ID!) {
         amount
         type
         subject
+        stripePayment {
+          id
+          status
+        }
       }
     }
   }

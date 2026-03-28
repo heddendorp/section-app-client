@@ -46,6 +46,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 type ManagedEvent = LoadEventForManagementQuery['event'];
 type ManagedRegistration = ManagedEvent['participantRegistrations'][number];
+type ManagedRegistrationTransaction =
+  ManagedRegistration['transactions'][number];
+
+const TERMINAL_STRIPE_PAYMENT_STATUSES = new Set([
+  'canceled',
+  'cancelled',
+  'expired',
+  'failed',
+  'refunded',
+  'succeeded',
+]);
 
 @Component({
   selector: 'app-event-manage-page',
@@ -91,6 +102,7 @@ export class EventManagePageComponent implements OnDestroy {
   public registrationTableColumns$: Observable<string[]>;
   expandedRegistration?: TumiEvent;
   private loadEventQueryRef;
+  private admittingRegistrationIds = new Set<string>();
   private destroyed$ = new Subject();
   private kickFromEventGQL = inject(KickFromEventGQL);
   private snackBar = inject(MatSnackBar);
@@ -292,11 +304,33 @@ export class EventManagePageComponent implements OnDestroy {
     event: ManagedEvent,
     registration: ManagedRegistration,
   ): boolean {
+    const hasSuccessfulPayment = registration.transactions.some(
+      (transaction: ManagedRegistrationTransaction) =>
+        transaction.stripePayment?.status === 'succeeded',
+    );
+    const hasNonTerminalStripePayment = registration.transactions.some(
+      (transaction: ManagedRegistrationTransaction) => {
+        const stripePaymentStatus =
+          transaction.stripePayment?.status?.toLowerCase();
+
+        return (
+          !!stripePaymentStatus &&
+          !TERMINAL_STRIPE_PAYMENT_STATUSES.has(stripePaymentStatus)
+        );
+      },
+    );
+
     return (
       event.registrationMode === 'STRIPE' &&
       event.deferredPayment &&
-      registration.transactions.length === 0
+      registration.status === RegistrationStatus.Pending &&
+      !hasSuccessfulPayment &&
+      !hasNonTerminalStripePayment
     );
+  }
+
+  isAdmittingRegistration(registrationId: string): boolean {
+    return this.admittingRegistrationIds.has(registrationId);
   }
 
   getStatusOfRegistration(registration: any) {
@@ -327,7 +361,29 @@ export class EventManagePageComponent implements OnDestroy {
   }
 
   async admitUser(id: string) {
-    await firstValueFrom(this.admitUserGQL.mutate({ registrationId: id }));
+    if (this.admittingRegistrationIds.has(id)) {
+      return;
+    }
+
+    this.admittingRegistrationIds.add(id);
+
+    try {
+      await firstValueFrom(this.admitUserGQL.mutate({ registrationId: id }));
+      await this.loadEventQueryRef.refetch();
+    } catch (error: unknown) {
+      await this.loadEventQueryRef.refetch();
+
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Could not admit this registration';
+
+      this.snackBar.open(message, undefined, {
+        duration: 7000,
+      });
+    } finally {
+      this.admittingRegistrationIds.delete(id);
+    }
   }
 
   // Guest analytics methods

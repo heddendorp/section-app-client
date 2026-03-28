@@ -52,14 +52,19 @@
                 <td class="px-6 py-3 text-sm text-gray-700">
                   <span class="ml-4">Total collected from registrations</span>
                 </td>
-                <td class="px-6 py-3 text-right text-sm font-medium text-gray-900">
+                <td
+                  class="px-6 py-3 text-right text-sm font-medium text-gray-900"
+                >
                   {{ +event.amountCollected | currency }}
                 </td>
               </tr>
 
               <!-- Fees Section -->
               <tr class="bg-red-50">
-                <td class="px-6 py-3 text-sm font-semibold text-red-900" colspan="2">
+                <td
+                  class="px-6 py-3 text-sm font-semibold text-red-900"
+                  colspan="2"
+                >
                   💳 Payment Processing Fees
                 </td>
               </tr>
@@ -67,7 +72,9 @@
                 <td class="px-6 py-3 text-sm text-gray-700">
                   <span class="ml-4">Transaction fees</span>
                 </td>
-                <td class="px-6 py-3 text-right text-sm font-medium text-red-600">
+                <td
+                  class="px-6 py-3 text-right text-sm font-medium text-red-600"
+                >
                   -{{ +event.feesPaid | currency }}
                 </td>
               </tr>
@@ -75,7 +82,9 @@
                 <td class="px-6 py-3 text-sm text-gray-700">
                   <span class="ml-4">Fees from refunded registrations</span>
                 </td>
-                <td class="px-6 py-3 text-right text-sm font-medium text-red-600">
+                <td
+                  class="px-6 py-3 text-right text-sm font-medium text-red-600"
+                >
                   -{{ +event.refundFeesPaid | currency }}
                 </td>
               </tr>
@@ -84,7 +93,7 @@
                   <span class="ml-4">Total fees</span>
                 </td>
                 <td class="px-6 py-3 text-right text-sm font-bold text-red-700">
-                  -{{ (+event.feesPaid + +event.refundFeesPaid) | currency }}
+                  -{{ +event.feesPaid + +event.refundFeesPaid | currency }}
                 </td>
               </tr>
 
@@ -151,8 +160,7 @@
                   "
                 >
                   {{
-                    (+event.netAmountCollected - +event.submittedSpend)
-                      | currency
+                    +event.netAmountCollected - +event.submittedSpend | currency
                   }}
                 </td>
               </tr>
@@ -313,8 +321,13 @@
                   <button
                     mat-stroked-button
                     (click)="admitUser(registration.id)"
+                    [disabled]="isAdmittingRegistration(registration.id)"
                   >
-                    <span>Admit user</span>
+                    <span>{{
+                      isAdmittingRegistration(registration.id)
+                        ? 'Admitting...'
+                        : 'Admit user'
+                    }}</span>
                   </button>
                 } @else {
                   <button
@@ -397,8 +410,13 @@
                       <button
                         mat-stroked-button
                         (click)="admitUser(registration.id)"
+                        [disabled]="isAdmittingRegistration(registration.id)"
                       >
-                        <span>Admit user</span>
+                        <span>{{
+                          isAdmittingRegistration(registration.id)
+                            ? 'Admitting...'
+                            : 'Admit user'
+                        }}</span>
                       </button>
                     }
                     <button

@@ -236,6 +236,16 @@ export class StripeEventRegistrationComponent implements OnChanges {
           )?.stripePayment;
 
         if (!payment) {
+          if (this.event.deferredPayment) {
+            this.snackBar.open(
+              'Your registration is pending admission. Once admitted, you will receive an email with a 24-hour payment link.',
+              undefined,
+              { duration: 10000 },
+            );
+            this.processing.next(false);
+            return;
+          }
+
           throw new Error('No payment found');
         }
         await this.openPaymentSession(payment.checkoutUrl);
