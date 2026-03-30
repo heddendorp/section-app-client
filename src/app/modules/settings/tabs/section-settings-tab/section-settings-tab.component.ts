@@ -9,6 +9,7 @@ import {
   HomePageStrategy,
   LoadSectionSettingsGQL,
   MembershipStatus,
+  RegistrationLimitPeriod,
   UpdateSectionSettingsGQL,
   UpdateTenantInput,
 } from '@tumi/legacy-app/generated/generated';
@@ -53,6 +54,16 @@ export class SectionSettingsTabComponent {
   protected readonly Currency = Currency;
   protected readonly MembershipStatus = MembershipStatus;
   protected readonly HomePageStrategy = HomePageStrategy;
+  protected readonly registrationLimitPeriodOptions = [
+    {
+      value: RegistrationLimitPeriod.Day,
+      label: 'Per day',
+    },
+    {
+      value: RegistrationLimitPeriod.Week,
+      label: 'Per week',
+    },
+  ];
   protected generalSectionSettingsForm = new FormGroup({
     currency: new FormControl<Currency>(Currency.Eur),
     communicationEmail: new FormControl(''),
@@ -67,7 +78,9 @@ export class SectionSettingsTabComponent {
       // Optional per-user registration limit
       registrationLimit: new FormGroup({
         enabled: new FormControl<boolean>(false),
-        period: new FormControl<'day' | 'week'>('day'),
+        period: new FormControl<RegistrationLimitPeriod>(
+          RegistrationLimitPeriod.Day,
+        ),
         limit: new FormControl<number | null>(null, [
           Validators.min(0),
           Validators.pattern('^[0-9]*$'),
@@ -111,11 +124,7 @@ export class SectionSettingsTabComponent {
           brandIconUrl: data.settings.brandIconUrl,
           enforcePolicyConsent: data.settings.enforcePolicyConsent,
           esnCardLink: data.settings.esnCardLink,
-          registrationLimit: (data.settings as any).registrationLimit || {
-            enabled: false,
-            period: 'day',
-            limit: 0,
-          },
+          registrationLimit: data.settings.registrationLimit,
         },
       });
       this.homePageSectionSettingsForm.patchValue({

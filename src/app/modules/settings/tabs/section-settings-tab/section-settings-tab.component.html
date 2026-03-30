@@ -118,8 +118,14 @@
               <mat-form-field class="w-full">
                 <mat-label>Period</mat-label>
                 <mat-select formControlName="period">
-                  <mat-option value="day">Per day</mat-option>
-                  <mat-option value="week">Per week</mat-option>
+                  @for (
+                    periodOption of registrationLimitPeriodOptions;
+                    track periodOption.value
+                  ) {
+                    <mat-option [value]="periodOption.value">
+                      {{ periodOption.label }}
+                    </mat-option>
+                  }
                 </mat-select>
               </mat-form-field>
               <mat-form-field class="w-full">
