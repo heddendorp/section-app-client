@@ -68,11 +68,11 @@
       <ng-container matColumnDef="registrations">
         <th mat-header-cell *matHeaderCellDef>Registrations</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.participantRegistrationCount }}
+          {{ element.totalRegisteredCount }}
           |
           {{ element.countedParticipantRegistrations }}
           {{
-            element.participantRegistrationCount > element.participantLimit
+            element.totalRegisteredCount > element.participantLimit
               ? '⚠️'
               : ''
           }}

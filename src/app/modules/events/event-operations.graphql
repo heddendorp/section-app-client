@@ -34,6 +34,7 @@ query loadEventForRunning($id: ID!) {
     end
     participantLimit
     participantRegistrationCount
+    totalRegisteredCount
     participantsAttended
     multiGuestSettings {
       enabled
@@ -298,6 +299,7 @@ query eventList($after: DateTime, $before: DateTime) {
     organizerLimit
     organizersRegistered
     participantRegistrationCount
+    totalRegisteredCount
     participantLimit
     couldBeOrganizer
     publicationState

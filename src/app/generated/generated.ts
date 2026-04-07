@@ -2049,7 +2049,7 @@ export type LoadEventForRunningQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventForRunningQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: string, end: string, participantLimit: number, participantRegistrationCount: number, participantsAttended: number, multiGuestSettings?: { __typename?: 'EventMultiGuestSettings', enabled: boolean, additionalGuestPrice: number } | null, createdBy: { __typename?: 'User', id: string, fullName: string }, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, checkInTime?: string | null, user: { __typename?: 'User', id: string, fullName: string, picture: string, email: string, acceptPhoneUsage: boolean, phone?: string | null, phoneNumberOnWhatsapp: boolean, telegramUsername?: string | null, additionalData: any, communicationEmail?: string | null, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, costItems: Array<{ __typename?: 'CostItem', id: string, amount: any, actualAmount?: any | null, submittedAmount: any, name: string, receipts: Array<{ __typename?: 'Receipt', id: string }> }>, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string }>, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, checkInTime?: string | null, status: RegistrationStatus, didAttend: boolean, guestCount: number, guestUnitPrice?: any | null, guestCheckIns: number, totalPartySize: number, remainingEntries: number, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string } | null }>, submissions: Array<{ __typename?: 'EventSubmission', id: string, data: any, submissionItem: { __typename?: 'EventSubmissionItem', id: string, name: string } }>, user: { __typename?: 'User', id: string, fullName: string, lastName: string, picture: string, email: string, acceptPhoneUsage: boolean, phone?: string | null, phoneNumberOnWhatsapp: boolean, telegramUsername?: string | null, esnCardValidUntil?: string | null, esnCardNumber?: string | null, communicationEmail?: string | null, additionalData: any, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }> } };
+export type LoadEventForRunningQuery = { __typename?: 'Query', event: { __typename?: 'TumiEvent', id: string, title: string, icon: string, start: string, end: string, participantLimit: number, participantRegistrationCount: number, totalRegisteredCount: number, participantsAttended: number, multiGuestSettings?: { __typename?: 'EventMultiGuestSettings', enabled: boolean, additionalGuestPrice: number } | null, createdBy: { __typename?: 'User', id: string, fullName: string }, organizerRegistrations: Array<{ __typename?: 'EventRegistration', id: string, checkInTime?: string | null, user: { __typename?: 'User', id: string, fullName: string, picture: string, email: string, acceptPhoneUsage: boolean, phone?: string | null, phoneNumberOnWhatsapp: boolean, telegramUsername?: string | null, additionalData: any, communicationEmail?: string | null, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }>, costItems: Array<{ __typename?: 'CostItem', id: string, amount: any, actualAmount?: any | null, submittedAmount: any, name: string, receipts: Array<{ __typename?: 'Receipt', id: string }> }>, submissionItems: Array<{ __typename?: 'EventSubmissionItem', id: string, name: string }>, participantRegistrations: Array<{ __typename?: 'EventRegistration', id: string, checkInTime?: string | null, status: RegistrationStatus, didAttend: boolean, guestCount: number, guestUnitPrice?: any | null, guestCheckIns: number, totalPartySize: number, remainingEntries: number, transactions: Array<{ __typename?: 'Transaction', id: string, status: TransactionStatus, direction: TransactionDirection, amount: any, type: TransactionType, subject: string, stripePayment?: { __typename?: 'StripePayment', id: string, status: string } | null }>, submissions: Array<{ __typename?: 'EventSubmission', id: string, data: any, submissionItem: { __typename?: 'EventSubmissionItem', id: string, name: string } }>, user: { __typename?: 'User', id: string, fullName: string, lastName: string, picture: string, email: string, acceptPhoneUsage: boolean, phone?: string | null, phoneNumberOnWhatsapp: boolean, telegramUsername?: string | null, esnCardValidUntil?: string | null, esnCardNumber?: string | null, communicationEmail?: string | null, additionalData: any, currentTenant?: { __typename?: 'UsersOfTenants', userId: string, tenantId: string, status: MembershipStatus } | null } }> } };
 
 export type GetCostItemQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -2120,7 +2120,7 @@ export type EventListQueryVariables = Exact<{
 }>;
 
 
-export type EventListQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: string, end: string, registrationStart: string, organizerRegistrationStart: string, prices?: any | null, organizerLimit: number, organizersRegistered: number, participantRegistrationCount: number, participantLimit: number, couldBeOrganizer: boolean, publicationState: PublicationState, registrationMode: RegistrationMode, userIsRegistered: boolean, userIsOrganizer: boolean, internalEvent: boolean }> };
+export type EventListQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, icon: string, start: string, end: string, registrationStart: string, organizerRegistrationStart: string, prices?: any | null, organizerLimit: number, organizersRegistered: number, participantRegistrationCount: number, totalRegisteredCount: number, participantLimit: number, couldBeOrganizer: boolean, publicationState: PublicationState, registrationMode: RegistrationMode, userIsRegistered: boolean, userIsOrganizer: boolean, internalEvent: boolean }> };
 
 export type UseRegistrationEntryMutationVariables = Exact<{
   registrationId: Scalars['ID']['input'];
@@ -2719,7 +2719,7 @@ export type LoadEventsWithBookingQueryVariables = Exact<{
 }>;
 
 
-export type LoadEventsWithBookingQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: string, icon: string, registrationMode: RegistrationMode, registrationStart: string, participantLimit: number, participantRegistrationCount: number, countedParticipantRegistrations: number, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> };
+export type LoadEventsWithBookingQuery = { __typename?: 'Query', events: Array<{ __typename?: 'TumiEvent', id: string, title: string, start: string, icon: string, registrationMode: RegistrationMode, registrationStart: string, participantLimit: number, participantRegistrationCount: number, totalRegisteredCount: number, countedParticipantRegistrations: number, organizer: { __typename?: 'EventOrganizer', id: string, name: string } }> };
 
 export type LoadEventsWithRatingQueryVariables = Exact<{
   after?: InputMaybe<Scalars['DateTime']['input']>;
@@ -3641,6 +3641,7 @@ export const LoadEventForRunningDocument = gql`
     end
     participantLimit
     participantRegistrationCount
+    totalRegisteredCount
     participantsAttended
     multiGuestSettings {
       enabled
@@ -4021,6 +4022,7 @@ export const EventListDocument = gql`
     organizerLimit
     organizersRegistered
     participantRegistrationCount
+    totalRegisteredCount
     participantLimit
     couldBeOrganizer
     publicationState
@@ -7037,6 +7039,7 @@ export const LoadEventsWithBookingDocument = gql`
     registrationStart
     participantLimit
     participantRegistrationCount
+    totalRegisteredCount
     countedParticipantRegistrations
     organizer {
       id

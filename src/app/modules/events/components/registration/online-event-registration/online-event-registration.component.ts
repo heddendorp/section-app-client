@@ -202,6 +202,20 @@ export class OnlineEventRegistrationComponent {
     return options;
   }
 
+  getRemainingSpots(): number {
+    const participantLimit = this.coerceNumber(this.event?.participantLimit);
+    const totalRegistered = this.coerceNumber(this.event?.totalRegisteredCount);
+    const participantRegistrations = this.coerceNumber(
+      this.event?.participantRegistrationCount,
+    );
+
+    return Math.max(
+      0,
+      participantLimit -
+        (totalRegistered > 0 ? totalRegistered : participantRegistrations),
+    );
+  }
+
   coerceNumber(value: unknown): number {
     if (typeof value === 'number') {
       return Number.isFinite(value) ? value : 0;

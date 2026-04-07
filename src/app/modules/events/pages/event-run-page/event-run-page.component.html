@@ -77,10 +77,8 @@
       [class.sm:grid-cols-5]="event.multiGuestSettings?.enabled"
     >
       <li class="p-4">
-        <p class="font-extrabold md:text-2xl">
-          {{ event.participantRegistrationCount }}
-        </p>
-        <p class="mt-1 font-medium md:text-xl">Registrations</p>
+        <p class="font-extrabold md:text-2xl">{{ event.totalRegisteredCount }}</p>
+        <p class="mt-1 font-medium md:text-xl">Sign-ups</p>
       </li>
 
       <li class="p-4">
@@ -91,8 +89,10 @@
       </li>
 
       <li class="p-4">
-        <p class="font-extrabold md:text-2xl">{{ event.participantLimit }}</p>
-        <p class="mt-1 font-medium md:text-xl">Participant spots</p>
+        <p class="font-extrabold md:text-2xl">
+          {{ getRemainingParticipantSpots(event) }}
+        </p>
+        <p class="mt-1 font-medium md:text-xl">Spots left</p>
       </li>
 
       @if (event.multiGuestSettings?.enabled) {

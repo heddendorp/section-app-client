@@ -51,7 +51,7 @@ export class TenantEventBookingsPageComponent {
                 !(
                   event.countedParticipantRegistrations ===
                     event.participantRegistrationCount &&
-                  event.participantRegistrationCount === event.participantLimit
+                  event.totalRegisteredCount === event.participantLimit
                 ),
             ),
         ),

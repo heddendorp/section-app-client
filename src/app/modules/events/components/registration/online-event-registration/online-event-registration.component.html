@@ -2,7 +2,7 @@
   <div class="my-2">
     <p class="mb-4">
       Free spots:
-      {{ event.participantLimit - event.participantRegistrationCount }}
+      {{ getRemainingSpots() }}
     </p>
     <app-check-additional-data
       [event]="event"

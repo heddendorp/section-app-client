@@ -202,14 +202,16 @@
           <mat-panel-title> Participants </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="mb-2" gdAuto gdColumns="max-content auto" gdGap="0 1rem">
-          <p>Users registered:</p>
+          <p>Total sign-ups:</p>
           <p>
-            {{ event.participantRegistrationCount }} of
+            {{ event.totalRegisteredCount }} of
             {{ event.participantLimit }} ({{
-              event.participantLimit - event.participantRegistrationCount
+              getRemainingParticipantSpots(event)
             }}
             spots left)
           </p>
+          <p>Primary registrations:</p>
+          <p>{{ event.participantRegistrationCount }}</p>
           <p>Users checked in:</p>
           <p>
             {{ event.participantsAttended }} of

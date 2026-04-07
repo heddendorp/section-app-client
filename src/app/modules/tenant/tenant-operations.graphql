@@ -8,6 +8,7 @@ query loadEventsWithBooking($after: DateTime) {
     registrationStart
     participantLimit
     participantRegistrationCount
+    totalRegisteredCount
     countedParticipantRegistrations
     organizer {
       id

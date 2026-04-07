@@ -269,6 +269,10 @@ export class EventRunPageComponent implements OnDestroy {
     }
   }
 
+  getRemainingParticipantSpots(event: LoadEventForRunningQuery['event']) {
+    return Math.max(0, event.participantLimit - event.totalRegisteredCount);
+  }
+
   getTotalGuests(registrations: any[]): number {
     return registrations.reduce(
       (total, reg) => total + (reg.guestCount || 0),

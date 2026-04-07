@@ -386,30 +386,40 @@ export class EventManagePageComponent implements OnDestroy {
     }
   }
 
+  private getCountedRegistrations(registrations: ManagedRegistration[]) {
+    return registrations.filter(
+      (registration) => registration.status !== RegistrationStatus.Cancelled,
+    );
+  }
+
+  getRemainingParticipantSpots(event: ManagedEvent): number {
+    return Math.max(0, event.participantLimit - event.totalRegisteredCount);
+  }
+
   // Guest analytics methods
-  getTotalGuests(registrations: any[]): number {
-    return registrations.reduce(
+  getTotalGuests(registrations: ManagedRegistration[]): number {
+    return this.getCountedRegistrations(registrations).reduce(
       (total, reg) => total + (reg.guestCount || 0),
       0,
     );
   }
 
-  getTotalPartySize(registrations: any[]): number {
-    return registrations.reduce(
+  getTotalPartySize(registrations: ManagedRegistration[]): number {
+    return this.getCountedRegistrations(registrations).reduce(
       (total, reg) => total + (reg.totalPartySize || 1),
       0,
     );
   }
 
-  getTotalGuestCheckIns(registrations: any[]): number {
-    return registrations.reduce(
+  getTotalGuestCheckIns(registrations: ManagedRegistration[]): number {
+    return this.getCountedRegistrations(registrations).reduce(
       (total, reg) => total + (reg.guestCheckIns || 0),
       0,
     );
   }
 
-  getGuestRevenue(registrations: any[]): number {
-    return registrations.reduce((total, reg) => {
+  getGuestRevenue(registrations: ManagedRegistration[]): number {
+    return this.getCountedRegistrations(registrations).reduce((total, reg) => {
       const guestCount = reg.guestCount || 0;
       const guestPrice = parseFloat(reg.guestUnitPrice || '0');
       return total + guestCount * guestPrice;
