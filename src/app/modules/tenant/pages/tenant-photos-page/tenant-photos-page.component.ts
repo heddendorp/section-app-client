@@ -5,7 +5,7 @@ import {
   LoadAllPhotosQuery,
 } from '@tumi/legacy-app/generated/generated';
 import { PhotoDetailsDialogComponent } from '@tumi/legacy-app/modules/shared/components/photo-details-dialog/photo-details-dialog.component';
-import { map, Observable } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AsyncPipe, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
@@ -45,13 +45,22 @@ export class TenantPhotosPageComponent implements OnDestroy {
     this.photosQueryRef.startPolling(5000);
   }
 
-  openPhoto(photo: unknown): void {
-    this.dialog.open(PhotoDetailsDialogComponent, {
-      data: { photo },
+  async openPhoto(photo: LoadAllPhotosQuery['photos'][number]): Promise<void> {
+    const dialogRef = this.dialog.open(PhotoDetailsDialogComponent, {
+      data: {
+        photo,
+        canDelete: true,
+      },
       maxHeight: '95vh',
       maxWidth: '95vw',
       panelClass: 'photo-view',
     });
+
+    const result = await firstValueFrom(dialogRef.afterClosed());
+
+    if (result?.deleted) {
+      await this.photosQueryRef.refetch();
+    }
   }
 
   ngOnDestroy(): void {

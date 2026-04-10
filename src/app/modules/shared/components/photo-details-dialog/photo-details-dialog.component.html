@@ -13,12 +13,35 @@
   />
   @if (imageLoaded$ | async) {
     <div class="dark-button absolute bottom-4 right-4 flex flex-col gap-4">
+      @if (canDeleteImage) {
+        <button
+          [disabled]="deleting()"
+          aria-label="Delete picture"
+          color="warn"
+          mat-fab
+          (click)="deleteImage()"
+        >
+          <mat-icon svgIcon="icon-delete-forever"></mat-icon>
+        </button>
+      }
       @if (canShareImage) {
-        <button (click)="shareImage()" mat-fab>
+        <button
+          [disabled]="deleting()"
+          aria-label="Share picture"
+          mat-fab
+          (click)="shareImage()"
+        >
           <mat-icon svgIcon="icon-share-3"></mat-icon>
         </button>
       }
-      <a [href]="data.photo.original" mat-fab target="_blank" download>
+      <a
+        [attr.aria-disabled]="deleting()"
+        [href]="deleting() ? null : data.photo.original"
+        aria-label="Download picture"
+        mat-fab
+        target="_blank"
+        download
+      >
         <mat-icon svgIcon="icon-download"></mat-icon>
       </a>
     </div>

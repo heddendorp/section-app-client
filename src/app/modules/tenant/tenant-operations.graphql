@@ -70,6 +70,12 @@ query loadAllPhotos {
   }
 }
 
+mutation deletePhotoShare($id: ID!) {
+  deletePhotoShare(id: $id) {
+    id
+  }
+}
+
 query loadUser($id: ID!) {
   user(id: $id) {
     id
