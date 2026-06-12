@@ -19,13 +19,15 @@
     }
     <app-grid minWidth="350px">
       @for (code of registrationCodes$ | async; track code) {
-        <a
-          routerLink="/events/{{ code.targetEvent.id }}"
+        <div
           class="event relative flex h-full flex-col rounded-lg bg-white text-surface-on shadow"
-          matRipple
         >
-          <div class="flex w-full flex-col gap-2 px-4 pb-4 pt-2">
-            <div class="flex flex-row items-center gap-2">
+          <a
+            routerLink="/events/{{ code.targetEvent.id }}"
+            class="flex w-full flex-1 flex-col gap-2 px-4 pt-2 text-surface-on"
+            matRipple
+          >
+            <div class="flex flex-row items-center gap-2 pb-2">
               <img
                 [ngSrc]="code.targetEvent.icon | iconURL"
                 height="48"
@@ -46,7 +48,9 @@
               ></mat-icon>
               <span>{{ code.targetEvent.start | date: 'short' }}</span>
             </div>
+          </a>
 
+          <div class="px-4 pb-4 pt-2">
             <a
               mat-flat-button
               color="primary"
@@ -56,7 +60,7 @@
               Use code
             </a>
           </div>
-        </a>
+        </div>
       }
     </app-grid>
   </div>
