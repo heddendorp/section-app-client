@@ -13,18 +13,23 @@ import { DateTime } from 'luxon';
 import { Title } from '@angular/platform-browser';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Apollo, gql } from 'apollo-angular';
-import { EMPTY, finalize, map, Observable } from 'rxjs';
+import { debounceTime, EMPTY, finalize, map, Observable } from 'rxjs';
 import {
   CreateInvoiceSyncInput,
   GlobalAdminFeeOverviewGQL,
   GlobalAdminFeeOverviewQuery,
+  GlobalAdminFeeOverviewQueryVariables,
   InvoiceSync,
   InvoiceSyncStatus,
 } from '@tumi/legacy-app/generated/generated';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 const INVOICE_SYNCS_QUERY = gql`
-  query GlobalAdminInvoiceSyncs {
-    invoiceSyncs {
+  query GlobalAdminInvoiceSyncs($startDate: DateTime, $endDate: DateTime) {
+    invoiceSyncs(startDate: $startDate, endDate: $endDate) {
       id
       tenantId
       periodKey
@@ -91,7 +96,13 @@ const BOOK_INVOICE_SYNC_MUTATION = gql`
 
 @Component({
   selector: 'app-invoices',
-  imports: [CurrencyPipe],
+  imports: [
+    CurrencyPipe,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './invoices.component.html',
   styleUrl: './invoices.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -110,15 +121,24 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     .minus({ months: 2 })
     .toFormat('yyyy-MM');
   private readonly quarterlyStart = DateTime.fromISO('2026-01-01');
-
-  private queryRef = this.globalAdminFeeOverviewGQL.watch({
-    currentMonth: this.currentMonth,
-    lastMonth: this.lastMonth,
-    monthBeforeLast: this.monthBeforeLast,
+  private readonly defaultDateRange = this.lastFourQuartersRange();
+  protected dateRangeForm = new FormGroup({
+    range: new FormGroup({
+      start: new FormControl(this.defaultDateRange.start),
+      end: new FormControl(this.defaultDateRange.end),
+    }),
   });
 
-  private invoiceSyncQueryRef = this.apollo.watchQuery<InvoiceSyncsQuery>({
+  private queryRef = this.globalAdminFeeOverviewGQL.watch(
+    this.globalAdminFeeOverviewVariables(),
+  );
+
+  private invoiceSyncQueryRef = this.apollo.watchQuery<
+    InvoiceSyncsQuery,
+    InvoiceSyncsQueryVariables
+  >({
     query: INVOICE_SYNCS_QUERY,
+    variables: this.selectedRangeVariables(),
     fetchPolicy: 'network-only',
   });
   private invoiceSyncs = toSignal(
@@ -194,6 +214,15 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     this.queryRef.startPolling(60000);
     this.title.setTitle('[GA] Invoices');
     this.invoiceSyncQueryRef.startPolling(60000);
+    this.dateRangeForm
+      .get('range')
+      ?.valueChanges.pipe(
+        debounceTime(300),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        void this.refetchRangeData();
+      });
   }
 
   ngOnDestroy() {
@@ -396,6 +425,55 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     return DateTime.local() > entry.periodEnd;
   }
 
+  private async refetchRangeData(): Promise<void> {
+    await Promise.all([
+      this.queryRef.refetch(this.globalAdminFeeOverviewVariables()),
+      this.invoiceSyncQueryRef.refetch(this.selectedRangeVariables()),
+    ]);
+  }
+
+  private globalAdminFeeOverviewVariables(): GlobalAdminFeeOverviewQueryVariables {
+    return {
+      currentMonth: this.currentMonth,
+      lastMonth: this.lastMonth,
+      monthBeforeLast: this.monthBeforeLast,
+      ...this.selectedRangeVariables(),
+    };
+  }
+
+  private selectedRangeVariables(): InvoiceSyncsQueryVariables {
+    const range = this.dateRangeForm.get('range')?.value;
+    return {
+      startDate: this.serializeRangeDate(range?.start, 'start'),
+      endDate: this.serializeRangeDate(range?.end, 'end'),
+    };
+  }
+
+  private serializeRangeDate(
+    value: DateTime | Date | string | null | undefined,
+    boundary: 'start' | 'end',
+  ): string | undefined {
+    if (!value) return undefined;
+    const date = DateTime.isDateTime(value)
+      ? value
+      : value instanceof Date
+        ? DateTime.fromJSDate(value)
+        : DateTime.fromISO(value);
+    if (!date.isValid) return undefined;
+    const periodUnit = date >= this.quarterlyStart ? 'quarter' : 'month';
+    const normalized =
+      boundary === 'start' ? date.startOf(periodUnit) : date.endOf(periodUnit);
+    return normalized.toISO() ?? undefined;
+  }
+
+  private lastFourQuartersRange(): { start: DateTime; end: DateTime } {
+    const currentQuarterStart = DateTime.local().startOf('quarter');
+    return {
+      start: currentQuarterStart.minus({ months: 9 }),
+      end: currentQuarterStart.endOf('quarter'),
+    };
+  }
+
   private parseQuarter(month: DateTime) {
     const quarter = month.quarter;
     const year = month.year;
@@ -575,6 +653,11 @@ type PeriodSummary = {
 
 type InvoiceSyncsQuery = {
   invoiceSyncs: InvoiceSync[];
+};
+
+type InvoiceSyncsQueryVariables = {
+  startDate?: string;
+  endDate?: string;
 };
 
 type CreateInvoiceSyncDraftMutation = {

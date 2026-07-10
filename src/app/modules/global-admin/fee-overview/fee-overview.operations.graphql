@@ -2,13 +2,15 @@ query globalAdminFeeOverview(
   $currentMonth: String!
   $lastMonth: String!
   $monthBeforeLast: String!
+  $startDate: DateTime
+  $endDate: DateTime
 ) {
   totalCollectedFees
   totalCollectedFeeNumber
   currentMonth: collectedFeesByMonth(month: $currentMonth)
   lastMonth: collectedFeesByMonth(month: $lastMonth)
   monthBeforeLast: collectedFeesByMonth(month: $monthBeforeLast)
-  tenantFeeMonths {
+  tenantFeeMonths(startDate: $startDate, endDate: $endDate) {
     amount
     amountRefunded
     revenue
@@ -29,7 +31,7 @@ query globalAdminFeeOverview(
     volumeDiscount
     volumeDiscountConverted
   }
-  feeQuarterGroups {
+  feeQuarterGroups(startDate: $startDate, endDate: $endDate) {
     quarterKey
     quarterLabel
     quarterStartMillis

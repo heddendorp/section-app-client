@@ -992,6 +992,11 @@ export type QueryExportUsersCsvArgs = {
   sortModel: Array<SortModelInput>;
 };
 
+export type QueryFeeQuarterGroupsArgs = {
+  endDate?: InputMaybe<Scalars['DateTime']['input']>;
+  startDate?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
 export type QueryGridUsersArgs = {
   endRow: Scalars['Int']['input'];
   eventId?: InputMaybe<Scalars['ID']['input']>;
@@ -1016,7 +1021,9 @@ export type QueryInvoiceSyncArgs = {
 };
 
 export type QueryInvoiceSyncsArgs = {
+  endDate?: InputMaybe<Scalars['DateTime']['input']>;
   periodKey?: InputMaybe<Scalars['String']['input']>;
+  startDate?: InputMaybe<Scalars['DateTime']['input']>;
   tenantId?: InputMaybe<Scalars['ID']['input']>;
 };
 
@@ -1036,6 +1043,11 @@ export type QueryRegistrationsArgs = {
   pageIndex?: InputMaybe<Scalars['Int']['input']>;
   pageLength?: InputMaybe<Scalars['Int']['input']>;
   statusList?: InputMaybe<Array<RegistrationStatus>>;
+};
+
+export type QueryTenantFeeMonthsArgs = {
+  endDate?: InputMaybe<Scalars['DateTime']['input']>;
+  startDate?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type QueryTransactionCountArgs = {
@@ -3567,6 +3579,8 @@ export type GlobalAdminFeeOverviewQueryVariables = Exact<{
   currentMonth: Scalars['String']['input'];
   lastMonth: Scalars['String']['input'];
   monthBeforeLast: Scalars['String']['input'];
+  startDate?: InputMaybe<Scalars['DateTime']['input']>;
+  endDate?: InputMaybe<Scalars['DateTime']['input']>;
 }>;
 
 export type GlobalAdminFeeOverviewQuery = {
@@ -3718,7 +3732,8 @@ export type GetGlobalRangeStatisticsQuery = {
 };
 
 export type GlobalAdminInvoiceSyncsQueryVariables = Exact<{
-  [key: string]: never;
+  startDate?: InputMaybe<Scalars['DateTime']['input']>;
+  endDate?: InputMaybe<Scalars['DateTime']['input']>;
 }>;
 
 export type GlobalAdminInvoiceSyncsQuery = {
@@ -8074,13 +8089,15 @@ export const GlobalAdminFeeOverviewDocument = gql`
     $currentMonth: String!
     $lastMonth: String!
     $monthBeforeLast: String!
+    $startDate: DateTime
+    $endDate: DateTime
   ) {
     totalCollectedFees
     totalCollectedFeeNumber
     currentMonth: collectedFeesByMonth(month: $currentMonth)
     lastMonth: collectedFeesByMonth(month: $lastMonth)
     monthBeforeLast: collectedFeesByMonth(month: $monthBeforeLast)
-    tenantFeeMonths {
+    tenantFeeMonths(startDate: $startDate, endDate: $endDate) {
       amount
       amountRefunded
       revenue
@@ -8101,7 +8118,7 @@ export const GlobalAdminFeeOverviewDocument = gql`
       volumeDiscount
       volumeDiscountConverted
     }
-    feeQuarterGroups {
+    feeQuarterGroups(startDate: $startDate, endDate: $endDate) {
       quarterKey
       quarterLabel
       quarterStartMillis
@@ -8260,8 +8277,8 @@ export class GetGlobalRangeStatisticsGQL extends Apollo.Query<
   }
 }
 export const GlobalAdminInvoiceSyncsDocument = gql`
-  query GlobalAdminInvoiceSyncs {
-    invoiceSyncs {
+  query GlobalAdminInvoiceSyncs($startDate: DateTime, $endDate: DateTime) {
+    invoiceSyncs(startDate: $startDate, endDate: $endDate) {
       id
       tenantId
       periodKey

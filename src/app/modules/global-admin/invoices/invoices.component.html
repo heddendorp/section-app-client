@@ -1,5 +1,5 @@
 <section class="container mx-auto mt-8 space-y-6 px-4 sm:px-6 lg:px-8">
-  <header class="space-y-2">
+  <header class="space-y-4">
     <div
       class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
     >
@@ -21,6 +21,25 @@
       Drafts are created per tenant per period. Amounts are shown in each
       tenant's collected currency.
     </p>
+    <form [formGroup]="dateRangeForm" class="flex flex-wrap gap-4">
+      <mat-form-field formGroupName="range" class="w-full sm:w-96">
+        <mat-label>Invoice period range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input
+            formControlName="start"
+            matStartDate
+            placeholder="Start date"
+          />
+          <input formControlName="end" matEndDate placeholder="End date" />
+        </mat-date-range-input>
+        <mat-hint>
+          Current plus previous three quarters; custom dates expand to complete
+          invoice periods
+        </mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </form>
   </header>
 
   @if (totalPeriods() > 0) {

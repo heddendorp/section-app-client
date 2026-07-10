@@ -1,5 +1,5 @@
-query GlobalAdminInvoiceSyncs {
-  invoiceSyncs {
+query GlobalAdminInvoiceSyncs($startDate: DateTime, $endDate: DateTime) {
+  invoiceSyncs(startDate: $startDate, endDate: $endDate) {
     id
     tenantId
     periodKey
