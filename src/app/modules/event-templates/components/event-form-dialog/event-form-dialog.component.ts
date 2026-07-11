@@ -108,7 +108,6 @@ export class EventFormDialogComponent implements OnDestroy {
           duration: Number(templateValue.duration),
         });
       }
-    } else {
     }
   }
 

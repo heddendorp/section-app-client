@@ -26,6 +26,7 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-event-photo-page',
@@ -57,11 +58,17 @@ export class EventPhotoPageComponent implements OnDestroy {
     private route: ActivatedRoute,
     private http: HttpClient,
   ) {
-    this.loadPhotosRef = this.loadPhotos.watch();
+    this.loadPhotosRef = this.loadPhotos.watch({
+      variables: {
+        eventId: this.route.snapshot.paramMap.get('eventId') ?? '',
+      },
+    });
     this.photos$ = this.loadPhotosRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.photos),
     );
     this.event$ = this.loadPhotosRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.event),
     );
     this.route.paramMap
@@ -118,6 +125,11 @@ export class EventPhotoPageComponent implements OnDestroy {
       );
 
       const { data } = await firstValueFrom(this.getShareKey.fetch());
+      if (!data) {
+        this.uploading$.next(false);
+        this.snackbar.open('Unable to get an upload key. Please try again.');
+        return;
+      }
       const uploads = new BehaviorSubject(files.map(() => 0));
       uploads.subscribe((progress) => {
         const totalProgress =
@@ -163,13 +175,15 @@ export class EventPhotoPageComponent implements OnDestroy {
           });
           await firstValueFrom(
             this.createPhotoShare.mutate({
-              eventId: event.id,
-              data: {
-                cols,
-                rows,
-                container,
-                originalBlob: blob,
-                type: file.type,
+              variables: {
+                eventId: event.id,
+                data: {
+                  cols,
+                  rows,
+                  container,
+                  originalBlob: blob,
+                  type: file.type,
+                },
               },
             }),
           );

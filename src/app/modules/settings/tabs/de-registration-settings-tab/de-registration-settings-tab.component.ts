@@ -22,6 +22,7 @@ import {
 import { firstValueFrom } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-de-registration-settings-tab',
@@ -95,7 +96,9 @@ export class DeRegistrationSettingsTabComponent {
   private snackBar = inject(MatSnackBar);
   private loadDeRegistrationSettingsGQL = inject(LoadDeRegistrationSettingsGQL);
   private deRegistrationSettings = toSignal(
-    this.loadDeRegistrationSettingsGQL.watch().valueChanges,
+    this.loadDeRegistrationSettingsGQL
+      .watch()
+      .valueChanges.pipe(onlyCompleteData()),
   );
 
   constructor() {
@@ -213,7 +216,9 @@ export class DeRegistrationSettingsTabComponent {
     }
     try {
       await firstValueFrom(
-        this.updateDeRegistrationSettingsGQL.mutate({ id, input }),
+        this.updateDeRegistrationSettingsGQL.mutate({
+          variables: { id, input },
+        }),
       );
       this.snackBar.open('Settings updated', 'Dismiss', {
         duration: 3000,

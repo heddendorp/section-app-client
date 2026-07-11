@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-event-manage-finances',
@@ -39,8 +40,11 @@ export class EventManageFinancesComponent implements OnChanges {
     private updateCostItems: UpdateCostItemsFromTemplateGQL,
     private snackbar: MatSnackBar,
   ) {
-    this.getDataQueryRef = this.getCostItems.watch();
+    this.getDataQueryRef = this.getCostItems.watch({
+      variables: { eventId: this.eventId ?? '' },
+    });
     this.data$ = this.getDataQueryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data),
     );
   }
@@ -57,7 +61,9 @@ export class EventManageFinancesComponent implements OnChanges {
     const { event } = await firstValueFrom(this.data$);
     if (event) {
       try {
-        await this.updateCostItems.mutate({ eventId: event.id }).toPromise();
+        await this.updateCostItems
+          .mutate({ variables: { eventId: event.id } })
+          .toPromise();
         await this.getDataQueryRef.refetch();
       } catch (e: unknown) {
         console.log(e);

@@ -183,13 +183,19 @@
               </p>
               <p>
                 <strong>Price per guest:</strong>
-                {{ event.multiGuestSettings?.additionalGuestPrice | currency }}
+                {{
+                  $safeNavigationMigration(
+                    event.multiGuestSettings?.additionalGuestPrice
+                  ) | currency
+                }}
               </p>
               <p>
                 <strong>Guest revenue (estimated):</strong>
                 {{
                   event.totalGuestsCount *
-                    event.multiGuestSettings?.additionalGuestPrice! | currency
+                    $safeNavigationMigration(
+                      event.multiGuestSettings?.additionalGuestPrice
+                    )! | currency
                 }}
               </p>
             </div>
@@ -204,8 +210,7 @@
         <div class="mb-2" gdAuto gdColumns="max-content auto" gdGap="0 1rem">
           <p>Total sign-ups:</p>
           <p>
-            {{ event.totalRegisteredCount }} of
-            {{ event.participantLimit }} ({{
+            {{ event.totalRegisteredCount }} of {{ event.participantLimit }} ({{
               getRemainingParticipantSpots(event)
             }}
             spots left)
@@ -270,7 +275,11 @@
                   [id]="registration.user.id"
                   [picture]="registration.user.picture"
                   [name]="registration.user.fullName"
-                  [status]="registration.user.currentTenant?.status + ''"
+                  [status]="
+                    $safeNavigationMigration(
+                      registration.user.currentTenant?.status
+                    ) + ''
+                  "
                 >
                 </app-user-chip>
               </td>

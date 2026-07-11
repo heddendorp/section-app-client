@@ -33,12 +33,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import {
-  AsyncPipe,
-  DatePipe,
-  DecimalPipe,
-  NgOptimizedImage,
-} from '@angular/common';
+import { AsyncPipe, DatePipe, NgOptimizedImage } from '@angular/common';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-template-details-page',
@@ -58,7 +54,6 @@ import {
     FinancePlannerComponent,
     IfRoleDirective,
     AsyncPipe,
-    DecimalPipe,
     DatePipe,
     ExtendDatePipe,
     IconURLPipe,
@@ -89,8 +84,11 @@ export class TemplateDetailsPageComponent {
     this.eventTemplate$ = this.route.paramMap.pipe(
       switchMap((params) =>
         this.getEventTemplate
-          .watch({ id: params.get('templateId') ?? '' })
+          .watch({
+            variables: { id: params.get('templateId') ?? '' },
+          })
           .valueChanges.pipe(
+            onlyCompleteData(),
             map(({ data }) => data.eventTemplate),
             tap((eventTemplate) =>
               this.title.setTitle(`${eventTemplate.title}`),
@@ -103,6 +101,10 @@ export class TemplateDetailsPageComponent {
   async createEvent() {
     const template = await firstValueFrom(this.eventTemplate$);
     const { data } = await firstValueFrom(this.getOrganizerOptions.fetch());
+    if (!data) {
+      this.snackBar.open('Could not load organizer options');
+      return;
+    }
     if (template?.id) {
       const eventData = await this.dialog
         .open(CreateEventDialogComponent, {
@@ -120,8 +122,10 @@ export class TemplateDetailsPageComponent {
         this.snackBar.open('Saving event', undefined, { duration: 0 });
         const { data } = await firstValueFrom(
           this.createEventMutation.mutate({
-            templateId: template.id,
-            eventData,
+            variables: {
+              templateId: template.id,
+              eventData,
+            },
           }),
         );
         this.snackBar.open('Event saved successfully');
@@ -150,7 +154,9 @@ export class TemplateDetailsPageComponent {
     if (update && template) {
       this.snackBar.open('Saving template ⏳', undefined, { duration: 0 });
       await this.updateTemplate
-        .mutate({ templateId: template.id, update })
+        .mutate({
+          variables: { templateId: template.id, update },
+        })
         .toPromise();
       this.snackBar.open('Template saved successfully ✔️');
     }
@@ -163,7 +169,7 @@ export class TemplateDetailsPageComponent {
     );
     if (approve && template) {
       await this.deleteTemplateMutation
-        .mutate({ templateId: template.id })
+        .mutate({ variables: { templateId: template.id } })
         .toPromise();
       await this.router.navigate(['event-templates']);
     }
@@ -173,6 +179,10 @@ export class TemplateDetailsPageComponent {
     const categories = await firstValueFrom(
       this.getEventTemplateCategoriesGQL.fetch(),
     );
+    if (!categories.data) {
+      this.snackBar.open('Could not load template categories');
+      return;
+    }
     const template = await firstValueFrom(this.eventTemplate$);
     const category = await firstValueFrom(
       this.dialog
@@ -184,8 +194,10 @@ export class TemplateDetailsPageComponent {
     if (category && template) {
       await firstValueFrom(
         this.updateEventTemplateCategoryAssignmentGQL.mutate({
-          templateId: template.id,
-          categoryId: category,
+          variables: {
+            templateId: template.id,
+            categoryId: category,
+          },
         }),
       );
     }
@@ -194,7 +206,7 @@ export class TemplateDetailsPageComponent {
   async updateLocation() {
     const template = await this.eventTemplate$.pipe(first()).toPromise();
     const location = await firstValueFrom(
-      await this.dialog
+      this.dialog
         .open(SelectLocationDialogComponent, {
           minWidth: '50vw',
         })
@@ -203,14 +215,16 @@ export class TemplateDetailsPageComponent {
     if (location && template) {
       await firstValueFrom(
         this.updateLocationMutation.mutate({
-          templateId: template.id,
-          update: {
-            coordinates: location.position,
-            googlePlaceId: location.place_id,
-            googlePlaceUrl: location.url,
-            location: location.structured_formatting.main_text,
-            isVirtual: location.isVirtual,
-            onlineMeetingUrl: location.onlineMeetingUrl,
+          variables: {
+            templateId: template.id,
+            update: {
+              coordinates: location.position,
+              googlePlaceId: location.place_id,
+              googlePlaceUrl: location.url,
+              location: location.structured_formatting.main_text,
+              isVirtual: location.isVirtual,
+              onlineMeetingUrl: location.onlineMeetingUrl,
+            },
           },
         }),
       );

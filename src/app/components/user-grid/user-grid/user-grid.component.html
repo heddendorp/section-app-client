@@ -26,9 +26,11 @@
   (optionSelected)="onEventSelected($event)"
   [displayWith]="displayEvent"
 >
-  <mat-option *ngFor="let ev of eventsWithinRange()" [value]="ev">
-    {{ ev.title }} — {{ ev.start | date: 'medium' }}
-  </mat-option>
+  @for (ev of eventsWithinRange(); track ev) {
+    <mat-option [value]="ev">
+      {{ ev.title }} — {{ ev.start | date: 'medium' }}
+    </mat-option>
+  }
 </mat-autocomplete>
 
 <ag-grid-angular

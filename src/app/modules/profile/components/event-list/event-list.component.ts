@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { TumiEvent } from '@tumi/legacy-app/generated/generated';
 import { DateTime } from 'luxon';
 import { MatRippleModule } from '@angular/material/core';
@@ -12,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-event-list',
   templateUrl: './event-list.component.html',
   styleUrls: ['./event-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatIconModule,
     MatListModule,
@@ -21,13 +28,11 @@ import { MatIconModule } from '@angular/material/icon';
     MatRippleModule,
   ],
 })
-export class EventListComponent implements OnInit {
-  @Output() claimRequest = new EventEmitter<String>();
+export class EventListComponent {
+  @Output() claimRequest = new EventEmitter<string>();
   @Input() title: string = '';
   @Input() isOrganized: boolean = false;
   @Input() events: any[] | null | undefined = null;
-
-  ngOnInit(): void {}
 
   requestClaimDialog() {
     this.claimRequest.emit('');

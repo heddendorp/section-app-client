@@ -1,4 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -20,6 +25,7 @@ import { NgOptimizedImage } from '@angular/common';
   selector: 'app-new-event-template-category-dialog',
   templateUrl: './new-event-template-category-dialog.component.html',
   styleUrls: ['./new-event-template-category-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatDialogModule,
     ReactiveFormsModule,

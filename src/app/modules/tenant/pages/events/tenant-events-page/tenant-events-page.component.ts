@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, map, Observable, Subject, takeUntil } from 'rxjs';
 import {
@@ -20,11 +25,13 @@ import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-tenant-events-page',
   templateUrl: './tenant-events-page.component.html',
   styleUrls: ['./tenant-events-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,
@@ -66,6 +73,7 @@ export class TenantEventsPageComponent implements OnInit, OnDestroy {
   constructor(private tenantLoadEventsGQL: TenantLoadEventsGQL) {
     this.loadEventsRef = this.tenantLoadEventsGQL.watch();
     this.events$ = this.loadEventsRef.valueChanges.pipe(
+      onlyCompleteData(),
       map((res) => res.data.events),
     );
   }

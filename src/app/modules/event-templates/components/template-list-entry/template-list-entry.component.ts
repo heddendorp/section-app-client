@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { GetTemplateCategoriesWithTemplatesQuery } from '@tumi/legacy-app/generated/generated';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { RouterLink } from '@angular/router';
@@ -17,11 +12,8 @@ import { NgIf, NgOptimizedImage } from '@angular/common';
   standalone: true,
   imports: [NgIf, RouterLink, IconURLPipe, NgOptimizedImage],
 })
-export class TemplateListEntryComponent implements OnInit {
+export class TemplateListEntryComponent {
   @Input() template:
     | GetTemplateCategoriesWithTemplatesQuery['eventTemplateCategories'][0]['templates'][0]
     | null = null;
-  constructor() {}
-
-  ngOnInit(): void {}
 }

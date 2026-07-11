@@ -1,18 +1,8 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '@auth0/auth0-angular';
-import { PROFILE_ROUTES } from '@tumi/legacy-app/modules/profile/profile.routes';
 import { MemberGuard } from '@tumi/legacy-app/guards/member.guard';
-import { EVENT_TEMPLATE_ROUTES } from '@tumi/legacy-app/modules/event-templates/event-templates.routes';
-import { EVENT_ROUTES } from '@tumi/legacy-app/modules/events/events.routes';
 import { AdminGuard } from '@tumi/legacy-app/guards/admin.guard';
-import { TENANT_ROUTES } from '@tumi/legacy-app/modules/tenant/tenant.routes';
-import { PAGE_ROUTES } from '@tumi/legacy-app/modules/page/page.routes';
-import { TUTOR_HUB_ROUTES } from '@tumi/legacy-app/modules/tutor-hub/tutor-hub.routes';
-import { HOME_ROUTES } from '@tumi/legacy-app/modules/home/home.routes';
-import { PageNotFoundComponent } from '@tumi/legacy-app/components/page-not-found/page-not-found.component';
-import { SETTINGS_ROUTES } from '@tumi/legacy-app/modules/settings/settings.routes';
 import { globalAdminGuard } from '@tumi/legacy-app/guards/global-admin.guard';
-import { GLOBAL_ADMIN_ROUTES } from '@tumi/legacy-app/modules/global-admin/globalAdmin.routes';
 import { contractEndGuard } from '@tumi/legacy-app/guards/contract-end.guard';
 
 export const APP_ROUTES: Routes = [
@@ -21,45 +11,62 @@ export const APP_ROUTES: Routes = [
   {
     path: 'profile',
     canActivate: [AuthGuard],
-    children: PROFILE_ROUTES,
+    loadChildren: () =>
+      import('./modules/profile/profile.routes').then((m) => m.PROFILE_ROUTES),
   },
   {
     path: 'event-templates',
     canActivate: [contractEndGuard, AuthGuard, MemberGuard],
-    children: EVENT_TEMPLATE_ROUTES,
+    loadChildren: () =>
+      import('./modules/event-templates/event-templates.routes').then(
+        (m) => m.EVENT_TEMPLATE_ROUTES,
+      ),
   },
   {
     path: 'events',
     canActivate: [contractEndGuard],
-    children: EVENT_ROUTES,
+    loadChildren: () =>
+      import('./modules/events/events.routes').then((m) => m.EVENT_ROUTES),
   },
   {
     path: 'tenant',
     canActivate: [contractEndGuard, AuthGuard, AdminGuard],
-    children: TENANT_ROUTES,
+    loadChildren: () =>
+      import('./modules/tenant/tenant.routes').then((m) => m.TENANT_ROUTES),
   },
   {
     path: 'settings',
     canActivate: [contractEndGuard, AuthGuard, AdminGuard],
-    children: SETTINGS_ROUTES,
+    loadChildren: () =>
+      import('./modules/settings/settings.routes').then(
+        (m) => m.SETTINGS_ROUTES,
+      ),
   },
   {
     path: 'page',
-    children: PAGE_ROUTES,
+    loadChildren: () =>
+      import('./modules/page/page.routes').then((m) => m.PAGE_ROUTES),
   },
   {
     path: 'section-hub',
     canActivate: [contractEndGuard, AuthGuard, MemberGuard],
-    children: TUTOR_HUB_ROUTES,
+    loadChildren: () =>
+      import('./modules/tutor-hub/tutor-hub.routes').then(
+        (m) => m.TUTOR_HUB_ROUTES,
+      ),
   },
   {
     path: 'global-admin',
     canActivate: [AuthGuard, globalAdminGuard],
-    children: GLOBAL_ADMIN_ROUTES,
+    loadChildren: () =>
+      import('./modules/global-admin/globalAdmin.routes').then(
+        (m) => m.GLOBAL_ADMIN_ROUTES,
+      ),
   },
   {
     path: 'home',
-    children: HOME_ROUTES,
+    loadChildren: () =>
+      import('./modules/home/home.routes').then((m) => m.HOME_ROUTES),
   },
   {
     path: 'expired',
@@ -68,5 +75,11 @@ export const APP_ROUTES: Routes = [
         (m) => m.ExpiredPageComponent,
       ),
   },
-  { path: '**', component: PageNotFoundComponent },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./components/page-not-found/page-not-found.component').then(
+        (m) => m.PageNotFoundComponent,
+      ),
+  },
 ];

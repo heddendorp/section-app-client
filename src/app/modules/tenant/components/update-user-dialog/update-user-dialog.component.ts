@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import {
   GetUsersQuery,
   MembershipStatus,
@@ -43,7 +38,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     TitleCasePipe,
   ],
 })
-export class UpdateUserDialogComponent implements OnInit {
+export class UpdateUserDialogComponent {
   public Role = Role;
   public MembershipStatus = MembershipStatus;
   public updateForm: UntypedFormGroup;
@@ -64,8 +59,6 @@ export class UpdateUserDialogComponent implements OnInit {
       position: this.data.user.position,
     });
   }
-
-  ngOnInit(): void {}
 
   onSubmit(): void {
     if (this.updateForm.valid) {

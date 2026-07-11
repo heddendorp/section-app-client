@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -8,6 +8,7 @@ import { MatRippleModule } from '@angular/material/core';
   selector: 'app-event-chip',
   templateUrl: './event-chip.component.html',
   styleUrls: ['./event-chip.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatRippleModule, RouterLink, IconURLPipe, NgOptimizedImage],
 })
 export class EventChipComponent {

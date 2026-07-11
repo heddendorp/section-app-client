@@ -140,7 +140,11 @@
           <button
             mat-flat-button
             color="primary"
-            (click)="openPaymentSession(activeStripePayment?.checkoutUrl)"
+            (click)="
+              openPaymentSession(
+                $safeNavigationMigration(activeStripePayment?.checkoutUrl)
+              )
+            "
           >
             Finalize event payment
           </button>

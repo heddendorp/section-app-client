@@ -19,7 +19,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { CheckAdditionalDataComponent } from '../check-additional-data/check-additional-data.component';
-import { AsyncPipe, DatePipe, CurrencyPipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-online-event-registration',
@@ -36,7 +36,6 @@ import { AsyncPipe, DatePipe, CurrencyPipe } from '@angular/common';
     ReactiveFormsModule,
     AsyncPipe,
     DatePipe,
-    CurrencyPipe,
     ExtendDatePipe,
   ],
 })
@@ -131,9 +130,11 @@ export class OnlineEventRegistrationComponent {
       const guestCount = this.guestCountControl.value || 0;
       await firstValueFrom(
         this.registerForEvent.mutate({
-          eventId: this.event?.id ?? '',
-          submissions: this.infoCollected$.value,
-          guestCount: guestCount,
+          variables: {
+            eventId: this.event?.id ?? '',
+            submissions: this.infoCollected$.value,
+            guestCount: guestCount,
+          },
         }),
       );
     } catch (e) {
@@ -151,7 +152,9 @@ export class OnlineEventRegistrationComponent {
     try {
       await firstValueFrom(
         this.deregistrationMutation.mutate({
-          registrationId: this.event?.activeRegistration?.id ?? '',
+          variables: {
+            registrationId: this.event?.activeRegistration?.id ?? '',
+          },
         }),
       );
     } catch (e: unknown) {

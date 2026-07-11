@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import {
   DeleteReceiptGQL,
@@ -9,7 +9,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { AddReceiptDialogComponent } from '@tumi/legacy-app/modules/events/components/running/add-receipt-dialog/add-receipt-dialog.component';
-import { QueryRef } from 'apollo-angular';
+import { onlyCompleteData, QueryRef } from 'apollo-angular';
 import { first, firstValueFrom, map, Observable } from 'rxjs';
 import { GridComponent } from '../../../shared/components/grid/grid.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,6 +25,7 @@ import { ReactiveToolbarComponent } from '../../../shared/components/reactive-to
   selector: 'app-event-receipts-page',
   templateUrl: './event-receipts-page.component.html',
   styleUrls: ['./event-receipts-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,
@@ -53,12 +54,17 @@ export class EventReceiptsPageComponent implements OnDestroy {
     private dialog: MatDialog,
     private sanitizer: DomSanitizer,
   ) {
-    this.loadCostItemQueryRef = this.loadCostItem.watch();
+    this.loadCostItemQueryRef = this.loadCostItem.watch({
+      variables: {
+        id: this.route.snapshot.paramMap.get('costItemId') ?? '',
+      },
+    });
     this.loadCostItemQueryRef.startPolling(60000);
     this.route.paramMap.subscribe((params) =>
       this.loadCostItemQueryRef.refetch({ id: params.get('costItemId') ?? '' }),
     );
     this.costItem$ = this.loadCostItemQueryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.costItem),
       map((costItem) => {
         return {
@@ -92,7 +98,7 @@ export class EventReceiptsPageComponent implements OnDestroy {
   async addReceipt() {
     const costItem = await firstValueFrom(this.costItem$);
     if (costItem) {
-      await this.dialog
+      this.dialog
         .open(AddReceiptDialogComponent, {
           data: { costItem },
         })
@@ -104,7 +110,9 @@ export class EventReceiptsPageComponent implements OnDestroy {
     const costItem = await this.costItem$.pipe(first()).toPromise();
     if (costItem) {
       await firstValueFrom(
-        this.removeReceiptMutation.mutate({ receiptId: receipt.id }),
+        this.removeReceiptMutation.mutate({
+          variables: { receiptId: receipt.id },
+        }),
       );
     }
   }

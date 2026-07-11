@@ -13,6 +13,7 @@ import { AsyncPipe, DatePipe, NgOptimizedImage } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-tumi-home',
@@ -42,11 +43,13 @@ export class TumiHomeComponent {
   ) {
     this.title.setTitle('Home - TUMi');
 
-    this.events$ = this.q
-      .watch()
-      .valueChanges.pipe(map(({ data }) => data.events));
-    this.loggedIn$ = this.q
-      .watch()
-      .valueChanges.pipe(map(({ data }) => !!data.currentUser?.id));
+    this.events$ = this.q.watch().valueChanges.pipe(
+      onlyCompleteData(),
+      map(({ data }) => data.events),
+    );
+    this.loggedIn$ = this.q.watch().valueChanges.pipe(
+      onlyCompleteData(),
+      map(({ data }) => !!data.currentUser?.id),
+    );
   }
 }

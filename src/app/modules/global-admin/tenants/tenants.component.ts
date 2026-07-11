@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateContractDialogComponent } from '@tumi/legacy-app/modules/global-admin/tenants/update-contract-dialog/update-contract-dialog.component';
 import { AddCreditDialogComponent } from '@tumi/legacy-app/modules/global-admin/tenants/add-credit-dialog/add-credit-dialog.component';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-tenants',
@@ -32,9 +33,10 @@ import { AddCreditDialogComponent } from '@tumi/legacy-app/modules/global-admin/
 export class TenantsComponent {
   private getTenantsForGlobalAdminGQL = inject(GetTenantsForGlobalAdminGQL);
   protected tenants = toSignal(
-    this.getTenantsForGlobalAdminGQL
-      .watch()
-      .valueChanges.pipe(map((res) => res.data.tenants)),
+    this.getTenantsForGlobalAdminGQL.watch().valueChanges.pipe(
+      onlyCompleteData(),
+      map((res) => res.data.tenants),
+    ),
   );
   private updateTenantContractEndGQL = inject(UpdateTenantContractEndGQL);
   private addTenantCreditGQL = inject(AddTenantCreditGQL);
@@ -56,7 +58,9 @@ export class TenantsComponent {
         .afterClosed(),
     );
     if (!update) return;
-    await firstValueFrom(this.updateTenantContractEndGQL.mutate(update));
+    await firstValueFrom(
+      this.updateTenantContractEndGQL.mutate({ variables: update }),
+    );
   }
 
   async addCredit(tenant: TenantRow) {
@@ -76,16 +80,14 @@ export class TenantsComponent {
 
     const creditInMinorUnits = Math.round(creditValue * 100);
     await firstValueFrom(
-      this.addTenantCreditGQL.mutate(
-        {
+      this.addTenantCreditGQL.mutate({
+        variables: {
           id: tenant.id,
           credit: creditInMinorUnits,
           description: dialogResult.description,
         },
-        {
-          refetchQueries: [{ query: GetTenantsForGlobalAdminDocument }],
-        },
-      ),
+        refetchQueries: [{ query: GetTenantsForGlobalAdminDocument }],
+      }),
     );
   }
 }

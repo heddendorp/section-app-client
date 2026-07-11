@@ -9,14 +9,15 @@ import {
 } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import {
+  AllCommunityModule,
   ColDef,
   ColGroupDef,
   GridApi,
   GridReadyEvent,
   IDatasource,
   IGetRowsParams,
+  ModuleRegistry,
   RowClickedEvent,
-  SelectionColumnDef,
   themeQuartz,
 } from 'ag-grid-community';
 import { GridListFilterComponentComponent } from '@tumi/legacy-app/modules/tenant/pages/tenant-users-page/grid-list-filter-component/grid-list-filter-component.component';
@@ -44,6 +45,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-user-grid',
@@ -202,13 +205,15 @@ export class UserGridComponent {
           typeof search === 'string' ? search : (search?.title ?? '');
         return this.getEventsForUserGridGQL
           .fetch({
-            after: this.pastYearAfterISO,
-            before: this.nextTwoMonthsISO,
-            search: searchTerm || undefined,
-            reverseOrder: true,
-            limit: 50,
+            variables: {
+              after: this.pastYearAfterISO,
+              before: this.nextTwoMonthsISO,
+              search: searchTerm || undefined,
+              reverseOrder: true,
+              limit: 50,
+            },
           })
-          .pipe(map(({ data }) => data.events ?? []));
+          .pipe(map(({ data }) => data?.events ?? []));
       }),
     ),
     { initialValue: [] as { id: string; title: string; start: string }[] },
@@ -217,24 +222,27 @@ export class UserGridComponent {
   protected dataSource: IDatasource = {
     getRows: (params: IGetRowsParams) => {
       const { startRow, endRow, sortModel, filterModel } = params;
-      firstValueFrom(
-        this.getUsersForUserGridGQL.fetch(
-          {
+      void firstValueFrom(
+        this.getUsersForUserGridGQL.fetch({
+          variables: {
             startRow,
             endRow,
             sortModel,
             filterModel,
             eventId: this.selectedEvent?.id ?? undefined,
           },
-          { fetchPolicy: 'network-only' },
-        ),
-      ).then((data) => {
-        if (data.error) {
-          params.failCallback();
-          return;
-        }
-        params.successCallback(data.data.gridUsers, data.data.gridUsersCount);
-      });
+          fetchPolicy: 'network-only',
+        }),
+      ).then(
+        (data) => {
+          if (data.error || !data.data) {
+            params.failCallback();
+            return;
+          }
+          params.successCallback(data.data.gridUsers, data.data.gridUsersCount);
+        },
+        () => params.failCallback(),
+      );
     },
   };
 
@@ -274,7 +282,7 @@ export class UserGridComponent {
   private tenantData = toSignal(
     this.getInitialUserGridDataGQL
       .fetch()
-      .pipe(map(({ data }) => data.currentTenant)),
+      .pipe(map(({ data }) => data?.currentTenant)),
   );
   protected colDefs = computed(() => {
     const tenantData = this.tenantData();
@@ -330,9 +338,11 @@ export class UserGridComponent {
     try {
       const result = await firstValueFrom(
         this.exportUsersCsvGQL.fetch({
-          filterModel,
-          sortModel,
-          eventId: this.selectedEvent?.id ?? undefined,
+          variables: {
+            filterModel,
+            sortModel,
+            eventId: this.selectedEvent?.id ?? undefined,
+          },
         }),
       );
 

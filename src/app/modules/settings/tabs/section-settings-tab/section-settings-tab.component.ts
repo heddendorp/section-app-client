@@ -31,6 +31,7 @@ import { TitleCasePipe } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { firstValueFrom } from 'rxjs';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-section-settings-tab',
@@ -107,7 +108,7 @@ export class SectionSettingsTabComponent {
   private updateSectionSettingsGQL = inject(UpdateSectionSettingsGQL);
   private loadSectionSettingsGQL = inject(LoadSectionSettingsGQL);
   private sectionSettings = toSignal(
-    this.loadSectionSettingsGQL.watch().valueChanges,
+    this.loadSectionSettingsGQL.watch().valueChanges.pipe(onlyCompleteData()),
   );
 
   constructor() {
@@ -298,7 +299,9 @@ export class SectionSettingsTabComponent {
       throw new Error('No tenant id found');
     }
     try {
-      await firstValueFrom(this.updateSectionSettingsGQL.mutate({ id, input }));
+      await firstValueFrom(
+        this.updateSectionSettingsGQL.mutate({ variables: { id, input } }),
+      );
       this.snackBar.open('Settings updated', 'Dismiss', {
         duration: 3000,
       });

@@ -18,13 +18,13 @@ import {
   AsyncPipe,
   CurrencyPipe,
   DatePipe,
-  NgIf,
   TitleCasePipe,
 } from '@angular/common';
 import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-tenant-registrations-page',
@@ -36,7 +36,6 @@ import { ReactiveToolbarComponent } from '../../../../shared/components/reactive
     MatToolbarModule,
     BackButtonComponent,
     ResetScrollDirective,
-    NgIf,
     MatProgressBarModule,
     MatTableModule,
     EventChipComponent,
@@ -71,13 +70,19 @@ export class TenantRegistrationsPageComponent implements OnDestroy {
     private getRegistrationCountGQL: GetRegistrationCountGQL,
   ) {
     this.registrationsQueryRef = this.getRegistrationsGQL.watch({
-      pageLength: 20,
-      pageIndex: 0,
+      variables: {
+        pageLength: 20,
+        pageIndex: 0,
+      },
     });
     this.registrationCount$ = this.getRegistrationCountGQL
       .watch()
-      .valueChanges.pipe(map(({ data }) => data.registrationCount));
+      .valueChanges.pipe(
+        onlyCompleteData(),
+        map(({ data }) => data.registrationCount),
+      );
     this.registrations$ = this.registrationsQueryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.registrations),
     );
   }

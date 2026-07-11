@@ -4,6 +4,7 @@ import {
   NgZone,
   OnDestroy,
   OnInit,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   distinctUntilChanged,
@@ -48,6 +49,7 @@ enum ScrollDirection {
       ),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class ReactiveToolbarComponent implements OnInit, OnDestroy {

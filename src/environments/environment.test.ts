@@ -3,6 +3,7 @@ export const environment = {
   stripeKey: 'pk_test_yTgqTWFQv6R8G58nOlHISiOL',
   server: 'http://localhost:3333',
   useApiPath: true,
+  useLocalAuthMock: true,
   version: 'test',
 };
 

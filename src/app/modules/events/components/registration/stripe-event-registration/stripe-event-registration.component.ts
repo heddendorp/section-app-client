@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MoveEventDialogComponent } from '../../move-event-dialog/move-event-dialog.component';
 import { BehaviorSubject, firstValueFrom, ReplaySubject } from 'rxjs';
 import {
@@ -34,6 +40,7 @@ import { AsyncPipe, CurrencyPipe, DatePipe } from '@angular/common';
   selector: 'app-stripe-event-registration',
   templateUrl: './stripe-event-registration.component.html',
   styleUrls: ['./stripe-event-registration.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CheckAdditionalDataComponent,
     MatFormFieldModule,
@@ -196,7 +203,9 @@ export class StripeEventRegistrationComponent implements OnChanges {
       try {
         await firstValueFrom(
           this.cancelPaymentGQL.mutate({
-            registrationId: this.event.activeRegistration.id,
+            variables: {
+              registrationId: this.event.activeRegistration.id,
+            },
           }),
         );
         this.processing.next(false);
@@ -221,10 +230,12 @@ export class StripeEventRegistrationComponent implements OnChanges {
         const guestCount = this.guestCountControl.value || 0;
         const res = await firstValueFrom(
           this.registerForEventGQL.mutate({
-            eventId: this.event.id,
-            price: this.priceControl.value,
-            submissions: this.infoCollected$.value,
-            guestCount: guestCount,
+            variables: {
+              eventId: this.event.id,
+              price: this.priceControl.value,
+              submissions: this.infoCollected$.value,
+              guestCount: guestCount,
+            },
           }),
         );
         data = res.data;
@@ -248,7 +259,7 @@ export class StripeEventRegistrationComponent implements OnChanges {
 
           throw new Error('No payment found');
         }
-        await this.openPaymentSession(payment.checkoutUrl);
+        this.openPaymentSession(payment.checkoutUrl);
       } catch (e: unknown) {
         this.processing.next(false);
         if (e instanceof Error) {
@@ -267,7 +278,9 @@ export class StripeEventRegistrationComponent implements OnChanges {
     try {
       await firstValueFrom(
         this.deregisterFromEventGQL.mutate({
-          registrationId: this.event?.activeRegistration?.id ?? '',
+          variables: {
+            registrationId: this.event?.activeRegistration?.id ?? '',
+          },
         }),
       );
     } catch (e: unknown) {
@@ -291,7 +304,7 @@ export class StripeEventRegistrationComponent implements OnChanges {
     this.infoCollected$.next($event);
   }
 
-  async openPaymentSession(checkoutSession: string | null = '') {
+  openPaymentSession(checkoutSession: string | null = '') {
     if (!checkoutSession) {
       return;
     }

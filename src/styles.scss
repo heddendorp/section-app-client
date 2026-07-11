@@ -18,9 +18,9 @@
   src: url('assets/fonts/GeneralSans-VariableItalic.woff2') format('woff2');
 }
 
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 // Plus imports for other components in your app.
 

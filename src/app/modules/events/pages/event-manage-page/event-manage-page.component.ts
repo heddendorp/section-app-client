@@ -4,6 +4,7 @@ import {
   inject,
   Inject,
   OnDestroy,
+  DOCUMENT,
 } from '@angular/core';
 import {
   AdmitUserGQL,
@@ -19,7 +20,7 @@ import {
 import { firstValueFrom, map, Observable, share, Subject, tap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../environments/environment';
 import {
   animate,
   state,
@@ -27,7 +28,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { AsyncPipe, CurrencyPipe, DatePipe, DOCUMENT } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DatePipe } from '@angular/common';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
@@ -35,7 +36,6 @@ import { TransactionListComponent } from '../../../shared/components/transaction
 import { MatIconModule } from '@angular/material/icon';
 import { UserChipComponent } from '../../../shared/components/user-chip/user-chip.component';
 import { MatTableModule } from '@angular/material/table';
-import { EventManageFinancesComponent } from '../../components/management/event-manage-finances/event-manage-finances.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -43,6 +43,8 @@ import { BackButtonComponent } from '../../../shared/components/back-button/back
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { EventParticipantsTableComponent } from '@tumi/legacy-app/modules/events/components/event-participants-table/event-participants-table.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CombinedGraphQLErrors } from '@apollo/client/errors';
+import { onlyCompleteData } from 'apollo-angular';
 
 type ManagedEvent = LoadEventForManagementQuery['event'];
 type ManagedRegistration = ManagedEvent['participantRegistrations'][number];
@@ -80,7 +82,6 @@ const TERMINAL_STRIPE_PAYMENT_STATUSES = new Set([
     RouterLink,
     MatProgressBarModule,
     MatExpansionModule,
-    EventManageFinancesComponent,
     MatTableModule,
     UserChipComponent,
     MatIconModule,
@@ -117,11 +118,16 @@ export class EventManagePageComponent implements OnDestroy {
     private admitUserGQL: AdmitUserGQL,
     @Inject(DOCUMENT) protected document: Document,
   ) {
-    this.loadEventQueryRef = this.loadEvent.watch();
+    this.loadEventQueryRef = this.loadEvent.watch({
+      variables: {
+        id: this.route.snapshot.paramMap.get('eventId') ?? '',
+      },
+    });
     this.route.paramMap.subscribe((params) =>
       this.loadEventQueryRef.refetch({ id: params.get('eventId') ?? '' }),
     );
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.event),
       tap((event) => this.title.setTitle(`Manage ${event.title}`)),
     );
@@ -177,21 +183,12 @@ export class EventManagePageComponent implements OnDestroy {
   }
 
   private getCheckinFailureReason(error: unknown) {
-    if (!error || typeof error !== 'object' || !('graphQLErrors' in error)) {
+    if (!CombinedGraphQLErrors.is(error)) {
       return null;
     }
 
-    const graphQLErrors = error.graphQLErrors;
-    if (!Array.isArray(graphQLErrors)) {
-      return null;
-    }
-
-    for (const graphQLError of graphQLErrors) {
-      if (!graphQLError || typeof graphQLError !== 'object') {
-        continue;
-      }
-      const extensions =
-        'extensions' in graphQLError ? graphQLError.extensions : undefined;
+    for (const graphQLError of error.errors) {
+      const { extensions } = graphQLError;
       if (!extensions || typeof extensions !== 'object') {
         continue;
       }
@@ -211,7 +208,7 @@ export class EventManagePageComponent implements OnDestroy {
       const { data } = await this.loadEventQueryRef.refetch({
         id: this.route.snapshot.paramMap.get('eventId') ?? '',
       });
-      return data.event;
+      return data?.event ?? null;
     } catch {
       return null;
     }
@@ -224,9 +221,11 @@ export class EventManagePageComponent implements OnDestroy {
       try {
         await firstValueFrom(
           this.kickFromEventGQL.mutate({
-            withRefund: true,
-            refundFees,
-            registrationId,
+            variables: {
+              withRefund: true,
+              refundFees,
+              registrationId,
+            },
           }),
         );
       } catch (e) {
@@ -247,9 +246,11 @@ export class EventManagePageComponent implements OnDestroy {
       try {
         await firstValueFrom(
           this.kickFromEventGQL.mutate({
-            withRefund: false,
-            registrationId,
-            refundFees: false,
+            variables: {
+              withRefund: false,
+              registrationId,
+              refundFees: false,
+            },
           }),
         );
       } catch (e) {
@@ -263,7 +264,9 @@ export class EventManagePageComponent implements OnDestroy {
 
   async checkin(id: string) {
     try {
-      await firstValueFrom(this.checkInMutation.mutate({ id, manual: true }));
+      await firstValueFrom(
+        this.checkInMutation.mutate({ variables: { id, manual: true } }),
+      );
       await this.refetchEvent();
       this.snackBar.open('Participant checked in.');
     } catch (error) {
@@ -293,8 +296,10 @@ export class EventManagePageComponent implements OnDestroy {
     const event = await firstValueFrom(this.event$);
     await firstValueFrom(
       this.createEventRegistrationCodeGQL.mutate({
-        eventId: event.id,
-        isPublic: false,
+        variables: {
+          eventId: event.id,
+          isPublic: false,
+        },
       }),
     );
     this.loadEventQueryRef.refetch();
@@ -345,8 +350,11 @@ export class EventManagePageComponent implements OnDestroy {
   }
 
   async deleteRegistrationCode(id: string) {
-    confirm('Are you sure you want to delete this registration code?') &&
-      (await firstValueFrom(this.deleteRegistrationCodeGQL.mutate({ id })));
+    if (confirm('Are you sure you want to delete this registration code?')) {
+      await firstValueFrom(
+        this.deleteRegistrationCodeGQL.mutate({ variables: { id } }),
+      );
+    }
     this.loadEventQueryRef.refetch();
   }
 
@@ -368,7 +376,9 @@ export class EventManagePageComponent implements OnDestroy {
     this.admittingRegistrationIds.add(id);
 
     try {
-      await firstValueFrom(this.admitUserGQL.mutate({ registrationId: id }));
+      await firstValueFrom(
+        this.admitUserGQL.mutate({ variables: { registrationId: id } }),
+      );
       await this.loadEventQueryRef.refetch();
     } catch (error: unknown) {
       await this.loadEventQueryRef.refetch();

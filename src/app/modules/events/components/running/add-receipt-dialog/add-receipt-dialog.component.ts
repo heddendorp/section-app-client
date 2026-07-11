@@ -101,14 +101,16 @@ export class AddReceiptDialogComponent {
       );
       await firstValueFrom(
         this.addReceiptGQL.mutate({
-          costItemId: this.data.costItem.id,
-          receiptInput: {
+          variables: {
             costItemId: this.data.costItem.id,
-            amount,
-            blob,
-            container,
-            type: file.type,
-            md5: res.contentMD5?.toString() ?? '',
+            receiptInput: {
+              costItemId: this.data.costItem.id,
+              amount,
+              blob,
+              container,
+              type: file.type,
+              md5: res.contentMD5?.toString() ?? '',
+            },
           },
         }),
       );

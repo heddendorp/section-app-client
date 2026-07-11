@@ -11,17 +11,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { EventChipComponent } from '../../../../shared/components/event-chip/event-chip.component';
 import { UserChipComponent } from '../../../../shared/components/user-chip/user-chip.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import {
-  AsyncPipe,
-  DatePipe,
-  LowerCasePipe,
-  NgFor,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe, DatePipe, LowerCasePipe } from '@angular/common';
 import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-tenant-registration-code-page',
@@ -33,13 +28,11 @@ import { ReactiveToolbarComponent } from '../../../../shared/components/reactive
     MatToolbarModule,
     BackButtonComponent,
     ResetScrollDirective,
-    NgIf,
     MatProgressBarModule,
     UserChipComponent,
     EventChipComponent,
     MatButtonModule,
     TransactionListComponent,
-    NgFor,
     AsyncPipe,
     LowerCasePipe,
     DatePipe,
@@ -59,9 +52,10 @@ export class TenantRegistrationCodePageComponent {
       switchMap(
         (params) =>
           this.eventRegistrationCodeGQL.watch({
-            registrationId: params.get('codeId') ?? '',
+            variables: { registrationId: params.get('codeId') ?? '' },
           }).valueChanges,
       ),
+      onlyCompleteData(),
       map(({ data }) => data.eventRegistrationCode),
     );
   }

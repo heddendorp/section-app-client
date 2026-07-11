@@ -4,6 +4,7 @@ import {
   Input,
   OnChanges,
   Output,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -26,6 +27,7 @@ import { NgOptimizedImage } from '@angular/common';
   selector: 'app-rate-event',
   templateUrl: './rate-event.component.html',
   styleUrls: ['./rate-event.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveFormsModule,
     RouterLink,

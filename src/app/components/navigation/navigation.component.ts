@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import {
   GetTenantInfoGQL,
   GetTenantInfoQuery,
@@ -17,11 +17,13 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { IfGlobalAdminDirective } from '@tumi/legacy-app/modules/shared/directives/if-global-admin.directive';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatRippleModule,
     RouterLink,
@@ -62,9 +64,10 @@ export class NavigationComponent {
         this.installEvent$.next(e as Event & { prompt: () => Promise<void> });
       });
     }
-    this.tenantInfo$ = this.getTenantInfoGQL
-      .watch()
-      .valueChanges.pipe(map((r) => r.data.currentTenant));
+    this.tenantInfo$ = this.getTenantInfoGQL.watch().valueChanges.pipe(
+      onlyCompleteData(),
+      map((r) => r.data.currentTenant),
+    );
   }
 
   preventProp($event: MouseEvent) {

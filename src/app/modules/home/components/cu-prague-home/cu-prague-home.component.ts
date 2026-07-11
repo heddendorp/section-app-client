@@ -10,6 +10,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-cu-prague-home',
@@ -34,11 +35,13 @@ export class CuPragueHomeComponent {
   ) {
     this.title.setTitle('Home - CU Prague');
 
-    this.events$ = this.q
-      .watch()
-      .valueChanges.pipe(map(({ data }) => data.events));
-    this.loggedIn$ = this.q
-      .watch()
-      .valueChanges.pipe(map(({ data }) => !!data.currentUser?.id));
+    this.events$ = this.q.watch().valueChanges.pipe(
+      onlyCompleteData(),
+      map(({ data }) => data.events),
+    );
+    this.loggedIn$ = this.q.watch().valueChanges.pipe(
+      onlyCompleteData(),
+      map(({ data }) => !!data.currentUser?.id),
+    );
   }
 }

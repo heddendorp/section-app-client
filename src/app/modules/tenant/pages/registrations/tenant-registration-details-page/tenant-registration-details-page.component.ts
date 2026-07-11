@@ -11,17 +11,12 @@ import { TransactionListComponent } from '../../../../shared/components/transact
 import { EventChipComponent } from '../../../../shared/components/event-chip/event-chip.component';
 import { UserChipComponent } from '../../../../shared/components/user-chip/user-chip.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import {
-  AsyncPipe,
-  CurrencyPipe,
-  DatePipe,
-  JsonPipe,
-  NgIf,
-} from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DatePipe, JsonPipe } from '@angular/common';
 import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-tenant-registration-details-page',
@@ -33,7 +28,6 @@ import { ReactiveToolbarComponent } from '../../../../shared/components/reactive
     MatToolbarModule,
     BackButtonComponent,
     ResetScrollDirective,
-    NgIf,
     MatProgressBarModule,
     UserChipComponent,
     EventChipComponent,
@@ -59,9 +53,10 @@ export class TenantRegistrationDetailsPageComponent {
       switchMap(
         (params) =>
           this.getRegistrationGQL.watch({
-            id: params.get('registrationId') ?? '',
+            variables: { id: params.get('registrationId') ?? '' },
           }).valueChanges,
       ),
+      onlyCompleteData(),
       map(({ data }) => data.registration),
     );
   }

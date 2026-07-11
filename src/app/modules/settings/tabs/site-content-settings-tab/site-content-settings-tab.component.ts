@@ -20,6 +20,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { firstValueFrom } from 'rxjs';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-site-content-settings-tab',
@@ -46,7 +47,9 @@ export class SiteContentSettingsTabComponent {
   private updateSiteContentSettingsGQL = inject(UpdateSiteContentSettingsGQL);
   private loadSiteContentSettingsGQL = inject(LoadSiteContentSettingsGQL);
   protected siteContentSettings = toSignal(
-    this.loadSiteContentSettingsGQL.watch().valueChanges,
+    this.loadSiteContentSettingsGQL
+      .watch()
+      .valueChanges.pipe(onlyCompleteData()),
   );
 
   constructor() {
@@ -74,7 +77,9 @@ export class SiteContentSettingsTabComponent {
     this.siteContentSettingsForm.disable();
     try {
       await firstValueFrom(
-        this.updateSiteContentSettingsGQL.mutate({ id: tenantId, input: data }),
+        this.updateSiteContentSettingsGQL.mutate({
+          variables: { id: tenantId, input: data },
+        }),
       );
       this.snackBar.open('Site content settings updated', 'Close', {
         duration: 5000,

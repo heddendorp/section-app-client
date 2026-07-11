@@ -26,6 +26,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { AgChartsModule } from 'ag-charts-angular';
 import { AgChartOptions } from 'ag-charts-community';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-tenant-stats-page',
@@ -50,18 +51,22 @@ export class TenantStatsPageComponent {
   private getInitialStatisticsDataGQL = inject(GetInitialStatisticsDataGQL);
   private getRangeStatisticsGQL = inject(GetRangeStatisticsGQL);
   private rangeStatisticsReference = this.getRangeStatisticsGQL.watch({
-    startDate: DateTime.local().minus({ days: 7 }).toISO(),
-    endDate: DateTime.local().toISO(),
-    unit: 'day',
+    variables: {
+      startDate: DateTime.local().minus({ days: 7 }).toISO(),
+      endDate: DateTime.local().toISO(),
+      unit: 'day',
+    },
   });
   protected rangeStats = toSignal(
     this.rangeStatisticsReference.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.rangeStatistics),
       filter((data) => !!data),
     ),
   );
   protected userDataStats = toSignal(
     this.rangeStatisticsReference.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.userDataStatistics as any),
       filter((data) => !!data),
       tap((data) => console.log(data)),
@@ -69,6 +74,7 @@ export class TenantStatsPageComponent {
   );
   private registrationHistory = toSignal(
     this.rangeStatisticsReference.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.registrationHistory),
       filter((data) => !!data),
     ),
@@ -114,6 +120,7 @@ export class TenantStatsPageComponent {
   }));
   private eventHistory = toSignal(
     this.rangeStatisticsReference.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.eventHistory),
       filter((data) => !!data),
     ),
@@ -168,7 +175,6 @@ export class TenantStatsPageComponent {
     effect(() => {
       const tenantData = this.initialData()?.currentTenant;
       if (!tenantData) return;
-      const startField = this.timeForm.get('start');
       // if (startField)
       // startField.setValue(
       //   DateTime.fromISO(tenantData.createdAt).toISO({

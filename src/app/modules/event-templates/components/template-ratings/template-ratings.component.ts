@@ -15,6 +15,7 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter, switchMap, tap } from 'rxjs';
+import { CombinedGraphQLErrors } from '@apollo/client/errors';
 
 type EventInstances = NonNullable<
   GetEventTemplateRatingsQuery['eventTemplate']
@@ -53,26 +54,34 @@ export class TemplateRatingsComponent {
           this.error.set(null);
         }),
         switchMap(
-          (id) => this.getTemplateRatingsGQL.watch({ id }).valueChanges,
+          (id) =>
+            this.getTemplateRatingsGQL.watch({ variables: { id } })
+              .valueChanges,
         ),
         takeUntilDestroyed(),
       )
       .subscribe({
-        next: ({ data, loading, errors }) => {
-          const events = (data.eventTemplate?.eventInstances ??
-            []) as EventInstances;
-          this.events.set(events);
-          this.loading.set(loading);
-          if (errors && errors.length > 0) {
-            this.error.set(errors.map((err) => err.message).join('\n'));
-          } else {
-            this.error.set(null);
+        next: ({ data, dataState, loading, error }) => {
+          if (dataState === 'complete') {
+            this.events.set(data.eventTemplate?.eventInstances ?? []);
           }
+          this.loading.set(loading);
+          this.error.set(this.getErrorMessage(error));
         },
-        error: (err) => {
-          this.error.set(err?.message ?? 'Failed to load ratings');
+        error: (error: unknown) => {
+          this.error.set(
+            this.getErrorMessage(error) ?? 'Failed to load ratings',
+          );
           this.loading.set(false);
         },
       });
+  }
+
+  private getErrorMessage(error: unknown): string | null {
+    if (CombinedGraphQLErrors.is(error)) {
+      return error.errors.map(({ message }) => message).join('\n');
+    }
+
+    return error instanceof Error ? error.message : null;
   }
 }

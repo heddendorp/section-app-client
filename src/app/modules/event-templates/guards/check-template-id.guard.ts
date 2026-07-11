@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Apollo, gql } from 'apollo-angular';
 
@@ -23,10 +18,7 @@ export class CheckTemplateIdGuard {
     private apollo: Apollo,
     private router: Router,
   ) {}
-  async canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ): Promise<boolean | UrlTree> {
+  async canActivate(route: ActivatedRouteSnapshot): Promise<boolean | UrlTree> {
     try {
       await firstValueFrom(
         this.apollo.query({
@@ -34,7 +26,7 @@ export class CheckTemplateIdGuard {
           variables: { id: route.params['templateId'] },
         }),
       );
-    } catch (e) {
+    } catch {
       return this.router.createUrlTree(
         ['/404'] /*{
         queryParams: { path: state.url },

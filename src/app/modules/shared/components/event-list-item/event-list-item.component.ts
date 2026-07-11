@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { DateTime } from 'luxon';
 import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe';
 import { UserChipComponent } from '../user-chip/user-chip.component';
@@ -10,6 +10,7 @@ import { DecimalPipe, NgOptimizedImage } from '@angular/common';
   selector: 'app-event-list-item',
   templateUrl: './event-list-item.component.html',
   styleUrls: ['./event-list-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatListModule,
     RouterLink,
@@ -21,8 +22,6 @@ import { DecimalPipe, NgOptimizedImage } from '@angular/common';
 })
 export class EventListItemComponent {
   @Input() event: any = null;
-
-  constructor() {}
 
   formatDate(start: string, end: string) {
     const startDate = DateTime.fromISO(start);

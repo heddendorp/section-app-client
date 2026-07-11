@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import {
   LoadPublicRegistrationCodesGQL,
@@ -14,11 +14,13 @@ import { GridComponent } from '../../../shared/components/grid/grid.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AsyncPipe, DatePipe, NgOptimizedImage } from '@angular/common';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-public-registration-codes-page',
   templateUrl: './public-registration-codes-page.component.html',
   styleUrls: ['./public-registration-codes-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatProgressBarModule,
     MatDialogModule,
@@ -43,6 +45,9 @@ export class PublicRegistrationCodesPageComponent {
   ) {
     this.registrationCodes$ = this.loadPublicRegistrationCodesGQL
       .watch()
-      .valueChanges.pipe(map((result) => result.data.eventRegistrationCodes));
+      .valueChanges.pipe(
+        onlyCompleteData(),
+        map((result) => result.data.eventRegistrationCodes),
+      );
   }
 }

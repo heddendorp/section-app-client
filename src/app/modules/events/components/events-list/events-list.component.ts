@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { EventListQuery } from '@tumi/legacy-app/generated/generated';
 import { ExtendDatePipe } from '@tumi/legacy-app/modules/shared/pipes/extended-date.pipe';
 import { EventsListItemComponent } from '../events-list-item/events-list-item.component';
@@ -9,6 +9,7 @@ import { GridComponent } from '../../../shared/components/grid/grid.component';
   selector: 'app-events-list',
   templateUrl: './events-list.component.html',
   styleUrls: ['./events-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [GridComponent, EventsListItemComponent, DatePipe, ExtendDatePipe],
 })
 export class EventsListComponent {

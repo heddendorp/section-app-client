@@ -4,7 +4,7 @@
   class="event text-surface-on relative h-full rounded-3xl border border-black/10 flex flex-col justify-between {{
     event ? 'bg-white' : 'skeleton bg-zinc-50'
   }}
-  {{ event?.publicationState | lowercase }}
+  {{ $safeNavigationMigration(event?.publicationState) | lowercase }}
   {{ event?.userIsRegistered ? 'participant' : '' }}
   {{ event?.userIsOrganizer ? 'organizer' : '' }}"
   matRipple

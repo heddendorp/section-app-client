@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import {
   LoadEventsWithRatingGQL,
   LoadEventsWithRatingQuery,
@@ -14,11 +14,13 @@ import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-tenant-event-ratings',
   templateUrl: './tenant-event-ratings.component.html',
   styleUrls: ['./tenant-event-ratings.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,
@@ -38,8 +40,13 @@ export class TenantEventRatingsComponent {
 
   constructor(private loadEventsWithRatingGQL: LoadEventsWithRatingGQL) {
     this.events$ = this.loadEventsWithRatingGQL
-      .watch({ after: DateTime.local().minus({ months: 1 }).toISO() })
+      .watch({
+        variables: {
+          after: DateTime.local().minus({ months: 1 }).toISO(),
+        },
+      })
       .valueChanges.pipe(
+        onlyCompleteData(),
         map((result) => result.data.events),
         map((events) =>
           events.filter(

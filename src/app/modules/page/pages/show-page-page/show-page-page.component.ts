@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadPagesGQL } from '@tumi/legacy-app/generated/generated';
 import { combineLatest, map, Observable } from 'rxjs';
@@ -9,6 +9,7 @@ import { MarkdownComponent } from 'ngx-markdown';
   selector: 'app-show-page-page',
   templateUrl: './show-page-page.component.html',
   styleUrls: ['./show-page-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MarkdownComponent, AsyncPipe],
 })
 export class ShowPagePageComponent {
@@ -25,7 +26,7 @@ export class ShowPagePageComponent {
       map(([params, res]) => {
         const page = params.get('page');
 
-        if (!page || !res.data.currentTenant) {
+        if (!page || !res.data?.currentTenant) {
           return `## Page not found`;
         }
         const tenant = res.data.currentTenant;

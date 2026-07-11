@@ -24,7 +24,9 @@
         <div
           class="flex flex-col items-center rounded-lg bg-white p-3 shadow-sm"
         >
-          <p class="text-3xl font-bold text-purple-600">{{ event.totalRegisteredCount }}</p>
+          <p class="text-3xl font-bold text-purple-600">{{
+            event.totalRegisteredCount
+          }}</p>
           <p class="text-sm font-semibold uppercase tracking-wide text-gray-600"
             >Sign-ups</p
           >
@@ -95,8 +97,9 @@
               <span class="font-semibold text-gray-600">Price paid:</span>
               <span class="font-bold text-green-600">
                 {{
-                  getRelevantTransaction(registration.transactions)?.amount
-                    | currency
+                  $safeNavigationMigration(
+                    getRelevantTransaction(registration.transactions)?.amount
+                  ) | currency
                 }}
               </span>
             </p>

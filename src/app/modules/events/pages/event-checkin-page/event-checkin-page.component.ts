@@ -44,6 +44,8 @@ import {
   NgOptimizedImage,
 } from '@angular/common';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
+import { CombinedGraphQLErrors } from '@apollo/client/errors';
+import { onlyCompleteData } from 'apollo-angular';
 
 type CheckinRegistration =
   | NonNullable<GetRegistrationQuery['registration']>
@@ -138,10 +140,11 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     private snackBar: MatSnackBar,
   ) {
     this.loadEventQueryRef = this.loadEvent.watch({
-      id: this.route.snapshot.params['eventId'],
+      variables: { id: this.route.snapshot.params['eventId'] },
     });
     this.eventId = this.route.snapshot.params['eventId'];
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.event),
       map((event) => {
         this.currentEventSnapshot = event;
@@ -281,8 +284,13 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     this.registrationLoading$.next(true);
     try {
       const { data } = await firstValueFrom(
-        this.loadRegistration.fetch({ id: registrationId }),
+        this.loadRegistration.fetch({
+          variables: { id: registrationId },
+        }),
       );
+      if (!data) {
+        throw new Error('Registration query returned no data');
+      }
       if (data.registration) {
         this.currentRegistration$.next(data.registration);
         this.updateCachedEventRegistration(data.registration);
@@ -296,7 +304,7 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
         });
       }
       return null;
-    } catch (error) {
+    } catch {
       if (options.showNetworkMessage) {
         this.snackBar.open(
           'Could not refresh registration. Check your connection and try again.',
@@ -339,7 +347,9 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
 
   private async refreshEventSnapshot() {
     try {
-      const { data } = await this.loadEventQueryRef.refetch({ id: this.eventId });
+      const { data } = await this.loadEventQueryRef.refetch({
+        id: this.eventId,
+      });
       if (data?.event) {
         this.currentEventSnapshot = data.event;
       }
@@ -348,9 +358,7 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private getUsedEntries(
-    registration: EntryUsageState | null,
-  ) {
+  private getUsedEntries(registration: EntryUsageState | null) {
     if (!registration) {
       return 0;
     }
@@ -358,20 +366,12 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
   }
 
   private getCheckinFailureReason(error: unknown): CheckinFailureReason | null {
-    if (!error || typeof error !== 'object' || !('graphQLErrors' in error)) {
-      return null;
-    }
-    const graphQLErrors = error.graphQLErrors;
-    if (!Array.isArray(graphQLErrors)) {
+    if (!CombinedGraphQLErrors.is(error)) {
       return null;
     }
 
-    for (const graphQLError of graphQLErrors) {
-      if (!graphQLError || typeof graphQLError !== 'object') {
-        continue;
-      }
-      const extensions =
-        'extensions' in graphQLError ? graphQLError.extensions : undefined;
+    for (const graphQLError of error.errors) {
+      const { extensions } = graphQLError;
       if (!extensions || typeof extensions !== 'object') {
         continue;
       }
@@ -413,8 +413,10 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
     try {
       const result = await firstValueFrom(
         this.useRegistrationEntry.mutate({
-          registrationId: registration.id,
-          manual: false,
+          variables: {
+            registrationId: registration.id,
+            manual: false,
+          },
         }),
       );
 
@@ -464,7 +466,9 @@ export class EventCheckinPageComponent implements AfterViewInit, OnDestroy {
         );
       } else if (failureReason === 'REGISTRATION_NOT_FOUND') {
         this.snackBar.open('Registration not found.');
-      } else if (this.didRegistrationAdvance(registration, refreshedRegistration)) {
+      } else if (
+        this.didRegistrationAdvance(registration, refreshedRegistration)
+      ) {
         this.snackBar.open(
           'The connection was unstable, but the registration state updated successfully.',
         );

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import {
   MembershipStatus,
   Role,
@@ -15,6 +15,7 @@ import { LowerCasePipe, NgOptimizedImage } from '@angular/common';
   selector: 'app-profile-card',
   templateUrl: './profile-card.component.html',
   styleUrls: ['./profile-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatDividerModule,
     MatIconModule,

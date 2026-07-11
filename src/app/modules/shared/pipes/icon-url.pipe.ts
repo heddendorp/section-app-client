@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class IconURLPipe implements PipeTransform {
-  transform(value: string | null, ...args: unknown[]): string {
+  transform(value: string | null): string {
     const [icon, style] = (value ?? '').split(':');
     return `https://img.icons8.com/${style || 'fluency'}/192/${
       icon || 'nothing-found'

@@ -27,6 +27,8 @@ import { EventParticipantsTableComponent } from '@tumi/legacy-app/modules/events
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddCostItemDialogComponent } from '@tumi/legacy-app/modules/events/components/add-cost-item-dialog/add-cost-item-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CombinedGraphQLErrors } from '@apollo/client/errors';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-event-run-page',
@@ -64,11 +66,16 @@ export class EventRunPageComponent implements OnDestroy {
     private clipboard: Clipboard,
     private checkInMutation: CheckInUserGQL,
   ) {
-    this.loadEventQueryRef = this.loadEvent.watch();
+    this.loadEventQueryRef = this.loadEvent.watch({
+      variables: {
+        id: this.route.snapshot.paramMap.get('eventId') ?? '',
+      },
+    });
     this.route.paramMap.subscribe((params) =>
       this.loadEventQueryRef.refetch({ id: params.get('eventId') ?? '' }),
     );
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.event),
       tap((event) => this.title.setTitle(`Run ${event.title}`)),
     );
@@ -82,21 +89,12 @@ export class EventRunPageComponent implements OnDestroy {
   }
 
   private getCheckinFailureReason(error: unknown) {
-    if (!error || typeof error !== 'object' || !('graphQLErrors' in error)) {
+    if (!CombinedGraphQLErrors.is(error)) {
       return null;
     }
 
-    const graphQLErrors = error.graphQLErrors;
-    if (!Array.isArray(graphQLErrors)) {
-      return null;
-    }
-
-    for (const graphQLError of graphQLErrors) {
-      if (!graphQLError || typeof graphQLError !== 'object') {
-        continue;
-      }
-      const extensions =
-        'extensions' in graphQLError ? graphQLError.extensions : undefined;
+    for (const graphQLError of error.errors) {
+      const { extensions } = graphQLError;
       if (!extensions || typeof extensions !== 'object') {
         continue;
       }
@@ -116,7 +114,7 @@ export class EventRunPageComponent implements OnDestroy {
       const { data } = await this.loadEventQueryRef.refetch({
         id: this.route.snapshot.paramMap.get('eventId') ?? '',
       });
-      return data.event;
+      return data?.event ?? null;
     } catch {
       return null;
     }
@@ -124,7 +122,9 @@ export class EventRunPageComponent implements OnDestroy {
 
   async checkin(id: string) {
     try {
-      await firstValueFrom(this.checkInMutation.mutate({ id, manual: true }));
+      await firstValueFrom(
+        this.checkInMutation.mutate({ variables: { id, manual: true } }),
+      );
       await this.refetchEvent();
       this.snackBar.open('Participant checked in.');
     } catch (error) {
@@ -262,8 +262,10 @@ export class EventRunPageComponent implements OnDestroy {
     if (item) {
       await firstValueFrom(
         this.addCostItemToEventGQL.mutate({
-          input: item,
-          eventId: this.route.snapshot.paramMap.get('eventId') ?? '',
+          variables: {
+            input: item,
+            eventId: this.route.snapshot.paramMap.get('eventId') ?? '',
+          },
         }),
       );
     }

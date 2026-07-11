@@ -222,7 +222,9 @@
       }
       <app-event-list
         title="Participated events"
-        [events]="(profileEvents$ | async)?.participatedEvents"
+        [events]="
+          $safeNavigationMigration((profileEvents$ | async)?.participatedEvents)
+        "
         [isOrganized]="false"
         (claimRequest)="claimEvent()"
       ></app-event-list>

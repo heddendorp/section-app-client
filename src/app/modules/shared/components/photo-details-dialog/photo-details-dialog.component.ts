@@ -96,7 +96,7 @@ export class PhotoDetailsDialogComponent {
     try {
       await firstValueFrom(
         this.deletePhotoShare.mutate({
-          id: this.data.photo.id,
+          variables: { id: this.data.photo.id },
         }),
       );
       this.snackBar.open('Picture deleted', 'Dismiss', {

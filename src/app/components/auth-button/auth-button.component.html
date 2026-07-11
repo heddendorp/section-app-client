@@ -1,7 +1,7 @@
 @if (auth.isAuthenticated$ | async) {
   <a
     routerLink="/profile"
-    class="aspect-1 h-full max-h-full max-w-full"
+    class="aspect-square h-full max-h-full max-w-full"
     data-testid="profile-link"
   >
     @if (userPicture) {

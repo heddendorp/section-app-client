@@ -8,6 +8,7 @@ export const environment = {
     'pk_test_51OYTZmADdj7oaBao0kr4zOEtm0Na7V5D3mMP5oc0diE0qraDDumSBhXm5wCvOHWsvSIXcXcDbzpjalvbEQvFods300oIfXfv8Z',
   server: 'http://localhost:3333',
   useApiPath: true,
+  useLocalAuthMock: false,
   version: 'dev',
 };
 

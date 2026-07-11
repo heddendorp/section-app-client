@@ -17,15 +17,15 @@
         autocomplete="off"
       />
       <span matSuffix class="ml-2 text-gray-500">{{ data.currency }}</span>
-      <mat-error *ngIf="form.controls.amount.hasError('required')"
-        >Amount is required</mat-error
-      >
-      <mat-error *ngIf="form.controls.amount.hasError('min')"
-        >Amount must be greater than zero</mat-error
-      >
-      <mat-error *ngIf="form.controls.amount.hasError('invalid')"
-        >Enter a valid amount</mat-error
-      >
+      @if (form.controls.amount.hasError('required')) {
+        <mat-error>Amount is required</mat-error>
+      }
+      @if (form.controls.amount.hasError('min')) {
+        <mat-error>Amount must be greater than zero</mat-error>
+      }
+      @if (form.controls.amount.hasError('invalid')) {
+        <mat-error>Enter a valid amount</mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="mt-4 w-full">

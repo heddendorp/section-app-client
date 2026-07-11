@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { EventListQuery } from '@tumi/legacy-app/generated/generated';
 import { EventsListComponent } from '../../events-list/events-list.component';
@@ -7,6 +7,7 @@ import { EventsListComponent } from '../../events-list/events-list.component';
   selector: 'app-event-calendar-day-dialog',
   templateUrl: './event-calendar-day-dialog.html',
   styleUrls: ['./event-calendar-day-dialog.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatDialogModule, EventsListComponent],
 })
 export class EventCalendarDayDialogComponent {

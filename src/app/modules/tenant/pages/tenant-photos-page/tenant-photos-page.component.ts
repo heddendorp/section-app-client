@@ -7,11 +7,12 @@ import {
 import { PhotoDetailsDialogComponent } from '@tumi/legacy-app/modules/shared/components/photo-details-dialog/photo-details-dialog.component';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AsyncPipe, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-tenant-photos-page',
@@ -23,9 +24,7 @@ import { ReactiveToolbarComponent } from '../../../shared/components/reactive-to
     MatToolbarModule,
     BackButtonComponent,
     ResetScrollDirective,
-    NgIf,
     MatProgressBarModule,
-    NgFor,
     AsyncPipe,
     NgOptimizedImage,
   ],
@@ -40,6 +39,7 @@ export class TenantPhotosPageComponent implements OnDestroy {
   ) {
     this.photosQueryRef = this.loadPhotosQuery.watch();
     this.photos$ = this.photosQueryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.photos),
     );
     this.photosQueryRef.startPolling(5000);

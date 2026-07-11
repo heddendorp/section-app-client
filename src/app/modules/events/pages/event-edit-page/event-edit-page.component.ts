@@ -8,11 +8,11 @@ import {
   AddOrganizerToEventGQL,
   AddSubmissionToEventGQL,
   DeleteEventGQL,
-  Exact,
   GetEventTemplatesGQL,
   KickFromEventGQL,
   LoadEventForEditGQL,
   LoadEventForEditQuery,
+  LoadEventForEditQueryVariables,
   LoadUsersByStatusGQL,
   LoadUsersByStatusQuery,
   MembershipStatus,
@@ -35,7 +35,7 @@ import {
 import { DateTime } from 'luxon';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { QueryRef } from 'apollo-angular';
+import { onlyCompleteData, QueryRef } from 'apollo-angular';
 import {
   combineLatest,
   first,
@@ -114,7 +114,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
   public editingProhibited$: Observable<boolean>;
   private destroyed$ = new Subject();
   private loadEventRef:
-    | QueryRef<LoadEventForEditQuery, Exact<{ id: string }>>
+    | QueryRef<LoadEventForEditQuery, LoadEventForEditQueryVariables>
     | undefined;
 
   constructor(
@@ -211,11 +211,14 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     });
     this.event$ = this.route.paramMap.pipe(
       map((params) =>
-        this.loadEventForEditGQL.watch({ id: params.get('eventId') ?? '' }),
+        this.loadEventForEditGQL.watch({
+          variables: { id: params.get('eventId') ?? '' },
+        }),
       ),
       tap((ref) => (this.loadEventRef = ref)),
       // @ts-ignore
       switchMap((ref) => ref.valueChanges),
+      onlyCompleteData(),
       map(({ data }) => data.event),
       tap((event) => this.title.setTitle(`Edit ${event.title}`)),
       shareReplay(1),
@@ -223,22 +226,36 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     this.organizers$ = this.route.paramMap.pipe(
       // @ts-ignore
       switchMap((params) =>
-        this.loadEventForEditGQL.fetch({ id: params.get('eventId') ?? '' }),
+        this.loadEventForEditGQL.fetch({
+          variables: { id: params.get('eventId') ?? '' },
+        }),
       ),
-      map(({ data }) => data.eventOrganizers),
+      map(({ data }) => {
+        if (!data) {
+          throw new Error('Unable to load event organizers.');
+        }
+        return data.eventOrganizers;
+      }),
       shareReplay(1),
     );
     this.users$ = this.event$.pipe(
-      switchMap((event) =>
+      switchMap(() =>
         this.loadUsers.fetch({
-          allowList: [
-            MembershipStatus.Trial,
-            MembershipStatus.Full,
-            MembershipStatus.Sponsor,
-          ],
+          variables: {
+            allowList: [
+              MembershipStatus.Trial,
+              MembershipStatus.Full,
+              MembershipStatus.Sponsor,
+            ],
+          },
         }),
       ),
-      map(({ data }) => data.users),
+      map(({ data }) => {
+        if (!data) {
+          throw new Error('Unable to load users.');
+        }
+        return data.users;
+      }),
       shareReplay(1),
     );
     this.editingProhibited$ = combineLatest([
@@ -274,7 +291,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     );
     if (confirmDelete) {
       try {
-        await firstValueFrom(this.deleteEventGQL.mutate({ id: event.id }));
+        await firstValueFrom(
+          this.deleteEventGQL.mutate({ variables: { id: event.id } }),
+        );
       } catch (e: any) {
         console.error(e);
         alert(e.message);
@@ -433,7 +452,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     if (userId && event) {
       this.snackBar.open('Adding user ⏳', undefined, { duration: 0 });
       await this.addOrganizerMutation
-        .mutate({ eventId: event.id, userId })
+        .mutate({ variables: { eventId: event.id, userId } })
         .toPromise();
       if (this.loadEventRef) {
         await this.loadEventRef.refetch();
@@ -448,6 +467,11 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     });
     const event = await firstValueFrom(this.event$);
     const templates = await firstValueFrom(this.getEventTemplatesGQL.fetch());
+    if (!templates.data) {
+      loader.dismiss();
+      this.snackBar.open('Unable to load event templates.');
+      return;
+    }
     const choices = templates.data.eventTemplates;
     loader.dismiss();
     const templateId = await this.dialog
@@ -466,7 +490,9 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     if (templateId && event) {
       this.snackBar.open('Updating Event ⏳', undefined, { duration: 0 });
       await firstValueFrom(
-        this.updateEventTemplateGQL.mutate({ templateId, eventId: event.id }),
+        this.updateEventTemplateGQL.mutate({
+          variables: { templateId, eventId: event.id },
+        }),
       );
       this.snackBar.open('User added ✔️');
     }
@@ -476,9 +502,11 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     this.snackBar.open('Removing user ⏳', undefined, { duration: 0 });
     await firstValueFrom(
       this.kickFromEventGQL.mutate({
-        registrationId,
-        withRefund: false,
-        refundFees: false,
+        variables: {
+          registrationId,
+          withRefund: false,
+          refundFees: false,
+        },
       }),
     );
     if (this.loadEventRef) {
@@ -499,14 +527,16 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     if (location && event) {
       await firstValueFrom(
         this.updateLocationMutation.mutate({
-          eventId: event.id,
-          update: {
-            location: location.structured_formatting.main_text,
-            coordinates: location.position,
-            googlePlaceId: location.place_id,
-            googlePlaceUrl: location.url,
-            isVirtual: location.isVirtual,
-            onlineMeetingUrl: location.onlineMeetingUrl,
+          variables: {
+            eventId: event.id,
+            update: {
+              location: location.structured_formatting.main_text,
+              coordinates: location.position,
+              googlePlaceId: location.place_id,
+              googlePlaceUrl: location.url,
+              isVirtual: location.isVirtual,
+              onlineMeetingUrl: location.onlineMeetingUrl,
+            },
           },
         }),
       );
@@ -521,7 +551,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     const state = this.publicationForm.get('publicationState')?.value;
     if (state && event) {
       await this.updatePublicationMutation
-        .mutate({ id: event.id, state })
+        .mutate({ variables: { id: event.id, state } })
         .toPromise();
       this.snackBar.open('Event saved ✔️');
     }
@@ -534,12 +564,13 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
       const update = this.generalInformationForm.value;
       const { data } = await firstValueFrom(
         this.updateGeneralEventGQL.mutate({
-          id: event.id,
-          data: update,
+          variables: {
+            id: event.id,
+            data: update,
+          },
         }),
       );
       if (data) {
-        delete data.updateEventGeneralInfo.__typename;
         this.generalInformationForm.patchValue(data.updateEventGeneralInfo);
         this.snackBar.open('Event saved ✔️');
       }
@@ -553,7 +584,7 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
     const event = await firstValueFrom(this.event$);
     if (event && this.coreInformationForm.valid) {
       const update = this.coreInformationForm.value;
-      
+
       // Handle multiGuestSettings - only include additionalGuestPrice if enabled
       const multiGuestSettings = update.multiGuestSettings;
       if (multiGuestSettings && !multiGuestSettings.enabled) {
@@ -564,27 +595,28 @@ export class EventEditPageComponent implements OnInit, OnDestroy {
           maxPerRegistration: null,
         };
       }
-      
+
       const { data } = await firstValueFrom(
         this.updateCoreEventGQL.mutate({
-          id: event.id,
-          data: {
-            organizerLimit: event.organizerLimit,
-            participantLimit: event.participantLimit,
-            ...update,
-            start: DateTime.fromISO(update.start).toJSDate(),
-            end: DateTime.fromISO(update.end).toJSDate(),
-            registrationStart: DateTime.fromISO(
-              update.registrationStart,
-            ).toJSDate(),
-            organizerRegistrationStart: DateTime.fromISO(
-              update.organizerRegistrationStart,
-            ).toJSDate(),
+          variables: {
+            id: event.id,
+            data: {
+              organizerLimit: event.organizerLimit,
+              participantLimit: event.participantLimit,
+              ...update,
+              start: DateTime.fromISO(update.start).toJSDate(),
+              end: DateTime.fromISO(update.end).toJSDate(),
+              registrationStart: DateTime.fromISO(
+                update.registrationStart,
+              ).toJSDate(),
+              organizerRegistrationStart: DateTime.fromISO(
+                update.organizerRegistrationStart,
+              ).toJSDate(),
+            },
           },
         }),
       );
       if (data) {
-        delete data.updateEventCoreInfo.__typename;
         this.coreInformationForm.patchValue({
           ...data.updateEventCoreInfo,
           start: DateTime.fromISO(data.updateEventCoreInfo.start).toISO({

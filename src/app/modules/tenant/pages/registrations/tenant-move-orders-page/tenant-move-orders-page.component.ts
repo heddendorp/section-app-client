@@ -18,6 +18,7 @@ import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-tenant-move-orders-page',
@@ -62,14 +63,20 @@ export class TenantMoveOrdersPageComponent implements OnDestroy {
     private getEventRegistrationCodeCountGQL: GetEventRegistrationCodeCountGQL,
   ) {
     this.ordersQueryRef = this.getEventRegistrationCodesGQL.watch({
-      pageLength: 20,
-      pageIndex: 0,
+      variables: {
+        pageLength: 20,
+        pageIndex: 0,
+      },
     });
     this.codesCount$ = this.getEventRegistrationCodeCountGQL
       .watch()
-      .valueChanges.pipe(map(({ data }) => data.eventRegistrationCodeCount));
+      .valueChanges.pipe(
+        onlyCompleteData(),
+        map(({ data }) => data.eventRegistrationCodeCount),
+      );
     this.ordersQueryRef.startPolling(5000);
     this.codes$ = this.ordersQueryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.eventRegistrationCodes),
     );
   }

@@ -90,10 +90,8 @@ export class LocationAutocompleteComponent implements ControlValueAccessor {
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange: (v: AutocompletePrediction) => void = () => {};
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouch: () => void = () => {};
 
   public optionDisplay(option: AutocompletePrediction | string) {

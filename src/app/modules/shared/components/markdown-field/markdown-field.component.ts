@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-markdown-field',
@@ -6,8 +6,4 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./markdown-field.component.scss'],
   standalone: true,
 })
-export class MarkdownFieldComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+export class MarkdownFieldComponent {}

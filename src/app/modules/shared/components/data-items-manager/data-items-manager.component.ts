@@ -61,9 +61,11 @@ export class DataItemsManagerComponent {
       }
       await firstValueFrom(
         this.createSubmissionItemGQL.mutate({
-          target: this.mode,
-          id: this.parentId,
-          input: item,
+          variables: {
+            target: this.mode,
+            id: this.parentId,
+            input: item,
+          },
         }),
       );
       this.reloadParent.emit();
@@ -73,7 +75,7 @@ export class DataItemsManagerComponent {
   async removeItem(id: string) {
     await firstValueFrom(
       this.deleteSubmissionItemGQL.mutate({
-        id: id,
+        variables: { id },
       }),
     );
     this.reloadParent.emit();

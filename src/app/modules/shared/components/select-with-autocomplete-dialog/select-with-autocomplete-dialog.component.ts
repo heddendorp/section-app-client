@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnDestroy,
+} from '@angular/core';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { map, Observable, startWith, Subject, tap } from 'rxjs';
 import {
@@ -38,7 +43,7 @@ export interface SelectWithAutocompleteDialogData {
     AsyncPipe,
   ],
 })
-export class SelectWithAutocompleteDialogComponent {
+export class SelectWithAutocompleteDialogComponent implements OnDestroy {
   public nameControl = new UntypedFormControl();
   public filteredChoices$: Observable<
     Required<{ id: string; [displayAttribute: string]: string }>[]

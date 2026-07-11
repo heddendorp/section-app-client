@@ -28,7 +28,10 @@
                 [id]="code.creator.id"
                 [picture]="code.creator.picture"
                 [name]="code.creator.fullName"
-                [status]="code.creator.currentTenant?.status + ''"
+                [status]="
+                  $safeNavigationMigration(code.creator.currentTenant?.status) +
+                  ''
+                "
               >
               </app-user-chip>
             </td>
@@ -85,7 +88,9 @@
                   [picture]="code.registrationToRemove.user.picture"
                   [name]="code.registrationToRemove.user.fullName"
                   [status]="
-                    code.registrationToRemove.user.currentTenant?.status + ''
+                    $safeNavigationMigration(
+                      code.registrationToRemove.user.currentTenant?.status
+                    ) + ''
                   "
                 >
                 </app-user-chip>
@@ -106,7 +111,9 @@
                   [picture]="code.registrationCreated.user.picture"
                   [name]="code.registrationCreated.user.fullName"
                   [status]="
-                    code.registrationCreated.user.currentTenant?.status + ''
+                    $safeNavigationMigration(
+                      code.registrationCreated.user.currentTenant?.status
+                    ) + ''
                   "
                 >
                 </app-user-chip>
@@ -170,7 +177,11 @@
                     [id]="registration.user.id"
                     [picture]="registration.user.picture"
                     [name]="registration.user.fullName"
-                    [status]="registration.user.currentTenant?.status + ''"
+                    [status]="
+                      $safeNavigationMigration(
+                        registration.user.currentTenant?.status
+                      ) + ''
+                    "
                   >
                   </app-user-chip>
                 </td>

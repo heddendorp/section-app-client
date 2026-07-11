@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { MembershipStatus } from '@tumi/legacy-app/generated/generated';
 
 @Component({
@@ -17,9 +17,9 @@ import { MembershipStatus } from '@tumi/legacy-app/generated/generated';
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>New status</mat-label>
         <mat-select [formControl]="statusControl" required>
-          <mat-option *ngFor="let s of statuses" [value]="s">{{
-            s
-          }}</mat-option>
+          @for (s of statuses; track s) {
+            <mat-option [value]="s">{{ s }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
     </div>
@@ -35,7 +35,6 @@ import { MembershipStatus } from '@tumi/legacy-app/generated/generated';
     </div>
   `,
   imports: [
-    CommonModule,
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,

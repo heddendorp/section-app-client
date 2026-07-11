@@ -8,8 +8,15 @@ import { map } from 'rxjs';
 
 export const loadEventResolver: ResolveFn<
   LoadEventDisplayDataQuery['event']
-> = (route, state) => {
+> = (route) => {
   return inject(LoadEventDisplayDataGQL)
-    .fetch({ eventID: route.paramMap.get('eventId') ?? '' })
-    .pipe(map(({ data }) => data.event));
+    .fetch({ variables: { eventID: route.paramMap.get('eventId') ?? '' } })
+    .pipe(
+      map(({ data }) => {
+        if (!data) {
+          throw new Error('Unable to load the event.');
+        }
+        return data.event;
+      }),
+    );
 };

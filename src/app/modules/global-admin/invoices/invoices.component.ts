@@ -12,7 +12,7 @@ import { CurrencyPipe } from '@angular/common';
 import { DateTime } from 'luxon';
 import { Title } from '@angular/platform-browser';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { Apollo, gql } from 'apollo-angular';
+import { Apollo, gql, onlyCompleteData } from 'apollo-angular';
 import { debounceTime, EMPTY, finalize, map, Observable } from 'rxjs';
 import {
   CreateInvoiceSyncInput,
@@ -129,9 +129,9 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     }),
   });
 
-  private queryRef = this.globalAdminFeeOverviewGQL.watch(
-    this.globalAdminFeeOverviewVariables(),
-  );
+  private queryRef = this.globalAdminFeeOverviewGQL.watch({
+    variables: this.globalAdminFeeOverviewVariables(),
+  });
 
   private invoiceSyncQueryRef = this.apollo.watchQuery<
     InvoiceSyncsQuery,
@@ -143,6 +143,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   });
   private invoiceSyncs = toSignal(
     this.invoiceSyncQueryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.invoiceSyncs ?? []),
     ),
     { initialValue: [] as InvoiceSync[] },
@@ -151,7 +152,10 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   private syncAllPending = signal(false);
 
   private tenantFeeMonthList = toSignal(
-    this.queryRef.valueChanges.pipe(map(({ data }) => data.tenantFeeMonths)),
+    this.queryRef.valueChanges.pipe(
+      onlyCompleteData(),
+      map(({ data }) => data.tenantFeeMonths),
+    ),
     { initialValue: [] as TenantFeeMonthEntry[] },
   );
 
@@ -454,11 +458,12 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     boundary: 'start' | 'end',
   ): string | undefined {
     if (!value) return undefined;
-    const date = DateTime.isDateTime(value)
-      ? value
-      : value instanceof Date
-        ? DateTime.fromJSDate(value)
-        : DateTime.fromISO(value);
+    const date =
+      typeof value === 'string'
+        ? DateTime.fromISO(value)
+        : value instanceof Date
+          ? DateTime.fromJSDate(value)
+          : value;
     if (!date.isValid) return undefined;
     const periodUnit = date >= this.quarterlyStart ? 'quarter' : 'month';
     const normalized =

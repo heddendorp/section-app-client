@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { filter, switchMap, tap } from 'rxjs';
 import { GetCurrentUserGQL } from '@tumi/legacy-app/generated/generated';
@@ -12,6 +12,7 @@ import { ConfigService } from '@tumi/legacy-app/services/config.service';
   selector: 'app-auth-button',
   templateUrl: './auth-button.component.html',
   styleUrls: ['./auth-button.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     RouterLink,
     RouterLinkActive,
@@ -64,11 +65,9 @@ export class AuthButtonComponent {
           //   }
           // }),
           tap((user) => {
-            this.userPicture = user.data.currentUser?.picture || '';
-            if (
-              !user.data.currentUser ||
-              !user.data.currentUser.profileComplete
-            ) {
+            const currentUser = user.data?.currentUser;
+            this.userPicture = currentUser?.picture || '';
+            if (!currentUser || !currentUser.profileComplete) {
               if (!location.pathname.includes('/page')) {
                 void router.navigate(['/', 'profile', 'complete']);
               }

@@ -4,6 +4,7 @@ import {
   inject,
   Inject,
   OnDestroy,
+  DOCUMENT,
 } from '@angular/core';
 import {
   AddEsnCardGQL,
@@ -23,7 +24,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClaimEventDialogComponent } from '../../components/claim-event-dialog/claim-event-dialog.component';
 import { AuthService } from '@auth0/auth0-angular';
-import { AsyncPipe, DatePipe, DOCUMENT, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, UpperCasePipe } from '@angular/common';
 import { BlobServiceClient } from '@azure/storage-blob';
 import {
   MatProgressBarModule,
@@ -44,6 +45,7 @@ import {
 } from '@angular/material/slide-toggle';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
 import { ConfirmDeleteDialogComponent } from '@tumi/legacy-app/modules/profile/components/confirm-delete-dialog/confirm-delete-dialog.component';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-profile-page',
@@ -104,14 +106,17 @@ export class ProfilePageComponent implements OnDestroy {
     this.profileQueryRef = this.profileQuery.watch();
     this.profileQueryRef.startPolling(30000);
     this.profile$ = this.profileQueryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.currentUser),
     );
     this.esnCardLink$ = this.profileQueryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.currentTenant.settings.esnCardLink ?? undefined),
     );
 
     this.profileEventsQueryRef = this.profileEventsQuery.watch();
     this.profileEvents$ = this.profileEventsQueryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.currentUser),
     );
 
@@ -126,9 +131,8 @@ export class ProfilePageComponent implements OnDestroy {
       map((events) =>
         events.filter(
           (event) =>
-            DateTime.fromISO(event?.end)
-              .plus({ days: 7 })
-              .toJSDate() > new Date(),
+            DateTime.fromISO(event?.end).plus({ days: 7 }).toJSDate() >
+            new Date(),
         ),
       ),
     );
@@ -157,7 +161,9 @@ export class ProfilePageComponent implements OnDestroy {
     const esnCardNumber = this.esnCardNumberControl.value;
     if (esnCardNumber) {
       try {
-        await firstValueFrom(this.addEsnCardGQL.mutate({ esnCardNumber }));
+        await firstValueFrom(
+          this.addEsnCardGQL.mutate({ variables: { esnCardNumber } }),
+        );
         this.esnCardErrorMessage$.next(undefined);
         this.esnCardNumberControl.reset();
       } catch (e: any) {
@@ -182,10 +188,12 @@ export class ProfilePageComponent implements OnDestroy {
   ) {
     await firstValueFrom(
       this.submitEventFeedbackGQL.mutate({
-        id,
-        anonymousRating: $event.anonymousRating,
-        rating: $event.rating,
-        comment: $event.comment,
+        variables: {
+          id,
+          anonymousRating: $event.anonymousRating,
+          rating: $event.rating,
+          comment: $event.comment,
+        },
       }),
     );
   }
@@ -208,6 +216,9 @@ export class ProfilePageComponent implements OnDestroy {
       const { data } = await firstValueFrom(
         this.getProfileUploadKeyGQL.fetch(),
       );
+      if (!data) {
+        throw new Error('Unable to create an upload key');
+      }
       this.uploadMode$.next('determinate');
       this.uploadProgress$.next(0);
       const reader = new FileReader();
@@ -234,7 +245,9 @@ export class ProfilePageComponent implements OnDestroy {
       reader.readAsDataURL(file);
       await imagePromise;
       await firstValueFrom(
-        this.updateUserPictureGQL.mutate({ userId: user.id, file: blob }),
+        this.updateUserPictureGQL.mutate({
+          variables: { userId: user.id, file: blob },
+        }),
       );
     }
     this.uploadProgress$.next(0);
@@ -264,7 +277,7 @@ export class ProfilePageComponent implements OnDestroy {
       const userId = profile?.id;
       if (userId) {
         const deleteResponse = await firstValueFrom(
-          this.deleteAccountGQL.mutate({ userId }),
+          this.deleteAccountGQL.mutate({ variables: { userId } }),
         );
         if (deleteResponse.data?.deleteUser) {
           this.snackBar.open(

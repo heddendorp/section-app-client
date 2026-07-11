@@ -16,6 +16,7 @@ import {
 } from 'rxjs';
 import { AuthService } from '@auth0/auth0-angular';
 import { Price } from '@tumi/legacy-app/utils';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +48,7 @@ export class PermissionsService {
           return of(false);
         }
         return this.userRoles.watch().valueChanges.pipe(
+          onlyCompleteData(),
           map(({ data }) => data.currentUser),
           map((user: UserRolesQuery['currentUser']) => {
             if (!user) {
@@ -70,6 +72,7 @@ export class PermissionsService {
           return of(false);
         }
         return this.userRoles.watch().valueChanges.pipe(
+          onlyCompleteData(),
           map(({ data }) => data.currentUser),
           map((user: UserRolesQuery['currentUser']) => {
             if (!user) {
@@ -98,6 +101,7 @@ export class PermissionsService {
           return of([]);
         }
         return this.userRoles.watch().valueChanges.pipe(
+          onlyCompleteData(),
           map(({ data }) => data.currentUser),
           map((user: UserRolesQuery['currentUser']) => {
             if (!user) {

@@ -30,7 +30,10 @@
               [id]="element.user.id"
               [picture]="element.user.picture"
               [name]="element.user.fullName"
-              [status]="element.user.currentTenant?.status + ''"
+              [status]="
+                $safeNavigationMigration(element.user.currentTenant?.status) +
+                ''
+              "
             >
             </app-user-chip>
           </div>

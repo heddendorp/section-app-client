@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { UserChipComponent } from '../user-chip/user-chip.component';
@@ -7,6 +13,7 @@ import { UserChipComponent } from '../user-chip/user-chip.component';
   selector: 'app-rating-item',
   templateUrl: './rating-item.component.html',
   styleUrls: ['./rating-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [UserChipComponent, MatButtonModule, MatIconModule],
 })
 export class RatingItemComponent {

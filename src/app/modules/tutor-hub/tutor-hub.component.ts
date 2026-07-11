@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -36,26 +41,26 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { SemesterNavigatorComponent } from './semester-navigator/semester-navigator.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AsyncPipe, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { ResetScrollDirective } from '../shared/directives/reset-scroll.directive';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../shared/components/reactive-toolbar/reactive-toolbar.component';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-tutor-hub',
   templateUrl: './tutor-hub.component.html',
   styleUrls: ['./tutor-hub.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,
     ResetScrollDirective,
-    NgIf,
     MatProgressBarModule,
     SemesterNavigatorComponent,
     MatDividerModule,
     MatIconModule,
     MatRippleModule,
-    NgFor,
     UserChipComponent,
     MatListModule,
     EventListItemComponent,
@@ -100,14 +105,17 @@ export class TutorHubComponent implements OnInit, OnDestroy {
   ) {
     const getTutorHubInfoRef = this.getTutorHubInfo.watch();
     this.tutorHubData$ = getTutorHubInfoRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.currentTenant.tutorHub),
     );
     this.resourceLinks$ = getTutorHubInfoRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.currentTenant.settings.sectionHubLinks),
     );
 
     this.getTutorHubEventsRef = this.getTutorHubEvents.watch();
     this.events$ = this.getTutorHubEventsRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.currentTenant.tutorHubEvents),
       tap(() => this.eventsLoading$.next(false)),
     );
@@ -116,17 +124,20 @@ export class TutorHubComponent implements OnInit, OnDestroy {
       search: [''],
     });
     this.loadUsersReference = this.loadUsers.watch({
-      pageLength: 20,
-      pageIndex: 0,
-      statusList: [
-        MembershipStatus.Full,
-        MembershipStatus.Trial,
-        MembershipStatus.Alumni,
-        MembershipStatus.Sponsor,
-      ],
-      emptyOnEmptySearch: true,
+      variables: {
+        pageLength: 20,
+        pageIndex: 0,
+        statusList: [
+          MembershipStatus.Full,
+          MembershipStatus.Trial,
+          MembershipStatus.Alumni,
+          MembershipStatus.Sponsor,
+        ],
+        emptyOnEmptySearch: true,
+      },
     });
     this.searchedTutors$ = this.loadUsersReference.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.users),
       tap(() => {
         this.searchLoading$.next(false);

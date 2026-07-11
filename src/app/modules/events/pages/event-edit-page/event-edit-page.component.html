@@ -31,9 +31,9 @@
                       event.googlePlaceUrl
                         ? event.googlePlaceUrl
                         : 'https://www.google.com/maps/place/' +
-                          event.coordinates?.lat +
+                          $safeNavigationMigration(event.coordinates?.lat) +
                           ',' +
-                          event.coordinates?.lon
+                          $safeNavigationMigration(event.coordinates?.lon)
                     "
                     target="_blank"
                   >
@@ -535,7 +535,11 @@
                   [id]="registration.user.id"
                   [picture]="registration.user.picture"
                   [name]="registration.user.fullName"
-                  [status]="registration.user.currentTenant?.status + ''"
+                  [status]="
+                    $safeNavigationMigration(
+                      registration.user.currentTenant?.status
+                    ) + ''
+                  "
                   [tag]="
                     registration.user.id === event.createdBy.id ? 'Creator' : ''
                   "

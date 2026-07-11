@@ -14,6 +14,7 @@ import { IconURLPipe } from '@tumi/legacy-app/modules/shared/pipes/icon-url.pipe
 import { DatePipe } from '@angular/common';
 import { groupBy, sortBy } from 'lodash-es';
 import { DateTime } from 'luxon';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-event-list-shell',
@@ -37,6 +38,7 @@ export class EventListShellComponent {
   private getEventListForShellGQL = inject(GetEventListForShellGQL);
   protected days = toSignal(
     this.getEventListForShellGQL.watch().valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.events),
       map((events) => {
         const eventsByStartDate = groupBy(events, (event) =>

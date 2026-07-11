@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { filter } from 'rxjs';
 import { ViewportScroller } from '@angular/common';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -16,6 +16,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NavigationComponent, RouterOutlet, FooterComponent, NavComponent],
 })
 export class AppComponent {
@@ -36,8 +37,9 @@ export class AppComponent {
       .pipe(filter((e): e is Scroll => e instanceof Scroll))
       .subscribe((e) => {
         if (e.position) {
+          const position = e.position;
           setTimeout(() => {
-            e.position && viewportScroller.scrollToPosition(e.position);
+            viewportScroller.scrollToPosition(position);
           }, 0);
         } else if (e.anchor) {
           viewportScroller.scrollToAnchor(e.anchor);

@@ -6,6 +6,7 @@ import {
   OnDestroy,
   Output,
   SimpleChanges,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   FormControl,
@@ -34,6 +35,7 @@ import { MatDividerModule } from '@angular/material/divider';
   selector: 'app-data-items-collector',
   templateUrl: './data-items-collector.component.html',
   styleUrls: ['./data-items-collector.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,

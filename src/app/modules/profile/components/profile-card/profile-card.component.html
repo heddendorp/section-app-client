@@ -6,7 +6,7 @@
   >
     <div
       class="background absolute top-0 left-0 w-full h-[80px] bg-blue-500 flex items-center p-4 justify-between {{
-        profile?.status | lowercase
+        $safeNavigationMigration(profile?.status) | lowercase
       }}"
     >
       <img
@@ -35,7 +35,7 @@
         style="text-indent: -10000px"
         referrerpolicy="no-referrer"
         data-testid="profile-picture"
-        onerror="this.src='assets/images/defaultUser.jpg'"
+        onerror="this.src = 'assets/images/defaultUser.jpg'"
       />
     }
     <div class="mt-4 text-3xl font-bold">
@@ -50,7 +50,7 @@
       <div class="my-1">
         <span
           class="background px-2 py-1 text-sm text-white rounded-lg {{
-            profile?.status | lowercase
+            $safeNavigationMigration(profile?.status) | lowercase
           }}"
           >{{ position }}</span
         >

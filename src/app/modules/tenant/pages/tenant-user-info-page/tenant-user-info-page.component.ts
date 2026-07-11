@@ -18,11 +18,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { UserChipComponent } from '../../../shared/components/user-chip/user-chip.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AsyncPipe, DatePipe, NgIf, TitleCasePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, TitleCasePipe } from '@angular/common';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-tenant-user-info-page',
@@ -34,7 +35,6 @@ import { ReactiveToolbarComponent } from '../../../shared/components/reactive-to
     MatToolbarModule,
     BackButtonComponent,
     ResetScrollDirective,
-    NgIf,
     MatProgressBarModule,
     UserChipComponent,
     MatButtonModule,
@@ -71,9 +71,11 @@ export class TenantUserInfoPageComponent {
     this.user$ = this.route.paramMap.pipe(
       switchMap(
         (params) =>
-          this.loadUserQuery.watch({ id: params.get('userId') ?? '' })
-            .valueChanges,
+          this.loadUserQuery.watch({
+            variables: { id: params.get('userId') ?? '' },
+          }).valueChanges,
       ),
+      onlyCompleteData(),
       map(({ data }) => data.user),
     );
   }
@@ -89,10 +91,12 @@ export class TenantUserInfoPageComponent {
     if (newUser) {
       await firstValueFrom(
         this.updateMutation.mutate({
-          id: user.id,
-          role: newUser.role,
-          status: newUser.status,
-          position: newUser.position || null,
+          variables: {
+            id: user.id,
+            role: newUser.role,
+            status: newUser.status,
+            position: newUser.position || null,
+          },
         }),
       );
     }

@@ -66,7 +66,7 @@ export class TenantUsersPageComponent {
       this.selectedUserIds = [];
       // Optionally provide user feedback here
       // console.log('Statuses updated');
-    } catch (e) {
+    } catch {
       // console.error('Bulk update failed', e);
     }
   }

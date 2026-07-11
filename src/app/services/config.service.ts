@@ -83,22 +83,24 @@ export class ConfigService {
 
   public async init(): Promise<void> {
     const startupInfo = await firstValueFrom(this.getAppStartupInfoGQL.fetch());
-    this._currencyCode = startupInfo.data?.currentTenant?.currency;
-    this._timezone = startupInfo.data?.currentTenant?.settings?.timezone;
-    this._banners = startupInfo.data?.currentTenant?.settings?.banners;
-    this._formConfig =
-      startupInfo.data?.currentTenant?.settings?.userDataCollection;
+    const tenant = startupInfo.data?.currentTenant;
+    if (!tenant) {
+      throw new Error('Failed to load application startup configuration');
+    }
+
+    this._currencyCode = tenant.currency;
+    this._timezone = tenant.settings.timezone;
+    this._banners = tenant.settings.banners;
+    this._formConfig = tenant.settings.userDataCollection;
     this._navData = {
-      homePageStrategy: startupInfo.data.currentTenant.homePageStrategy,
-      homePageLink: startupInfo.data.currentTenant.homePageLink,
-      showPWAInstall: startupInfo.data.currentTenant.settings.showPWAInstall,
-      brandIconUrl: startupInfo.data.currentTenant.settings.brandIconUrl,
+      homePageStrategy: tenant.homePageStrategy,
+      homePageLink: tenant.homePageLink,
+      showPWAInstall: tenant.settings.showPWAInstall,
+      brandIconUrl: tenant.settings.brandIconUrl,
     };
-    this._contractEnd = DateTime.fromISO(
-      startupInfo.data?.currentTenant?.contractEnd,
-    )
+    this._contractEnd = DateTime.fromISO(tenant.contractEnd)
       .endOf('day')
       .toJSDate();
-    this._hardContractEnd = startupInfo.data?.currentTenant?.hardContractEnd;
+    this._hardContractEnd = tenant.hardContractEnd;
   }
 }

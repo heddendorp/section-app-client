@@ -25,6 +25,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-create-transaction-dialog',
@@ -65,6 +66,7 @@ export class CreateTransactionDialogComponent implements OnDestroy, OnInit {
   ) {
     this.searchUserRef = this.searchUserForTransactionGQL.watch();
     this.userOptions$ = this.searchUserRef.valueChanges.pipe(
+      onlyCompleteData(),
       map((result) => result.data.users),
     );
   }

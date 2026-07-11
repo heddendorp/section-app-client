@@ -22,7 +22,7 @@ export class PhotoJourneyPageComponent {
   private dialog = inject(MatDialog);
   constructor(private photoQuery: GetPhotoJourneyGQL) {
     this.$data = this.photoQuery.fetch().pipe(
-      map(({ data }) => data.currentUser),
+      map(({ data }) => data?.currentUser ?? null),
       map((user) => {
         if (user) {
           return {

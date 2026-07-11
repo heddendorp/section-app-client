@@ -15,7 +15,7 @@
         [id]="user.id"
         [picture]="user.picture"
         [name]="user.fullName"
-        [status]="user.currentTenant?.status + ''"
+        [status]="$safeNavigationMigration(user.currentTenant?.status) + ''"
       >
       </app-user-chip>
 
@@ -32,9 +32,13 @@
       <p>Last name:</p>
       <p>{{ user.lastName }}</p>
       <p>Role:</p>
-      <p>{{ user.currentTenant?.role | titlecase }}</p>
+      <p>{{
+        $safeNavigationMigration(user.currentTenant?.role) | titlecase
+      }}</p>
       <p>Status:</p>
-      <p>{{ user.currentTenant?.status | titlecase }}</p>
+      <p>{{
+        $safeNavigationMigration(user.currentTenant?.status) | titlecase
+      }}</p>
       <p>Email:</p>
       <p>{{ user.email }}</p>
       <p>Auth0 ID:</p>

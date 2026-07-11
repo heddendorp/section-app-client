@@ -5,16 +5,15 @@ import {
   importProvidersFrom,
   inject,
   provideAppInitializer,
+  provideZoneChangeDetection,
 } from '@angular/core';
 
 import { environment } from './environments/environment';
 import * as Sentry from '@sentry/angular';
 import { AppComponent } from './app/app.component';
-import { GoogleMapsModule } from '@angular/google-maps';
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideMarkdown } from 'ngx-markdown';
-import { ReactiveFormsModule } from '@angular/forms';
 import { APP_ROUTES } from '@tumi/legacy-app/app.routes';
 import {
   provideRouter,
@@ -24,10 +23,9 @@ import {
 } from '@angular/router';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { onError } from '@apollo/client/link/error';
 import { ApolloLink, InMemoryCache } from '@apollo/client/core';
 import { HttpBatchLink, HttpLink } from 'apollo-angular/http';
-import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
+import { provideApollo } from 'apollo-angular';
 import {
   AuthHttpInterceptor,
   AuthModule,
@@ -40,6 +38,7 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
   withJsonpSupport,
+  withXhr,
 } from '@angular/common/http';
 import {
   bootstrapApplication,
@@ -47,10 +46,10 @@ import {
   Title,
 } from '@angular/platform-browser';
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+import { provideLocalTestAuth } from './app/testing/local-test-auth.providers';
+import { createApolloErrorLink } from './app/services/apollo-error-link';
 
 let bootstrapSpan: any = null;
-ModuleRegistry.registerModules([AllCommunityModule]);
 
 if (environment.production) {
   enableProdMode();
@@ -90,35 +89,34 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(
-      BrowserModule,
-      ApolloModule,
-      ReactiveFormsModule,
-      MatLuxonDateModule,
-      AuthModule.forRoot({
-        domain: 'auth.esn.world',
-        clientId: '9HrqRBDGhlb6P3NsYKmTbTOVGTv5ZgG8',
-        cacheLocation: 'localstorage',
-        // useRefreshTokens: true,
-        authorizationParams: {
-          audience: 'esn.events',
-          redirect_uri: window.location.origin,
-        },
-        httpInterceptor: {
-          allowedList: [
-            {
-              uri: environment.server + '/graphql',
-              allowAnonymous: true,
+    provideZoneChangeDetection(),
+    importProvidersFrom(BrowserModule, MatLuxonDateModule),
+    environment.useLocalAuthMock
+      ? provideLocalTestAuth()
+      : importProvidersFrom(
+          AuthModule.forRoot({
+            domain: 'auth.esn.world',
+            clientId: '9HrqRBDGhlb6P3NsYKmTbTOVGTv5ZgG8',
+            cacheLocation: 'localstorage',
+            // useRefreshTokens: true,
+            authorizationParams: {
+              audience: 'esn.events',
+              redirect_uri: window.location.origin,
             },
-            {
-              uri: '/graphql',
-              allowAnonymous: true,
+            httpInterceptor: {
+              allowedList: [
+                {
+                  uri: environment.server + '/graphql',
+                  allowAnonymous: true,
+                },
+                {
+                  uri: '/graphql',
+                  allowAnonymous: true,
+                },
+              ],
             },
-          ],
-        },
-      }),
-      GoogleMapsModule,
-    ),
+          }),
+        ),
     provideMarkdown(),
     Title,
     {
@@ -126,88 +124,67 @@ bootstrapApplication(AppComponent, {
       useClass: TenantHeaderInterceptor,
       multi: true,
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthHttpInterceptor,
-      multi: true,
-    },
-    {
-      provide: APOLLO_OPTIONS,
-      useFactory: (
-        batchHttpLink: HttpBatchLink,
-        httpLink: HttpLink,
-        authService: AuthService,
-      ) => {
-        const linkOptions = {
-          uri: environment.useApiPath
-            ? '/graphql'
-            : `${environment.server}/graphql`,
-          includeExtensions: true,
-        };
-        const http = httpLink.create(linkOptions);
-        const batchedHttp = batchHttpLink.create(linkOptions);
-        const criticalOperationNames = new Set([
-          'checkInUser',
-          'useRegistrationEntry',
-          'getRegistration',
-        ]);
-        const addClientName = new ApolloLink((operation, forward) => {
-          operation.setContext({
-            headers: new HttpHeaders()
-              .set('x-graphql-client-name', 'leagcy-app')
-              .set('x-graphql-client-version', environment.version),
-          });
-          return forward(operation);
+    environment.useLocalAuthMock
+      ? []
+      : {
+          provide: HTTP_INTERCEPTORS,
+          useClass: AuthHttpInterceptor,
+          multi: true,
+        },
+    provideApollo(() => {
+      const batchHttpLink = inject(HttpBatchLink);
+      const httpLink = inject(HttpLink);
+      const authService = inject(AuthService);
+      const linkOptions = {
+        uri: environment.useApiPath
+          ? '/graphql'
+          : `${environment.server}/graphql`,
+        includeExtensions: true,
+      };
+      const http = httpLink.create(linkOptions);
+      const batchedHttp = batchHttpLink.create(linkOptions);
+      const criticalOperationNames = new Set([
+        'checkInUser',
+        'useRegistrationEntry',
+        'getRegistration',
+      ]);
+      const addClientName = new ApolloLink((operation, forward) => {
+        operation.setContext({
+          headers: new HttpHeaders()
+            .set('x-graphql-client-name', 'leagcy-app')
+            .set('x-graphql-client-version', environment.version),
         });
-        const error = onError(({ graphQLErrors, networkError }) => {
-          if (graphQLErrors) {
-            Sentry.addBreadcrumb({
-              message: 'GraphQL error',
-              category: 'GraphQL error',
-              type: 'error',
-              data: graphQLErrors,
-            });
-            graphQLErrors.map(({ message, locations, path }) => {
-              if (message.includes('jwt issuer invalid')) {
-                authService.logout();
-              }
-              console.log(
-                `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(
-                  locations,
-                  null,
-                  2,
-                )}, Path: ${path}`,
-              );
-            });
-          }
-          if (networkError) {
-            Sentry.addBreadcrumb({
-              message: 'Network error',
-              category: 'GraphQL error',
-              type: 'error',
-              data: networkError,
-            });
-            console.log(`[Network error]: `, networkError);
-          }
-        });
-        const transport = ApolloLink.split(
-          (operation) => criticalOperationNames.has(operation.operationName),
-          http,
-          batchedHttp,
-        );
-        const link = error.concat(addClientName).concat(transport);
-        const cache = new InMemoryCache({
-          typePolicies: {
-            UsersOfTenants: { keyFields: ['userId', 'tenantId'] },
+        return forward(operation);
+      });
+      const errorLink = createApolloErrorLink({
+        addBreadcrumb: (breadcrumb) => Sentry.addBreadcrumb(breadcrumb),
+        log: (...values) => console.log(...values),
+        logout: () => {
+          authService.logout();
+        },
+      });
+      const transport = ApolloLink.split(
+        (operation) =>
+          criticalOperationNames.has(operation.operationName ?? ''),
+        http,
+        batchedHttp,
+      );
+      const link = errorLink.concat(addClientName).concat(transport);
+      const cache = new InMemoryCache({
+        typePolicies: {
+          UsersOfTenants: { keyFields: ['userId', 'tenantId'] },
+        },
+      });
+      return {
+        link,
+        cache,
+        defaultOptions: {
+          watchQuery: {
+            notifyOnNetworkStatusChange: false,
           },
-        });
-        return {
-          link,
-          cache,
-        };
-      },
-      deps: [HttpBatchLink, HttpLink, AuthService],
-    },
+        },
+      };
+    }),
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
@@ -245,7 +222,7 @@ bootstrapApplication(AppComponent, {
       withComponentInputBinding(),
       withViewTransitions(),
     ),
-    provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),
+    provideHttpClient(withXhr(), withInterceptorsFromDi(), withJsonpSupport()),
     provideAnimations(),
   ],
 })

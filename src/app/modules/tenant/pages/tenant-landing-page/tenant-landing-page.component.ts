@@ -1,4 +1,9 @@
-import { Component, computed, inject } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -12,6 +17,7 @@ import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
   selector: 'app-tenant-landing-page',
   templateUrl: './tenant-landing-page.component.html',
   styleUrls: ['./tenant-landing-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatToolbarModule,
     MatButtonModule,
@@ -28,28 +34,38 @@ export class TenantLandingPageComponent {
     if (credits === undefined) return false;
     return credits > 0;
   });
-  private statisticsQuery = this.getLandingPageStatisticsGQL.fetch({
-    startDate: DateTime.local().minus({ months: 2 }).toISO(),
-    middleDate: DateTime.local().minus({ months: 1 }).toISO(),
-    endDate: DateTime.local().toISO(),
-  });
+  private statisticsQuery = this.getLandingPageStatisticsGQL
+    .fetch({
+      variables: {
+        startDate: DateTime.local().minus({ months: 2 }).toISO(),
+        middleDate: DateTime.local().minus({ months: 1 }).toISO(),
+        endDate: DateTime.local().toISO(),
+      },
+    })
+    .pipe(
+      map(({ data }) => {
+        if (!data) {
+          throw new Error('Landing page statistics query returned no data');
+        }
+
+        return data;
+      }),
+    );
   protected credits = toSignal(
-    this.statisticsQuery.pipe(
-      map(({ data }) => data.currentTenant.credit / 100),
-    ),
+    this.statisticsQuery.pipe(map((data) => data.currentTenant.credit / 100)),
   );
   protected creditTransactions = toSignal(
     this.statisticsQuery.pipe(
-      map(({ data }) => data.currentTenant.creditTransactions ?? []),
+      map((data) => data.currentTenant.creditTransactions ?? []),
     ),
     { initialValue: [] },
   );
   protected tenantCurrency = toSignal(
-    this.statisticsQuery.pipe(map(({ data }) => data.currentTenant.currency)),
+    this.statisticsQuery.pipe(map((data) => data.currentTenant.currency)),
   );
   protected statistics = toSignal(
     this.statisticsQuery.pipe(
-      map(({ data }) => data.rangeStatistics),
+      map((data) => data.rangeStatistics),
       map(
         ({
           registeredUsers,

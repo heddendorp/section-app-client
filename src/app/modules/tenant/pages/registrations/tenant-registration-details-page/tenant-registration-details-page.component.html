@@ -23,7 +23,11 @@
                 [id]="registration.user.id"
                 [picture]="registration.user.picture"
                 [name]="registration.user.fullName"
-                [status]="registration.user.currentTenant?.status + ''"
+                [status]="
+                  $safeNavigationMigration(
+                    registration.user.currentTenant?.status
+                  ) + ''
+                "
               >
               </app-user-chip>
             </td>
@@ -76,8 +80,10 @@
                 <td colspan="2">
                   <strong>Price per guest:</strong>
                   {{
-                    registration.event.multiGuestSettings?.additionalGuestPrice
-                      | currency
+                    $safeNavigationMigration(
+                      registration.event.multiGuestSettings
+                        ?.additionalGuestPrice
+                    ) | currency
                   }}
                 </td>
                 <td colspan="2">

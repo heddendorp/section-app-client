@@ -26,6 +26,7 @@ import {
   AgCartesianSeriesOptions,
 } from 'ag-charts-community';
 import { MatButtonModule } from '@angular/material/button';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-fee-overview',
@@ -60,17 +61,21 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
     return ((currentMonth - lastMonth) / lastMonth) * 100;
   });
   private queryRef = this.globalAdminFeeOverviewGQL.watch({
-    currentMonth: this.currentMonth,
-    lastMonth: this.lastMonth,
-    monthBeforeLast: this.monthBeforeLast,
+    variables: {
+      currentMonth: this.currentMonth,
+      lastMonth: this.lastMonth,
+      monthBeforeLast: this.monthBeforeLast,
+    },
   });
   protected totalFees = toSignal(
     this.queryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.totalCollectedFees / 100),
     ),
   );
   protected totalFeesCount = toSignal(
     this.queryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.totalCollectedFeeNumber),
     ),
   );
@@ -82,18 +87,28 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
     return ((currentMonth - lastMonth) / lastMonth) * 100;
   });
   protected currentMonthFees = toSignal(
-    this.queryRef.valueChanges.pipe(map(({ data }) => data.currentMonth / 100)),
+    this.queryRef.valueChanges.pipe(
+      onlyCompleteData(),
+      map(({ data }) => data.currentMonth / 100),
+    ),
   );
   protected lastMonthFees = toSignal(
-    this.queryRef.valueChanges.pipe(map(({ data }) => data.lastMonth / 100)),
+    this.queryRef.valueChanges.pipe(
+      onlyCompleteData(),
+      map(({ data }) => data.lastMonth / 100),
+    ),
   );
   protected monthBeforeLastFees = toSignal(
     this.queryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.monthBeforeLast / 100),
     ),
   );
   private tenantFeeMonthList = toSignal(
-    this.queryRef.valueChanges.pipe(map(({ data }) => data.tenantFeeMonths)),
+    this.queryRef.valueChanges.pipe(
+      onlyCompleteData(),
+      map(({ data }) => data.tenantFeeMonths),
+    ),
   );
   protected tenantFeeMonthsData = computed(() => {
     const feeMonths = this.tenantFeeMonthList();
@@ -133,7 +148,10 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
     );
   });
   protected quarterGroups = toSignal(
-    this.queryRef.valueChanges.pipe(map(({ data }) => data.feeQuarterGroups)),
+    this.queryRef.valueChanges.pipe(
+      onlyCompleteData(),
+      map(({ data }) => data.feeQuarterGroups),
+    ),
   );
 
   protected areaChartOptions = computed<AgCartesianChartOptions>(() => {
@@ -246,25 +264,23 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
     summary: QuarterTenantSummary,
   ) {
     if (summary.remainingAdjustment <= 0) return;
-    await this.addTenantCreditGQL.mutate(
-      {
+    this.addTenantCreditGQL.mutate({
+      variables: {
         id: summary.tenantId,
         credit: summary.remainingAdjustment,
         description: `Quarterly rounding adjustment ${quarter.quarterLabel}`,
       },
-      {
-        refetchQueries: [
-          {
-            query: GlobalAdminFeeOverviewDocument,
-            variables: {
-              currentMonth: this.currentMonth,
-              lastMonth: this.lastMonth,
-              monthBeforeLast: this.monthBeforeLast,
-            },
+      refetchQueries: [
+        {
+          query: GlobalAdminFeeOverviewDocument,
+          variables: {
+            currentMonth: this.currentMonth,
+            lastMonth: this.lastMonth,
+            monthBeforeLast: this.monthBeforeLast,
           },
-        ],
-      },
-    );
+        },
+      ],
+    });
     await this.queryRef.refetch({
       currentMonth: this.currentMonth,
       lastMonth: this.lastMonth,
@@ -279,7 +295,5 @@ export class FeeOverviewComponent implements OnInit, OnDestroy {
     return DateTime.local() >= quarterEnd;
   }
 }
-type TenantFeeMonthEntry =
-  GlobalAdminFeeOverviewQuery['tenantFeeMonths'][number];
 type QuarterDisplay = GlobalAdminFeeOverviewQuery['feeQuarterGroups'][number];
 type QuarterTenantSummary = QuarterDisplay['tenantSummaries'][number];

@@ -151,9 +151,21 @@
                       <td class="py-3 pr-6">
                         <div class="flex flex-col gap-1">
                           <span
-                            [class]="statusPillClass(entry.invoiceSync?.status)"
+                            [class]="
+                              statusPillClass(
+                                $safeNavigationMigration(
+                                  entry.invoiceSync?.status
+                                )
+                              )
+                            "
                           >
-                            {{ statusLabel(entry.invoiceSync?.status) }}
+                            {{
+                              statusLabel(
+                                $safeNavigationMigration(
+                                  entry.invoiceSync?.status
+                                )
+                              )
+                            }}
                           </span>
                           @if (entry.invoiceSync?.lastError) {
                             <span class="text-xs text-rose-600">
@@ -165,13 +177,19 @@
                       <td class="py-3 pr-6">
                         @if (entry.invoiceSync?.externalInvoiceNumber) {
                           @if (
-                            invoiceLink(entry.invoiceSync?.externalInvoiceId)
+                            invoiceLink(
+                              $safeNavigationMigration(
+                                entry.invoiceSync?.externalInvoiceId
+                              )
+                            )
                           ) {
                             <a
                               class="font-medium text-gray-900 underline decoration-gray-300 underline-offset-2 hover:text-gray-700"
                               [href]="
                                 invoiceLink(
-                                  entry.invoiceSync?.externalInvoiceId
+                                  $safeNavigationMigration(
+                                    entry.invoiceSync?.externalInvoiceId
+                                  )
                                 )
                               "
                               target="_blank"

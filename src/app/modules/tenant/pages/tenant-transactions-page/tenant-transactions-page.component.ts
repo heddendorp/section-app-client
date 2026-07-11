@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   LoadTransactionsGQL,
   LoadTransactionsQuery,
@@ -27,25 +32,23 @@ import {
   CurrencyPipe,
   DatePipe,
   DecimalPipe,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
 } from '@angular/common';
 import { ResetScrollDirective } from '../../../shared/directives/reset-scroll.directive';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-tenant-transactions-page',
   templateUrl: './tenant-transactions-page.component.html',
   styleUrls: ['./tenant-transactions-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,
     BackButtonComponent,
     ResetScrollDirective,
-    NgIf,
     MatProgressBarModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -56,8 +59,6 @@ import { ReactiveToolbarComponent } from '../../../shared/components/reactive-to
     MatIconModule,
     MatButtonModule,
     MatTableModule,
-    NgSwitch,
-    NgSwitchCase,
     RouterLink,
     MatPaginatorModule,
     AsyncPipe,
@@ -104,16 +105,21 @@ export class TenantTransactionsPageComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
   ) {
     this.loadTransactionsRef = this.loadTransactionsGQL.watch({
-      take: 20,
-      skip: 0,
+      variables: {
+        take: 20,
+        skip: 0,
+      },
     });
     this.transactions$ = this.loadTransactionsRef.valueChanges.pipe(
+      onlyCompleteData(),
       map((res) => res.data.transactions),
     );
     this.transactionCount$ = this.loadTransactionsRef.valueChanges.pipe(
+      onlyCompleteData(),
       map((res) => res.data.transactionCount),
     );
     this.netAmount$ = this.loadTransactionsRef.valueChanges.pipe(
+      onlyCompleteData(),
       map((res) => res.data.transactionNetAmount),
     );
   }

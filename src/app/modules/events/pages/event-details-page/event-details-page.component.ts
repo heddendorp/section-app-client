@@ -1,4 +1,9 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   BehaviorSubject,
   filter,
@@ -49,11 +54,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AsyncPipe, CurrencyPipe, NgOptimizedImage } from '@angular/common';
 import { DateTime } from 'luxon';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-event-details-page',
   templateUrl: './event-details-page.component.html',
   styleUrls: ['./event-details-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatProgressBarModule,
     MatButtonModule,
@@ -111,11 +118,16 @@ export class EventDetailsPageComponent implements OnDestroy {
     public permissions: PermissionsService,
     private snackbar: MatSnackBar,
   ) {
-    this.loadEventQueryRef = this.loadEvent.watch();
+    this.loadEventQueryRef = this.loadEvent.watch({
+      variables: {
+        id: this.route.snapshot.paramMap.get('eventId') ?? '',
+      },
+    });
     this.route.paramMap.subscribe((params) =>
       this.loadEventQueryRef.refetch({ id: params.get('eventId') ?? '' }),
     );
     this.event$ = this.loadEventQueryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.event),
       shareReplay(1),
       tap((event) => {
@@ -173,6 +185,7 @@ export class EventDetailsPageComponent implements OnDestroy {
       map((prices) => prices.reduce((a, b) => (a.amount < b.amount ? a : b))),
     );
     this.user$ = this.loadUserForEventGQL.watch().valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.currentUser),
       shareReplay(1),
     );
@@ -213,8 +226,10 @@ export class EventDetailsPageComponent implements OnDestroy {
       try {
         await firstValueFrom(
           this.registerForEvent.mutate({
-            eventId: event.id,
-            type: RegistrationType.Organizer,
+            variables: {
+              eventId: event.id,
+              type: RegistrationType.Organizer,
+            },
           }),
         );
         this.snackbar.open('Registration successful ✔️');
@@ -247,10 +262,12 @@ export class EventDetailsPageComponent implements OnDestroy {
   ) {
     await firstValueFrom(
       this.submitEventFeedbackGQL.mutate({
-        id,
-        anonymousRating: $event.anonymousRating,
-        rating: $event.rating,
-        comment: $event.comment,
+        variables: {
+          id,
+          anonymousRating: $event.anonymousRating,
+          rating: $event.rating,
+          comment: $event.comment,
+        },
       }),
     );
     this.loadEventQueryRef.refetch();
@@ -276,7 +293,9 @@ export class EventDetailsPageComponent implements OnDestroy {
     }
     await firstValueFrom(
       this.deRegisterOrganizerFromEventGQL.mutate({
-        registrationId: event.activeRegistration.id,
+        variables: {
+          registrationId: event.activeRegistration.id,
+        },
       }),
     );
   }

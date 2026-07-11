@@ -53,7 +53,11 @@
                 [id]="event.createdBy.id"
                 [picture]="event.createdBy.picture"
                 [name]="event.createdBy.fullName"
-                [status]="event.createdBy.currentTenant?.status + ''"
+                [status]="
+                  $safeNavigationMigration(
+                    event.createdBy.currentTenant?.status
+                  ) + ''
+                "
               >
               </app-user-chip>
               , they can answer any questions.
@@ -108,9 +112,9 @@
                           event.googlePlaceUrl
                             ? event.googlePlaceUrl
                             : 'https://www.google.com/maps/place/' +
-                              event.coordinates?.lat +
+                              $safeNavigationMigration(event.coordinates?.lat) +
                               ',' +
-                              event.coordinates?.lon
+                              $safeNavigationMigration(event.coordinates?.lon)
                         "
                         target="_blank"
                       >
@@ -518,7 +522,10 @@
                       [id]="user.id"
                       [picture]="user.picture"
                       [name]="user.fullName"
-                      [status]="user.currentTenant?.status + ''"
+                      [status]="
+                        $safeNavigationMigration(user.currentTenant?.status) +
+                        ''
+                      "
                       [tag]="user.id === event.createdBy.id ? 'Creator' : ''"
                     >
                     </app-user-chip>

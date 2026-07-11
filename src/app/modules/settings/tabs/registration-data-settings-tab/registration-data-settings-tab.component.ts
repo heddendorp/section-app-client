@@ -7,6 +7,7 @@ import {
 } from '@tumi/legacy-app/generated/generated';
 import { firstValueFrom, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-registration-data-settings-tab',
@@ -24,16 +25,16 @@ export class RegistrationDataSettingsTabComponent {
     LoadRegistrationDataSettingsGQL,
   );
   protected fields = toSignal(
-    this.loadRegistrationDataSettingsGQL
-      .watch()
-      .valueChanges.pipe(
-        map(({ data }) => data.currentTenant.settings.userDataCollection ?? []),
-      ),
+    this.loadRegistrationDataSettingsGQL.watch().valueChanges.pipe(
+      onlyCompleteData(),
+      map(({ data }) => data.currentTenant.settings.userDataCollection ?? []),
+    ),
   );
   private tenantId = toSignal(
-    this.loadRegistrationDataSettingsGQL
-      .watch()
-      .valueChanges.pipe(map(({ data }) => data.currentTenant.id)),
+    this.loadRegistrationDataSettingsGQL.watch().valueChanges.pipe(
+      onlyCompleteData(),
+      map(({ data }) => data.currentTenant.id),
+    ),
   );
 
   async saveUserDataCollection(
@@ -52,8 +53,10 @@ export class RegistrationDataSettingsTabComponent {
     try {
       await firstValueFrom(
         this.updateRegistrationDataSettingsGQL.mutate({
-          id: tenantId,
-          input: { settings: { userDataCollection: fields } },
+          variables: {
+            id: tenantId,
+            input: { settings: { userDataCollection: fields } },
+          },
         }),
       );
       this.snackBar.open('User data collection saved!', 'Dismiss', {

@@ -26,9 +26,9 @@
                   template.googlePlaceUrl
                     ? template.googlePlaceUrl
                     : 'https://www.google.com/maps/place/' +
-                      template.coordinates?.lat +
+                      $safeNavigationMigration(template.coordinates?.lat) +
                       ',' +
-                      template.coordinates?.lon
+                      $safeNavigationMigration(template.coordinates?.lon)
                 "
                 target="_blank"
               >

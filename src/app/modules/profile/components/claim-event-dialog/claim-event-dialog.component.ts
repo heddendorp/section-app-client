@@ -31,6 +31,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-claim-event-dialog',
@@ -72,15 +73,18 @@ export class ClaimEventDialogComponent {
     private permissions: PermissionsService,
     private getTenantInfoGQL: GetTenantInfoGQL,
   ) {
-    this.tenantInfo$ = this.getTenantInfoGQL
-      .watch()
-      .valueChanges.pipe(map((r) => r.data.currentTenant));
+    this.tenantInfo$ = this.getTenantInfoGQL.watch().valueChanges.pipe(
+      onlyCompleteData(),
+      map((r) => r.data.currentTenant),
+    );
     // private claimCode: ClaimEventGQL
     this.registrationCode$ = this.codeControl.valueChanges.pipe(
       startWith(this.data.code),
       filter((value) => this.idTest.test(value)),
-      switchMap(
-        (id) => this.registrationCodeInfoGQL.watch({ code: id }).valueChanges,
+      switchMap((id) =>
+        this.registrationCodeInfoGQL
+          .watch({ variables: { code: id } })
+          .valueChanges.pipe(onlyCompleteData()),
       ),
       map(({ data }) => data.eventRegistrationCode),
       shareReplay(1),
@@ -110,8 +114,10 @@ export class ClaimEventDialogComponent {
     try {
       const { data } = await firstValueFrom(
         this.useRegistrationCodeGQL.mutate({
-          id: this.codeControl.value,
-          price: this.priceControl.value,
+          variables: {
+            id: this.codeControl.value,
+            price: this.priceControl.value,
+          },
         }),
       );
 

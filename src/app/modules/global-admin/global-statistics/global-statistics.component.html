@@ -98,7 +98,7 @@
         <dd
           class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
         >
-          {{ allTimeStats()?.globalUsers | number }}
+          {{ $safeNavigationMigration(allTimeStats()?.globalUsers) | number }}
         </dd>
       </div>
       <div
@@ -110,7 +110,7 @@
         <dd
           class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
         >
-          {{ allTimeStats()?.events | number }}
+          {{ $safeNavigationMigration(allTimeStats()?.events) | number }}
         </dd>
       </div>
       <div
@@ -122,7 +122,10 @@
         <dd
           class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
         >
-          {{ allTimeStats()?.registeredParticipants | number }}
+          {{
+            $safeNavigationMigration(allTimeStats()?.registeredParticipants)
+              | number
+          }}
         </dd>
       </div>
       <div
@@ -132,7 +135,7 @@
         <dd
           class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
         >
-          {{ allTimeStats()?.checkIns | number }}
+          {{ $safeNavigationMigration(allTimeStats()?.checkIns) | number }}
         </dd>
       </div>
     </dl>
@@ -155,7 +158,7 @@
         <dd
           class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
         >
-          {{ sinceTimeStats()?.globalUsers | number }}
+          {{ $safeNavigationMigration(sinceTimeStats()?.globalUsers) | number }}
         </dd>
       </div>
       <div
@@ -167,7 +170,7 @@
         <dd
           class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
         >
-          {{ sinceTimeStats()?.events | number }}
+          {{ $safeNavigationMigration(sinceTimeStats()?.events) | number }}
         </dd>
       </div>
       <div
@@ -179,7 +182,10 @@
         <dd
           class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
         >
-          {{ sinceTimeStats()?.registeredParticipants | number }}
+          {{
+            $safeNavigationMigration(sinceTimeStats()?.registeredParticipants)
+              | number
+          }}
         </dd>
       </div>
       <div
@@ -189,7 +195,7 @@
         <dd
           class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"
         >
-          {{ sinceTimeStats()?.checkIns | number }}
+          {{ $safeNavigationMigration(sinceTimeStats()?.checkIns) | number }}
         </dd>
       </div>
     </dl>

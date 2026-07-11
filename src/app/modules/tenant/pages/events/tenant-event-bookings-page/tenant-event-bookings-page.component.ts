@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import {
   LoadEventsWithBookingGQL,
@@ -14,11 +14,13 @@ import { ResetScrollDirective } from '../../../../shared/directives/reset-scroll
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../../shared/components/reactive-toolbar/reactive-toolbar.component';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-tenant-event-bookings-page',
   templateUrl: './tenant-event-bookings-page.component.html',
   styleUrls: ['./tenant-event-bookings-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,
@@ -38,8 +40,11 @@ export class TenantEventBookingsPageComponent {
 
   constructor(private loadEventsWithBookingGQL: LoadEventsWithBookingGQL) {
     this.events$ = this.loadEventsWithBookingGQL
-      .watch({ after: new Date(/*2022, 2, 0*/).toISOString() })
+      .watch({
+        variables: { after: new Date(/*2022, 2, 0*/).toISOString() },
+      })
       .valueChanges.pipe(
+        onlyCompleteData(),
         map((result) => result.data.events),
         map((events) =>
           events

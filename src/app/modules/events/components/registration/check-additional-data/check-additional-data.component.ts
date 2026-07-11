@@ -27,8 +27,6 @@ export class CheckAdditionalDataComponent implements OnChanges {
     LoadEventQuery['event']['submissionItems']
   >(1);
 
-  constructor() {}
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['event']) {
       const event = changes['event'].currentValue as LoadEventQuery['event'];
@@ -47,7 +45,7 @@ export class CheckAdditionalDataComponent implements OnChanges {
     }
   }
 
-  async submitData(data: unknown) {
+  submitData(data: unknown) {
     this.dataSubmission.emit(data);
     this.needsInput$.next(false);
   }

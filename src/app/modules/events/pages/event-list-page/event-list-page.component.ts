@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   EventListGQL,
   EventListQuery,
@@ -45,6 +51,7 @@ import { ReactiveToolbarComponent } from '../../../shared/components/reactive-to
 import { ConfigService } from '@tumi/legacy-app/services/config.service';
 import { MarkdownComponent } from 'ngx-markdown';
 import { IfStatusDirective } from '@tumi/legacy-app/modules/shared/directives/if-status.directive';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-event-list-page',
@@ -63,6 +70,7 @@ import { IfStatusDirective } from '@tumi/legacy-app/modules/shared/directives/if
       ]),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,
@@ -123,6 +131,7 @@ export class EventListPageComponent implements OnDestroy {
     this.loadEventsQueryRef = this.loadEventsQuery.watch();
 
     const events$ = this.loadEventsQueryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.events),
     );
     this.selectedMonth.valueChanges
@@ -205,11 +214,14 @@ export class EventListPageComponent implements OnDestroy {
 
     this.loadEventsQueryRef.startPolling(60 * 1000);
 
-    const tenantChanges = this.getTenantInfo.watch().valueChanges.pipe(share());
+    const tenantChanges = this.getTenantInfo
+      .watch()
+      .valueChanges.pipe(onlyCompleteData(), share());
     this.tenant$ = tenantChanges.pipe(map(({ data }) => data.currentTenant));
     this.outstandingRating$ = this.getCurrentUserInfoGQL
       .watch()
       .valueChanges.pipe(
+        onlyCompleteData(),
         map(({ data }) => data.currentUser?.outstandingRating ?? false),
       );
 

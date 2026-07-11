@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-tenant-event-template-categories-page',
@@ -51,6 +52,7 @@ export class TenantEventTemplateCategoriesPageComponent {
       this.loadEventCategoriesForAdminGQL.watch();
     this.eventTemplateCategories$ =
       this.eventTemplateCategoriesQueryRef.valueChanges.pipe(
+        onlyCompleteData(),
         map((result) => result.data.eventTemplateCategories),
       );
   }
@@ -61,7 +63,9 @@ export class TenantEventTemplateCategoriesPageComponent {
     );
     if (data) {
       await firstValueFrom(
-        this.createEventTemplateCategoryGQL.mutate({ input: data }),
+        this.createEventTemplateCategoryGQL.mutate({
+          variables: { input: data },
+        }),
       );
       await this.eventTemplateCategoriesQueryRef.refetch();
     }
@@ -76,8 +80,10 @@ export class TenantEventTemplateCategoriesPageComponent {
     if (data) {
       await firstValueFrom(
         this.updateEventTemplateCategoryGQL.mutate({
-          input: data,
-          id: category.id,
+          variables: {
+            input: data,
+            id: category.id,
+          },
         }),
       );
       await this.eventTemplateCategoriesQueryRef.refetch();
@@ -98,7 +104,7 @@ export class TenantEventTemplateCategoriesPageComponent {
     try {
       await firstValueFrom(
         this.deleteEventTemplateCategoryGQL.mutate({
-          id: category.id,
+          variables: { id: category.id },
         }),
       );
       await this.eventTemplateCategoriesQueryRef.refetch();

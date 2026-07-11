@@ -8,6 +8,7 @@ import { CuPragueHomeComponent } from '@tumi/legacy-app/modules/home/components/
 import { VubEhbHomeComponent } from '@tumi/legacy-app/modules/home/components/vub-ehb-home/vub-ehb-home.component';
 import { KaiserslauternHomeComponent } from '@tumi/legacy-app/modules/home/components/kaiserslautern-home/kaiserslautern-home.component';
 import { MannheimHomeComponent } from '@tumi/legacy-app/modules/home/components/mannheim-home/mannheim-home.component';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-home',
@@ -28,8 +29,9 @@ export class HomeComponent {
   protected shortName$: Observable<string>;
 
   constructor(getHomePageTenantInfoGQL: GetHomePageTenantInfoGQL) {
-    this.shortName$ = getHomePageTenantInfoGQL
-      .watch()
-      .valueChanges.pipe(map(({ data }) => data.currentTenant.shortName));
+    this.shortName$ = getHomePageTenantInfoGQL.watch().valueChanges.pipe(
+      onlyCompleteData(),
+      map(({ data }) => data.currentTenant.shortName),
+    );
   }
 }

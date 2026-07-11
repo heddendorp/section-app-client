@@ -30,6 +30,7 @@ import { FormDisplayComponent } from '@tumi/legacy-app/components/dynamicForms/f
 import { AuthService } from '@auth0/auth0-angular';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { startWith } from 'rxjs';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-new-user-page',
@@ -90,7 +91,9 @@ export class NewUserPageComponent {
   private completeProfileMutationGQL = inject(CompleteProfileMutationGQL);
   private loadCompleteProfileDataGQL = inject(LoadCompleteProfileDataGQL);
   private loadCompleteProfileData = toSignal(
-    this.loadCompleteProfileDataGQL.watch().valueChanges,
+    this.loadCompleteProfileDataGQL
+      .watch()
+      .valueChanges.pipe(onlyCompleteData()),
   );
   protected tenantName = computed(
     () => this.loadCompleteProfileData()?.data.currentTenant.name ?? '',
@@ -176,7 +179,7 @@ export class NewUserPageComponent {
       phone: this.completeProfileForm.getRawValue().phone || undefined,
     };
     this.completeProfileMutationGQL
-      .mutate({ input })
+      .mutate({ variables: { input } })
       .subscribe(() => this.router.navigate(['/', 'profile']));
   }
 }

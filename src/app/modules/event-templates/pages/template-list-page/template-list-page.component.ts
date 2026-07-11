@@ -1,4 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormDialogComponent } from '@tumi/legacy-app/modules/event-templates/components/event-form-dialog/event-form-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -33,11 +38,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AsyncPipe, DecimalPipe, NgOptimizedImage } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveToolbarComponent } from '../../../shared/components/reactive-toolbar/reactive-toolbar.component';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-template-list-page',
   templateUrl: './template-list-page.component.html',
   styleUrls: ['./template-list-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveToolbarComponent,
     MatToolbarModule,
@@ -80,13 +87,14 @@ export class TemplateListPageComponent {
     private getEventTemplatesGQL: GetTemplateCategoriesWithTemplatesGQL,
     private router: Router,
   ) {
-    this.eventTemplateQuery = this.loadTemplates.watch(
-      {},
-      { fetchPolicy: 'cache-and-network' },
-    );
+    this.eventTemplateQuery = this.loadTemplates.watch({
+      variables: {},
+      fetchPolicy: 'cache-and-network',
+    });
     this.eventTemplates$ = combineLatest([
       concat(of(''), this.searchControl.valueChanges),
       this.eventTemplateQuery.valueChanges.pipe(
+        onlyCompleteData(),
         map(({ data }) => data.eventTemplates),
       ),
     ]).pipe(
@@ -98,9 +106,10 @@ export class TemplateListPageComponent {
     );
     this.templateCategories$ = combineLatest([
       concat(of(''), this.searchControl.valueChanges),
-      this.getEventTemplatesGQL
-        .watch()
-        .valueChanges.pipe(map(({ data }) => data.eventTemplateCategories)),
+      this.getEventTemplatesGQL.watch().valueChanges.pipe(
+        onlyCompleteData(),
+        map(({ data }) => data.eventTemplateCategories),
+      ),
     ]).pipe(
       map(([search, categories]) =>
         categories.map((category) => ({
@@ -136,7 +145,9 @@ export class TemplateListPageComponent {
     if (template) {
       this.snackBar.open('Saving template', undefined, { duration: 0 });
       const response = await firstValueFrom(
-        this.createTemplateMutation.mutate({ input: template }),
+        this.createTemplateMutation.mutate({
+          variables: { input: template },
+        }),
       );
       await this.eventTemplateQuery.refetch();
       this.snackBar.open('Template saved successfully');

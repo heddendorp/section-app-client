@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { LoadPagesGQL } from '@tumi/legacy-app/generated/generated';
 import { map, Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
@@ -147,6 +147,7 @@ If you have questions regarding this notice, please contact the organizer direct
   selector: 'app-privacy-policy-page',
   templateUrl: './privacy-policy-page.component.html',
   styleUrls: ['./privacy-policy-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MarkdownComponent, AsyncPipe],
 })
 export class PrivacyPolicyPageComponent {
@@ -155,7 +156,7 @@ export class PrivacyPolicyPageComponent {
   constructor(private loadPages: LoadPagesGQL) {
     this.pageContent$ = this.loadPages.fetch().pipe(
       map((res) => {
-        const tenant = res.data.currentTenant;
+        const tenant = res.data?.currentTenant;
         if (!tenant) {
           return '## Page not found';
         }

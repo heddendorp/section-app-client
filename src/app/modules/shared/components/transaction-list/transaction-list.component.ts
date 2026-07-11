@@ -1,14 +1,15 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Transaction } from '@tumi/legacy-app/generated/generated';
 import { SnakeCasePipe } from '@tumi/legacy-app/modules/shared/pipes/snake-case.pipe';
 import { MatIconModule } from '@angular/material/icon';
-import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-transaction-list',
   templateUrl: './transaction-list.component.html',
   styleUrls: ['./transaction-list.component.scss'],
-  imports: [NgFor, NgIf, MatIconModule, CurrencyPipe, SnakeCasePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [MatIconModule, CurrencyPipe, SnakeCasePipe],
 })
 export class TransactionListComponent {
   @Input() transactions: Array<
@@ -21,6 +22,4 @@ export class TransactionListComponent {
       stripePayment?: { id: string; paymentIntent?: string | null } | null;
     }
   > = [];
-
-  constructor() {}
 }

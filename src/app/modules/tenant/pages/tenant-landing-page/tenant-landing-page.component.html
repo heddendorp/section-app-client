@@ -136,9 +136,16 @@
           <div
             class="flex items-baseline text-2xl font-semibold text-indigo-600"
           >
-            {{ statistics()?.registeredUsers?.current | number }}
+            {{
+              $safeNavigationMigration(statistics()?.registeredUsers?.current)
+                | number
+            }}
             <span class="ml-2 text-sm font-medium text-gray-500">
-              from {{ statistics()?.registeredUsers?.before | number }}
+              from
+              {{
+                $safeNavigationMigration(statistics()?.registeredUsers?.before)
+                  | number
+              }}
             </span>
           </div>
 
@@ -195,9 +202,16 @@
           <div
             class="flex items-baseline text-2xl font-semibold text-indigo-600"
           >
-            {{ statistics()?.eventsStarted?.current | number }}
+            {{
+              $safeNavigationMigration(statistics()?.eventsStarted?.current)
+                | number
+            }}
             <span class="ml-2 text-sm font-medium text-gray-500">
-              from {{ statistics()?.eventsStarted?.before | number }}
+              from
+              {{
+                $safeNavigationMigration(statistics()?.eventsStarted?.before)
+                  | number
+              }}
             </span>
           </div>
 
@@ -256,9 +270,18 @@
           <div
             class="flex items-baseline text-2xl font-semibold text-indigo-600"
           >
-            {{ statistics()?.registeredParticipants?.current | number }}
+            {{
+              $safeNavigationMigration(
+                statistics()?.registeredParticipants?.current
+              ) | number
+            }}
             <span class="ml-2 text-sm font-medium text-gray-500">
-              from {{ statistics()?.registeredParticipants?.before | number }}
+              from
+              {{
+                $safeNavigationMigration(
+                  statistics()?.registeredParticipants?.before
+                ) | number
+              }}
             </span>
           </div>
 

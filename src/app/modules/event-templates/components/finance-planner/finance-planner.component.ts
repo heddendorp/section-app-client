@@ -48,6 +48,15 @@ interface CostItem {
   scale?: number;
 }
 
+function hasCostItems(value: unknown): value is { items: CostItem[] } {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'items' in value &&
+    Array.isArray(value.items)
+  );
+}
+
 export interface PriceModel {
   income: number;
   participantFee: number;
@@ -275,12 +284,15 @@ export class FinancePlannerComponent implements OnChanges {
     if (this.template) {
       const { data } = await firstValueFrom(
         this.updateFinances.mutate({
-          id: this.template.id,
-          finances: { items },
+          variables: {
+            id: this.template.id,
+            finances: { items },
+          },
         }),
       );
-      if (data?.updateTemplateFinances?.finances) {
-        this.items$.next(data.updateTemplateFinances.finances.items);
+      const finances = data?.updateTemplateFinances?.finances;
+      if (hasCostItems(finances)) {
+        this.items$.next(finances.items);
       }
     }
   }

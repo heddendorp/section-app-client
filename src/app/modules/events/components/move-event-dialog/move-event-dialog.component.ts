@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  DOCUMENT,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { BehaviorSubject, firstValueFrom, map, Observable } from 'rxjs';
 import {
@@ -7,8 +12,9 @@ import {
   LoadRegistrationForMoveGQL,
   LoadRegistrationForMoveQuery,
 } from '@tumi/legacy-app/generated/generated';
-import { AsyncPipe, DOCUMENT } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { onlyCompleteData } from 'apollo-angular';
 
 @Component({
   selector: 'app-move-event-dialog',
@@ -30,8 +36,13 @@ export class MoveEventDialogComponent {
     private registrationForMoveGQL: LoadRegistrationForMoveGQL,
     private createEventRegistrationCodeGQL: CreateEventRegistrationCodeGQL,
   ) {
-    this.registrationQueryRef = this.registrationForMoveGQL.watch();
+    this.registrationQueryRef = this.registrationForMoveGQL.watch({
+      variables: {
+        registrationId: this.data.event?.activeRegistration?.id ?? '',
+      },
+    });
     this.registration$ = this.registrationQueryRef.valueChanges.pipe(
+      onlyCompleteData(),
       map(({ data }) => data.registration),
     );
     this.registrationQueryRef.refetch({
@@ -45,9 +56,11 @@ export class MoveEventDialogComponent {
     if (registration) {
       await firstValueFrom(
         this.createEventRegistrationCodeGQL.mutate({
-          registrationId: registration.id,
-          eventId: registration.eventId,
-          isPublic,
+          variables: {
+            registrationId: registration.id,
+            eventId: registration.eventId,
+            isPublic,
+          },
         }),
       );
       this.registrationQueryRef.refetch();

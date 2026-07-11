@@ -103,7 +103,7 @@ export class EventCalendarComponent implements OnChanges {
               .minus({ minutes: 1 })
               .endOf('day');
             let calendarDays = Math.round(dayEnd.diff(dayStart, 'days').days);
-            let dayIndex = null;
+            const dayIndex = null;
             let daySpan = 1;
 
             if (calendarDays > 1) {
