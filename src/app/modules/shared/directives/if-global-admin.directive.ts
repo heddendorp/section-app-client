@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { isGlobalAdminClaims } from '@tumi/legacy-app/guards/global-admin-claims';
 
 @Directive({
   selector: '[appIfGlobalAdmin]',
@@ -18,9 +19,7 @@ export class IfGlobalAdminDirective {
   private templateRef = inject(TemplateRef);
   constructor() {
     this.auth.idTokenClaims$.pipe(takeUntilDestroyed()).subscribe((claims) => {
-      const allowed =
-        claims &&
-        claims['https://evorto.app/app_metadata'].globalAdmin === true;
+      const allowed = isGlobalAdminClaims(claims);
       if (!allowed && this.hasView) {
         this.viewContainer.clear();
         this.hasView = false;

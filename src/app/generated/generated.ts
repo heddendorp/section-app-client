@@ -54,21 +54,8 @@ export type AllTimeStats = {
   __typename?: 'AllTimeStats';
   checkIns: Scalars['Int']['output'];
   events: Scalars['Int']['output'];
-  globalUsers: Scalars['Int']['output'];
   registeredParticipants: Scalars['Int']['output'];
   registeredUsers: Scalars['Int']['output'];
-};
-
-export type AllTimeStatsCheckInsArgs = {
-  global?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type AllTimeStatsEventsArgs = {
-  global?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type AllTimeStatsRegisteredParticipantsArgs = {
-  global?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type BannerConfig = {
@@ -384,10 +371,26 @@ export type EventTemplateCategory = {
   tenantId: Scalars['ID']['output'];
 };
 
+export type GlobalAllTimeStats = {
+  __typename?: 'GlobalAllTimeStats';
+  checkIns: Scalars['Int']['output'];
+  events: Scalars['Int']['output'];
+  globalUsers: Scalars['Int']['output'];
+  registeredParticipants: Scalars['Int']['output'];
+};
+
 export type GlobalDeRegistrationConfig = {
   __typename?: 'GlobalDeRegistrationConfig';
   free: DeRegistrationConfig;
   paid: DeRegistrationConfig;
+};
+
+export type GlobalSinceTimeStatistics = {
+  __typename?: 'GlobalSinceTimeStatistics';
+  checkIns: Scalars['Int']['output'];
+  events: Scalars['Int']['output'];
+  globalUsers: Scalars['Int']['output'];
+  registeredParticipants: Scalars['Int']['output'];
 };
 
 export type HistoricalData = {
@@ -910,6 +913,8 @@ export type Query = {
   events: Array<TumiEvent>;
   exportUsersCSV: Scalars['String']['output'];
   feeQuarterGroups: Array<TenantFeeQuarterGroup>;
+  globalAllTimeStatistics: GlobalAllTimeStats;
+  globalSinceTimeStatistics: GlobalSinceTimeStatistics;
   gridUsers: Array<User>;
   gridUsersCount: Scalars['Int']['output'];
   historicalStatistics: Array<HistoricalData>;
@@ -1196,21 +1201,8 @@ export type SinceTimeStatistics = {
   __typename?: 'SinceTimeStatistics';
   checkIns: Scalars['Int']['output'];
   events: Scalars['Int']['output'];
-  globalUsers: Scalars['Int']['output'];
   registeredParticipants: Scalars['Int']['output'];
   registeredUsers: Scalars['Int']['output'];
-};
-
-export type SinceTimeStatisticsCheckInsArgs = {
-  global?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type SinceTimeStatisticsEventsArgs = {
-  global?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type SinceTimeStatisticsRegisteredParticipantsArgs = {
-  global?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type SortModelInput = {
@@ -3656,29 +3648,15 @@ export type GetInitialGlobalStatisticsDataQueryVariables = Exact<{
 
 export type GetInitialGlobalStatisticsDataQuery = {
   __typename?: 'Query';
-  currentTenant: {
-    __typename?: 'Tenant';
-    id: string;
-    createdAt: string;
-    settings: {
-      __typename?: 'TenantSettings';
-      userDataCollection: Array<{
-        __typename?: 'DynamicFormField';
-        type: string;
-        label: string;
-        options: Array<string>;
-      }>;
-    };
-  };
-  allTimeStatistics: {
-    __typename?: 'AllTimeStats';
+  globalAllTimeStatistics: {
+    __typename?: 'GlobalAllTimeStats';
     globalUsers: number;
     events: number;
     registeredParticipants: number;
     checkIns: number;
   };
-  sinceTimeStatistics: {
-    __typename?: 'SinceTimeStatistics';
+  globalSinceTimeStatistics: {
+    __typename?: 'GlobalSinceTimeStatistics';
     globalUsers: number;
     events: number;
     registeredParticipants: number;
@@ -8169,28 +8147,17 @@ export class GlobalAdminFeeOverviewGQL extends Apollo.Query<
 }
 export const GetInitialGlobalStatisticsDataDocument = gql`
   query getInitialGlobalStatisticsData {
-    currentTenant {
-      id
-      createdAt
-      settings {
-        userDataCollection {
-          type
-          label
-          options
-        }
-      }
-    }
-    allTimeStatistics {
+    globalAllTimeStatistics {
       globalUsers
-      events(global: true)
-      registeredParticipants(global: true)
-      checkIns(global: true)
+      events
+      registeredParticipants
+      checkIns
     }
-    sinceTimeStatistics {
+    globalSinceTimeStatistics {
       globalUsers
-      events(global: true)
-      registeredParticipants(global: true)
-      checkIns(global: true)
+      events
+      registeredParticipants
+      checkIns
     }
   }
 `;

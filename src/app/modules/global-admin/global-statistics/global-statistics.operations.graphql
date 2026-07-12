@@ -1,26 +1,15 @@
 query getInitialGlobalStatisticsData {
-  currentTenant {
-    id
-    createdAt
-    settings {
-      userDataCollection {
-        type
-        label
-        options
-      }
-    }
-  }
-  allTimeStatistics {
+  globalAllTimeStatistics {
     globalUsers
-    events(global: true)
-    registeredParticipants(global: true)
-    checkIns(global: true)
+    events
+    registeredParticipants
+    checkIns
   }
-  sinceTimeStatistics {
+  globalSinceTimeStatistics {
     globalUsers
-    events(global: true)
-    registeredParticipants(global: true)
-    checkIns(global: true)
+    events
+    registeredParticipants
+    checkIns
   }
 }
 query getGlobalRangeStatistics(

@@ -27,9 +27,9 @@ export class GlobalStatisticsComponent {
       .pipe(map(({ data }) => data)),
   );
   protected allTimeStats = computed(
-    () => this.initialData()?.allTimeStatistics,
+    () => this.initialData()?.globalAllTimeStatistics,
   );
   protected sinceTimeStats = computed(
-    () => this.initialData()?.sinceTimeStatistics,
+    () => this.initialData()?.globalSinceTimeStatistics,
   );
 }
